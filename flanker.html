@@ -4,7 +4,7 @@
     <head>
         <title>the Flanker task</title>
         <!-- Load jQuery -->
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <!-- Load the jspsych library and plugins -->
         <script src="scripts/jspsych.js"></script>
         <script src="scripts/plugins/jspsych-text.js"></script>
@@ -19,9 +19,9 @@
 
     <script>
         // Experiment parameters
-        var n_trials = 20;
-        var stimuli = ["img/congruent_left.gif", "img/congruent_right.gif", "img/incongruent_left.gif", "img/incongruent_right.gif"];
-        var stimuli_types = ["congruent", "congruent", "incongruent", "incongruent"];
+        //var n_trials = 20;
+        //var stimuli = ["img/congruent_left.gif", "img/congruent_right.gif", "img/incongruent_left.gif", "img/incongruent_right.gif"];
+        //var stimuli_types = ["congruent", "congruent", "incongruent", "incongruent"];
 
         // Experiment Instructions
         var welcome_message = "<div id='instructions'><p>Welcome to the " +
@@ -38,7 +38,7 @@
             "participating!  Press enter to see the data.</p></div>";
 
         // Generating Random Order for Stimuli
-        var stimuli_random_order = [];
+        /*var stimuli_random_order = [];
         var opt_data = [];
 
         for (var i = 0; i < n_trials; i++) {
@@ -49,6 +49,15 @@
                 "stimulus_type": stimuli_types[random_choice]
             });
         }
+        */
+        var test_images =  [
+        {stimulus:"img/congruent_left.gif", data: {type: "congruent"}}, 
+        {stimulus:"img/congruent_right.gif", data: {type: "congruent"}}, 
+        {stimulus:"img/incongruent_left.gif", data: {type: "incongruent"}}, 
+        {stimulus:"img/incongruent_right.gif", data: {type: "incongruent"}}
+        ];
+
+        var trial_images = jsPsych.randomization.repeat(test_images, 5, true);
 
         // Define experiment blocks
         var instruction_block = {
@@ -59,9 +68,9 @@
 
         var test_block = {
                 type: "single-stim",
-                stimuli: stimuli_random_order,
+                stimuli: trial_images.stimulus,
                 choices: [37, 39],
-                data: opt_data
+                data: trial_images.data //figure out a way to write this as congruent/incongruent
             };
 
         var debrief_block = {
@@ -81,5 +90,15 @@
                 jsPsych.saveCSVdata("data.csv");
             }
         });
+        //JOSH'S INIT
+        /*jsPsych.init({
+            experiment_structure: [instruction_block, test_block, debrief_block],
+            on_finish: function(data) {
+            $('#jspsych_target').append($('<pre>', {
+                html: JSON.stringify(data, undefined, 2)
+            }))
+          }        
+        });*/
+
     </script>
 </html>
