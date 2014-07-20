@@ -61,7 +61,8 @@
             // if any trial variables are functions
             // this evaluates the function and replaces
             // it with the output of the function
-            //COMMENTED this because it was giving an error
+
+            //Tuuli: COMMENTED this because it was giving an error
             //trial = jsPsych.normalizeTrialVariables(trial);
 
             // variables to keep track of user interaction
