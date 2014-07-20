@@ -1,16 +1,4 @@
-/** jspsych-palmer
- * Josh de Leeuw (October 2013)
- * 
- * a jspsych plugin for presenting and querying about stimuli modeled after
- *
- * Palmer, S. (1977). Hierarchical Structure in Perceptual Representation. Cognitive Psychology, 9, 441.
- *
- * and
- *
- * Goldstone, R. L., Rogosky, B. J., Pevtzow, R., & Blair, M. (2005). Perceptual and semantic reorganization during category learning. 
- * In H. Cohen & C. Lefebvre (Eds.) Handbook of Categorization in Cognitive Science. (pp. 651-678). Amsterdam: Elsevier.
- *
- * NOTE: This plugin requires the Raphaeljs library for manipulating vector graphics (SVG). Download at http://www.raphaeljs.com
+* NOTE: This plugin requires the Raphaeljs library for manipulating vector graphics (SVG). Download at http://www.raphaeljs.com
  * 
  * parameters:
  *      configurations: array of arrays. inner most array should be an array of 1s and 0s, where 1s represent the
@@ -61,7 +49,8 @@
             // if any trial variables are functions
             // this evaluates the function and replaces
             // it with the output of the function
-            //COMMENTED this because it was giving an error
+
+            //Tuuli: COMMENTED this because it was giving an error
             //trial = jsPsych.normalizeTrialVariables(trial);
 
             // variables to keep track of user interaction

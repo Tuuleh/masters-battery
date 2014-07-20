@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+
+    <head>
+        <title>My experiment</title>
+        <!-- Load jQuery -->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <!-- Load the jspsych library and plugins -->
+        <script src="scripts/jspsych.js"></script>
+        <script src="scripts/plugins/jspsych-text.js"></script>
+        <script src="scripts/plugins/jspsych-single-stim.js"></script>
+        <link href="experiment.css" type="text/css" rel="stylesheet"></link>
+    </head>
+
+    <body>
+        <div id="jspsych_target"></div>
+        <div id="results"></div>
+    </body>
+
+    <script>
+
+        // Define stimulus and their presentation
+        var n_trials = 20;
+
+        var stimuli = ["img/congruent_left.gif", "img/congruent_right.gif", "img/incongruent_left.gif", "img/incongruent_right.gif"];
+
+        var stimuli_random_order = [];
+
+        for (var i = 0; i < n_trials; i++) {
+           var random_choice = Math.floor(Math.random() * stimuli.length);
+           stimuli_random_order.push(stimuli[random_choice]);
+        }
+
+        // Experiment Instructions
+        var welcome_message = "<div id='instructions'><p>Welcome to the " +
+            "experiment. Press enter to begin.</p></div>";
+
+        var instructions = "<div id='instructions'><p>You will see a " +
+            "series of images that look similar to this:</p><p>" +
+            "<img src='img/incongruent_right.gif'></p><p>Press the arrow " +
+            "key that corresponds to the direction that the middle arrow " +
+            "is pointing. For example, in this case you would press the " +
+            "right arrow key.</p><p>Press enter to start.</p>";
+
+
+        // Define experiment blocks
+        // instructions
+        var instruction_block = {
+            type: "text",
+            text: [welcome_message, instructions]
+        };
+        // test block
+        var test_block = {type: "single-stim", stimuli: stimuli_random_order, choices: [37,39]};
+
+        // debrief block
+        var debrief = "<div id='instructions'><p>Thank you for " +
+        "participating! Press enter to see the data.</p></div>";
+
+        var debrief_block = {type: "text", text: [debrief]};
+
+        // initiation with structure describing the blocks
+        jsPsych.init({
+            display_element: $('#jspsych_target'),
+            experiment_structure: [instruction_block, test_block, debrief_block],
+            on_finish: function(data) {
+                console.debug(data);              
+                $('#results').append(JSON.stringify(data, undefined, 2))
+            }        
+        });
+
+    </script>
+
+</html>

@@ -1,16 +1,4 @@
-/** jspsych-palmer
- * Josh de Leeuw (October 2013)
- * 
- * a jspsych plugin for presenting and querying about stimuli modeled after
- *
- * Palmer, S. (1977). Hierarchical Structure in Perceptual Representation. Cognitive Psychology, 9, 441.
- *
- * and
- *
- * Goldstone, R. L., Rogosky, B. J., Pevtzow, R., & Blair, M. (2005). Perceptual and semantic reorganization during category learning. 
- * In H. Cohen & C. Lefebvre (Eds.) Handbook of Categorization in Cognitive Science. (pp. 651-678). Amsterdam: Elsevier.
- *
- * NOTE: This plugin requires the Raphaeljs library for manipulating vector graphics (SVG). Download at http://www.raphaeljs.com
+* NOTE: This plugin requires the Raphaeljs library for manipulating vector graphics (SVG). Download at http://www.raphaeljs.com
  * 
  * parameters:
  *      configurations: array of arrays. inner most array should be an array of 1s and 0s, where 1s represent the
@@ -29,7 +17,7 @@
  */
 
 (function($) {
-    jsPsych.palmer = (function() {
+    jsPsych.wm = (function() {
 
         var plugin = {};
 
@@ -37,12 +25,12 @@
             var trials = [];
             for (var i = 0; i < params.configurations.length; i++) {
                 var trial = {
-                    type: "palmer",
+                    type: "wm",
                     configurations: params.configurations[i],
                     editable: (typeof params.editable === 'undefined') ? false : params.editable,
                     show_feedback: (typeof params.show_feedback === 'undefined') ? false : params.show_feedback,
                     grid_spacing: params.grid_spacing || 75,
-                    square_size: params.square_size || 3,
+                    square_size: params.square_size || 4,
                     circle_radius: params.circle_radius || 20,
                     timing_item: params.timing_item || 1000,
                     timing_post_trial: (typeof params.timing_post_trial === 'undefined') ? 1000 : params.timing_post_trial,
@@ -61,13 +49,15 @@
             // if any trial variables are functions
             // this evaluates the function and replaces
             // it with the output of the function
-            //COMMENTED this because it was giving an error
+
+            //Tuuli: COMMENTED this because it was giving an error
             //trial = jsPsych.normalizeTrialVariables(trial);
 
             // variables to keep track of user interaction
             var start_circle = -1;
             var end_circle = -1;
-            var line_started = false;
+
+            var circle_clicked = false;
 
             var size = trial.grid_spacing * (trial.square_size + 1);
 
@@ -85,6 +75,7 @@
             var node_idx = 0;
             for (var i = 1; i <= trial.square_size; i++) {
                 for (var j = 1; j <= trial.square_size; j++) {
+                    //creates and defines the size and attributes of the circle
                     var circle = paper.circle(trial.grid_spacing * j, trial.grid_spacing * i, trial.circle_radius);
                     circle.attr("fill", "#000").attr("stroke-width", "0").attr("stroke", "#000").data("node", node_idx);
 
@@ -101,15 +92,20 @@
                             //this.attr("stroke", "#fff")
                         }).click(
 
+                        //what happens on click - make circle change color and store in response array?
+                        //NOTE! You won't need end and start circles.
                         function() {
-                            if (!line_started) {
-                                line_started = true;
-                                start_circle = this.data("node");
+                            if (!circle_clicked) {
+                                circle_clicked = true;
+                                //start_circle = this.data("node");
                                 this.attr("fill", "#777").attr("stroke", "#777");
                             }
+                            //if circle already clicked, 'unselects' it
                             else {
-                                end_circle = this.data("node");
-                                draw_connection(start_circle, end_circle);
+                                circle_clicked = false;
+                                this.attr("fill", "#000").attr("stroke", "#000");
+                                //end_circle = this.data("node");
+                                //draw_connection(start_circle, end_circle);
                             }
                         });
                     }
@@ -117,7 +113,7 @@
                     circles.push(circle);
                 }
             }
-
+            //This function will not be needed, we only need to change color of the blob
             function draw_connection(start_circle, end_circle) {
                 var the_line = getLineIndex(start_circle, end_circle);
                 if (the_line > -1) {
@@ -128,12 +124,12 @@
                     circles[i].attr("fill", "#000").attr("stroke", "#000");
                 }
                 // cleanup the variables
-                line_started = false;
+                circle_clicked = false;
                 start_circle = -1;
                 end_circle = -1;
             }
 
-            // create all possible lines that connect circles
+            // create all possible lines that connect circles - these will not be needed since we aren't working with lines
             var horizontal_lines = [];
             var vertical_lines = [];
             var backslash_lines = [];
@@ -177,6 +173,7 @@
             // define some helper functions to toggle lines on and off
 
             // this function gets the index of a line based on the two circles it connects
+            // ALSO not needed
             function getLineIndex(start_circle, end_circle) {
                 var the_line = -1;
                 for (var i = 0; i < lines.length; i++) {
@@ -189,6 +186,8 @@
             }
 
             // this function turns a line on/off based on the index (the_line)
+            // Modify to toggle color of button instead of the lines.
+
             function toggle_line(the_line) {
                 if (the_line > -1) {
                     if (lineIsVisible[the_line] === 0) {
@@ -205,7 +204,10 @@
             }
 
             // this function takes an array of length = num lines, and displays the line whereever there
-            // is a 1 in the array.
+            // is a 1 in the array. HUOM! Toggle_line turns OFF the line.
+
+            // THIS can be modified to contain an array of the circles and using 1 and 0 to indicate whether circle is colored or not
+
             function showConfiguration(configuration) {
                 for (var i = 0; i < configuration.length; i++) {
                     if (configuration[i] != lineIsVisible[i]) {
@@ -214,7 +216,7 @@
                 }
             }
 
-            // highlight a line
+            // highlight a line - CHANGE into function that will change blob color
             function highlightLine(line) {
                 lineElements[line].attr("stroke", "#f00");
             }
@@ -249,6 +251,7 @@
                 $("#jspsych-palmer-prompt").html(trial.prompt);
             }
 
+            //this compares the original stim array and the array reproduced by the participant - leave as is
             function arrayDifferences(arr1, arr2) {
                 var n_diff = 0;
                 for (var i = 0; i < arr1.length; i++) {

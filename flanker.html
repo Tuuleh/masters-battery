@@ -24,10 +24,10 @@
         //var stimuli_types = ["congruent", "congruent", "incongruent", "incongruent"];
 
         // Experiment Instructions
-        var welcome_message = "<div id='instructions'><p>Welcome to the " +
-            "experiment. Press enter to begin.</p></div>";
+        //var welcome_message = "<div id='instructions'><p>Welcome to the " +
+            //"experiment. Press enter to begin.</p></div>";
 
-        var instructions = "<div id='instructions'><p>You will see a " +
+        var instructions = "<div id='instructions'><p>Next, you will see a " +
             "series of images that look similar to this:</p><p>" +
             "<img src='img/incongruent_right.gif'></p><p style = 'text-align: left;''> Press the arrow " +
             "key that corresponds to the direction that the middle arrow " +
@@ -62,7 +62,7 @@
         // Define experiment blocks
         var instruction_block = {
                 type: "text",
-                text: [welcome_message, instructions],
+                text: [/*welcome_message, */instructions],
                 timing_post_trial: 2500
             };
 
