@@ -33,6 +33,7 @@
     </body>
     <script type="text/javascript">
 
+        //a function that returns a random configuration for Palmer stimuli
         var generateConfig = function() {
             var randarray = [];
                 for (var i = 0; i < 20; i++) {
@@ -41,10 +42,37 @@
             return [randarray];
         };
 
+        var confs = [
+        [0,0,1,1,1,0,0,0,0,1,0,1,0,0,1,0,1,0,0,0],
+        [0,0,1,0,0,0,1,1,1,0,1,0,0,0,1,0,0,0,0,1],
+        [1,0,0,0,1,1,0,1,0,1,1,0,1,0,0,0,0,0,0,0],
+        [0,0,0,1,0,1,1,1,0,0,1,1,0,1,1,1,0,0,0,0],
+        [1,1,1,1,0,1,1,0,1,1,1,1,0,1,0,0,1,0,0,1]/*,
+        [0,0,0,0,0,1,1,1,0,0,1,1,0,0,1,1,0,1,0,0],
+        [1,1,0,0,1,1,0,1,0,0,1,0,0,0,1,0,0,0,0,1],
+        [1,1,1,0,1,0,1,0,1,1,1,1,1,1,0,1,1,0,0,1],
+        [0,0,0,0,0,1,1,1,0,0,1,1,0,0,1,1,0,1,0,0],
+        [1,0,1,0,1,0,0,0,1,0,0,0,0,0,1,0,1,1,0,0],
+        [0,1,0,0,0,1,0,0,0,0,0,1,0,0,0,0,1,1,1,0],
+        [0,1,1,0,0,0,0,1,0,0,1,0,1,1,0,0,0,0,1,0],
+        [0,0,0,0,0,0,1,0,1,0,0,1,0,0,0,1,0,1,0,0],
+        [1,1,0,1,0,0,0,1,1,0,1,1,1,0,0,1,0,1,1,0],
+        [1,0,0,1,1,0,1,0,1,0,1,0,0,0,0,1,0,0,0,0],
+        [1,1,1,0,0,0,0,0,0,0,0,0,1,0,1,0,0,1,1,0],
+        [0,1,0,0,0,0,1,1,0,0,0,0,0,1,0,1,1,0,1,0],
+        [0,0,0,0,1,1,0,0,0,1,0,0,1,0,0,1,0,0,1,1],
+        [0,1,1,1,0,0,0,0,0,1,0,1,0,0,0,0,1,1,0,0],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0],
+        [0,1,0,0,0,1,1,0,1,1,0,1,0,1,0,0,0,1,1,1]*/
+        ];
 
-        var stim_block1 = {
+        var getConfig = function (confArray, iterator) {
+            return [confArray[iterator]];
+        };
+
+        /*var stim_block1 = {
             type: 'palmer',
-            configurations: [[1,1,0,1,0,0,0,1,1,0,1,1,1,0,0,1,0,1,1,0]],
+            configurations: [[0,1,1,0,0,0,0,1,0,0,1,0,1,1,0,0,0,0,1,0]],
             editable: false,
             timing_item: 2500
         };
@@ -57,123 +85,39 @@
             timing_feedback: 2000,
             prompt: '<p>Create the image you just saw. Click two circles to add or remove a line between them. Click submit when you are done.</p>'
         };
+        */
 
-        var stim_block2 = {
-            type: 'palmer',
-            configurations: [[1,0,0,1,1,0,1,0,1,0,1,0,0,0,0,1,0,0,0,0]],
-            editable: false,
-            timing_item: 2500
-        };
 
-        var test_block2 = {
-            type: 'palmer',
-            configurations: stim_block2.configurations,
-            editable: true,
-            show_feedback: true,
-            timing_feedback: 2000,
-            prompt: '<p>Create the image you just saw. Click two circles to add or remove a line between them. Click submit when you are done.</p>'
-        };
 
-        var stim_block3 = {
-            type: 'palmer',
-            configurations: [[1,0,0,1,1,0,1,0,1,0,1,0,0,0,0,1,0,0,0,0]],
-            editable: false,
-            timing_item: 2500
-        };
+        var trial_array = [];
 
-        var test_block3 = {
-            type: 'palmer',
-            configurations: stim_block3.configurations,
-            editable: true,
-            show_feedback: true,
-            timing_feedback: 2000,
-            prompt: '<p>Create the image you just saw. Click two circles to add or remove a line between them. Click submit when you are done.</p>'
-        };
+        for (var i = 0; i < confs.length; i++ ) {
+            
+            var stim_block = {
+                type: 'palmer',
+                configurations: getConfig(confs, i),
+                editable: false,
+                timing_item: 2500
+            };
 
-        var stim_block4 = {
-            type: 'palmer',
-            configurations: [[1,0,0,1,1,0,1,0,1,0,1,0,0,0,0,1,0,0,0,0]],
-            editable: false,
-            timing_item: 2500
-        };
+            var test_block = {
+                type: 'palmer',
+                configurations: stim_block.configurations,
+                editable: true,
+                show_feedback: true,
+                timing_feedback: 2000,
+                prompt: '<p>Create the image you just saw. Click two circles to add or remove a line between them. Click submit when you are done.</p>'
 
-        var test_block4 = {
-            type: 'palmer',
-            configurations: stim_block4.configurations,
-            editable: true,
-            show_feedback: true,
-            timing_feedback: 2000,
-            prompt: '<p>Create the image you just saw. Click two circles to add or remove a line between them. Click submit when you are done.</p>'
-        };
+            }
 
-        var stim_block5 = {
-            type: 'palmer',
-            configurations: [[0,0,0,1,0,1,1,1,0,0,0,1,0,1,1,1,0,0,0,0]],
-            editable: false,
-            timing_item: 2500
-        };
+            trial_array.push(stim_block, test_block);
 
-        var test_block5 = {
-            type: 'palmer',
-            configurations: stim_block5.configurations,
-            editable: true,
-            show_feedback: true,
-            timing_feedback: 2000,
-            prompt: '<p>Create the image you just saw. Click two circles to add or remove a line between them. Click submit when you are done.</p>'
-        };
-
-        var stim_block6 = {
-            type: 'palmer',
-            configurations: [[0,0,0,0,0,0,1,1,0,0,1,1,0,0,1,1,0,1,0,0]],
-            editable: false,
-            timing_item: 2500
-        };
-
-        var test_block6 = {
-            type: 'palmer',
-            configurations: stim_block6.configurations,
-            editable: true,
-            show_feedback: true,
-            timing_feedback: 2000,
-            prompt: '<p>Create the image you just saw. Click two circles to add or remove a line between them. Click submit when you are done.</p>'
-        };
-
-        var stim_block7 = {
-            type: 'palmer',
-            configurations: [[1,1,0,0,1,1,0,1,0,0,1,0,0,0,1,0,0,0,0,1]],
-            editable: false,
-            timing_item: 2500
-        };
-
-        var test_block7 = {
-            type: 'palmer',
-            configurations: stim_block7.configurations,
-            editable: true,
-            show_feedback: true,
-            timing_feedback: 2000,
-            prompt: '<p>Create the image you just saw. Click two circles to add or remove a line between them. Click submit when you are done.</p>'
-        };
-
-        var stim_block8 = {
-            type: 'palmer',
-            configurations: [[1,1,1,0,1,0,1,0,1,1,1,1,1,1,0,1,1,0,0,1]],
-            editable: false,
-            timing_item: 2500
-        };
-
-        var test_block8 = {
-            type: 'palmer',
-            configurations: stim_block8.configurations,
-            editable: true,
-            show_feedback: true,
-            timing_feedback: 2000,
-            prompt: '<p>Create the image you just saw. Click two circles to add or remove a line between them. Click submit when you are done.</p>'
-        };
+        }
 
         // launch jspsych experiment
         jsPsych.init({
             display_element: $('#jspsych_target'),
-            experiment_structure: [stim_block1, test_block1, stim_block2, test_block2, stim_block3, test_block3, stim_block4, test_block4, stim_block5, test_block5, stim_block6, test_block6, stim_block7, test_block7, stim_block8, test_block8],
+            experiment_structure: trial_array, /*[stim_block1, test_block1, stim_block2, test_block2, stim_block3, test_block3, stim_block4, test_block4, stim_block5, test_block5, stim_block6, test_block6, stim_block7, test_block7, stim_block8, test_block8],*/
             on_finish: function(data) {
                 $('#jspsych_target').append($("<pre>", {
                     text: JSON.stringify(data, undefined, 2)
