@@ -1,4 +1,4 @@
-* NOTE: This plugin requires the Raphaeljs library for manipulating vector graphics (SVG). Download at http://www.raphaeljs.com
+/* NOTE: This plugin requires the Raphaeljs library for manipulating vector graphics (SVG). Download at http://www.raphaeljs.com
  * 
  * parameters:
  *      configurations: array of arrays. inner most array should be an array of 1s and 0s, where 1s represent the
@@ -17,15 +17,16 @@
  */
 
 (function($) {
-    jsPsych.wm = (function() {
+    jsPsych["wm"] = (function() {
 
         var plugin = {};
 
         plugin.create = function(params) {
             var trials = [];
             for (var i = 0; i < params.configurations.length; i++) {
+                
                 var trial = {
-                    type: "wm",
+                    type: 'wm',
                     configurations: params.configurations[i],
                     editable: (typeof params.editable === 'undefined') ? false : params.editable,
                     show_feedback: (typeof params.show_feedback === 'undefined') ? false : params.show_feedback,
