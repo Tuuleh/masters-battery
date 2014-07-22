@@ -2,7 +2,8 @@
 <html>
 
      <head>
-        <title>jspsych-survey-likert plugin example</title>
+        <meta charset="utf-8"/>
+        <title>GEQ and TLI</title>
         <!-- jQuery -->
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <!-- this plugin requires the jQuery UI library and stylesheet -->
@@ -20,16 +21,17 @@
         <!-- jsPsych -->
         <script src="scripts/jspsych.js"></script>
         <script src="scripts/plugins/jspsych-survey-likert.js"></script>
+        <script src="scripts/plugins/jspsych-text.js"></script>
         <!-- style -->
         <style>
             #jspsych_target {
                 margin: 50px auto 50px auto;
-                width: 600px;
+                width: 800px;
                 font-size:18px;
                 text-align: center;
             }
             #instructions {
-                text-align: left;
+                text-align: center;
             }
             pre {
                 text-align: left;
@@ -46,16 +48,35 @@
     </head>
 
     <body>
+
         <div id="jspsych_target"></div>
     </body>
     <script type="text/javascript">
 
+        var page1_instructions = [
+        "<div id = 'instructions'><p style = 'text-align: left'>This questionnaire is designed to assess your perceptions of your team. There are no wrong or right answers, so please give your immediate reaction. " + 
+        "Some of the questions may seem repetitive, but please answer ALL questions. Your personal responses will be kept in strictest confidence.</p>"+
+        "<p style = 'text-align: left'>The following statements are designed to assess your feelings about YOUR PERSONAL INVOLVEMENT with this team. "+
+        "Please select your response on the slider to indicate your level of agreement with each of these statements.</p>"+
+        "<p style = 'text-align: left'>Please note that questions about spending time or getting together with the team also involve spending time together online!</p>"+
+        "<p> </p>"+
+        "<p><br>Press any key to continue!</p>"]
+        
+
+        var page2_instructions = [
+        "<div id = 'instructions'><p style = 'text-align: left'>The following statements are designed to assess your perceptions of YOUR TEAM AS A WHOLE. "+
+        "Please select your response on the slider to indicate your level of agreement with each of these statements.</p>"+
+        "<p style = 'text-align: left'>Please note that questions about spending time or getting together with the team also involve spending time together online.</p>"+
+        "<p> </p>"+
+        "<p><br>Press any key to continue!</p>"
+        ]
+
         // defining groups of questions that will go together.
         var page_1_questions = [
         "1. I do not enjoy being a part of the social activities of this team.",
-        "2. I’m not happy with the amount of playing time I get.",
+        "2. I'm not happy with the amount of playing time I get.",
         "3. I am not going to miss the members of this team when the season ends.",
-        "4. I’m unhappy with my team’s level of desire to win.",
+        "4. I'm unhappy with my team's level of desire to win.",
         "5. Some of my best friends are on this team.",
         "6. This team does not give me enough opportunities to improve my personal performance.",
         "7. I enjoy spending time with other people rather than my team mates.", //I enjoy other parties rather than team parties.
@@ -70,7 +91,7 @@
         "12.    We all take responsibility for any loss or poor performance by our team.",
         "13.    Our team members rarely spend time together (in virtual space or in real life).",
             // Our team members rarely party together.
-        "14.    Our team members have conflicting aspirations for the team’s performance.",
+        "14.    Our team members have conflicting aspirations for the team's performance.",
         "15.    Our team would like to do things together outside the pvp season.",
             // Our team would like to spend time together in the off season.
         "16.    If members of our team are having problems in arena games, everyone wants to help them so we can get back together again.",
@@ -78,33 +99,66 @@
         "17.    Members of our team do not stick together outside of practice and games.",
         "18.    Our team members do not communicate freely about each player's responsibilities."
             // Our team members do not communicate freely about each player's responsibilities during competition or practice.
-            ];
+        ];
+
+        var TLX_items = [
+        "Mental Demand - How mentally demanding was the task?",
+        "Physical Demand - How physically demanding was the task?",
+        "Temporal Demand - How hurried or rushed was the pace of the task?",
+        "Performance - How successful were you in accomplishing what you were asked to do?",
+        "Effort - How hard did you have to work to accomplish your level of performance?",
+        "Frustration - How insecure, discouraged, irritated, stressed, and annoyed were you?"
+        ]
 
         // definiting two different response scales that can be used.
-        var scale_GEQ = ["Strongly Disagree", "2", "3", "4", "5", "6", "7", "8", "Strongly Agree"];
+        var scale_GEQ = ["1<br>Strongly Disagree", "2", "3", "4", "5", "6", "7", "8", "9<br>Strongly Agree"];
         var page1_labels = [];
         var page2_labels = [];
+        //nine-point Likert scale
+        var interval = 9;
+        var page1_intervals = [];
+        var page2_intervals = [];
 
         for (var i = 0; i < page_1_questions.length; i++) {
             page1_labels.push(scale_GEQ);
+            page1_intervals.push(interval);
         }
 
         for (var i = 0; i < page_2_questions.length; i++) {
             page2_labels.push(scale_GEQ);
+            page2_intervals.push(interval);
         }
 
+        var page1_intro = {
+                type: "text",
+                text: page1_instructions,
+                timing_post_trial: 500
+            };
 
-        var likert_block = {
+        var page2_intro = {
+                type: "text",
+                text: page2_instructions,
+                timing_post_trial: 500
+            };
+
+        var GEQ_block1 = {
             type: 'survey-likert',
-            questions: [page_1_questions, page_2_questions],
-            labels: [page1_labels, page2_labels], // need one scale for every question on a page
-            intervals: [[9], [9]] // note the the intervals and labels don't necessarily need to match.
+            questions: [page_1_questions],
+            labels: [page1_labels], // need one scale for every question on a page
+            intervals: [page1_intervals] // note the the intervals and labels don't necessarily need to match.
+        };
+
+        var GEQ_block2 = {
+            type: 'survey-likert',
+            questions: [page_2_questions],
+            labels: [page2_labels], // need one scale for every question on a page
+            intervals: [page2_intervals] // note the the intervals and labels don't necessarily need to match.
         };
 
         // launch jspsych experiment
         jsPsych.init({
             display_element: $('#jspsych_target'),
-            experiment_structure: [likert_block],
+            experiment_structure: [page1_intro, GEQ_block1, page2_intro, GEQ_block2],
             on_finish: function(data) {
                 $('#jspsych_target').append($("<pre>", {
                     text: JSON.stringify(data, undefined, 2)
