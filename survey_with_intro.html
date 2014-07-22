@@ -70,9 +70,8 @@
         "Please select your response on the slider to indicate your level of agreement with each of these statements.</p>"+
         "<p style = 'text-align: left'>Please note that questions about spending time or getting together with the team also involve spending time together online.</p>"
 
-        var TLX_instr = "The following statements are designed to assess your perceptions of YOUR TEAM AS A WHOLE. "+
-        "Please select your response on the slider to indicate your level of agreement with each of these statements.</p>"+
-        "<p style = 'text-align: left'>Please note that questions about spending time or getting together with the team also involve spending time together online.</p>"
+        var TLX_instr = "Think about your past arena games on your currently most played character. "+
+        "Drag the slider on the scale to the point that best indicates your typical experience of the task load during a game."
 
         // defining groups of questions that will go together.
         var page_1_questions = [
@@ -108,7 +107,7 @@
         "<strong>1. Mental Demand</strong> <p style = 'text-align: left'>How much mental and perceptual activity was required (e.g., thinking, deciding, calculating, remembering, looking, searching, etc.)? <br>Was the task easy or demanding, simple or complex, exacting or forgiving?</p>",
         "<strong>2. Physical Demand </strong> <p style = 'text-align: left'>How much physical activity was required (e.g., pushing, pulling, turning, controlling, activating, etc.)? <br>Was the task easy or demanding, slow or brisk, slack or strenuous, restful or laborious?</p>",
         "<strong>3. Temporal Demand </strong> <p style = 'text-align: left'>How much time pressure did you feel due to the rate or pace at which the tasks or task elements occurred? <br>Was the pace slow and leisurely or rapid and frantic?</p>",
-        "<strong>4. Performance </strong> <p style = 'text-align: left'>How successful do you think you were in accomplishing the goals of the task set by the experimenter (or yourself)? <br>How satisfied were you with your performance in accomplishing these goals?</p>",
+        "<strong>4. Performance </strong> <p style = 'text-align: left'>How successful do you think you were in accomplishing the goals of the task? <br>How satisfied were you with your performance in accomplishing these goals?</p>",
         "<strong>5. Effort </strong> <p style = 'text-align: left'>How hard did you have to work (mentally and physically) to accomplish your level of performance?</p>",
         "<strong>6. Frustration </strong> <p style = 'text-align: left'>How insecure, discouraged, irritated, stressed and annoyed versus secure, gratified, content, relaxed and complacent did you feel during the task?</p>"
         ];
@@ -182,7 +181,7 @@
         // launch jspsych experiment
         jsPsych.init({
             display_element: $('#jspsych_target'),
-            experiment_structure: [/*survey_intro_block, GEQ_block1, GEQ_block2, */TLX],
+            experiment_structure: [survey_intro_block, GEQ_block1, GEQ_block2, TLX],
             on_finish: function(data) {
                 $('#jspsych_target').append($("<pre>", {
                     text: JSON.stringify(data, undefined, 2)
