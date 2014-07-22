@@ -27,12 +27,12 @@
         //var welcome_message = "<div id='instructions'><p>Welcome to the " +
             //"experiment. Press enter to begin.</p></div>";
 
-        var instructions = "<div id='instructions'><p>Next, you will see a " +
+        var instructions = "<div id='instructions'><p>In the next task, you will see a " +
             "series of images that look similar to this:</p><p>" +
-            "<img src='img/incongruent_right.gif'></p><p style = 'text-align: left;''> Press the arrow " +
-            "key that corresponds to the direction that the middle arrow " +
-            "is pointing. For example, in this case you would press the " +
-            "right arrow key.</p><p>  Press enter to start.</p>";
+            "<img src='img/incongruent_right.gif'></p><p style = 'text-align: left;''> Your task is to press the arrow " +
+            "key that corresponds to the direction that the middle arrow while trying to ignore the arrows on the sides. " +
+            "For example, in this case you would press the " +
+            "right arrow key.</p><p>Press any key to start when you're ready!</p>";
 
         var debrief = "<div id='instructions'><p>Thank you for " +
             "participating!  Press enter to see the data.</p></div>";
@@ -73,15 +73,15 @@
                 data: trial_images.data //figure out a way to write this as congruent/incongruent
             };
 
-        var debrief_block = {
+        /*var debrief_block = {
                 type: "text",
                 text: [debrief]
-            };
+            };*/
 
 
         jsPsych.init({
             display_element: $('#jspsych_target'),
-            experiment_structure: [instruction_block, test_block, debrief_block],
+            experiment_structure: [instruction_block, test_block],
             on_finish: function(data) {
                 $("#jspsych_target").append($('<pre>', {
                     html: jsPsych.dataAsCSV()
