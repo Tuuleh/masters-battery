@@ -42,28 +42,30 @@
             return [randarray];
         };
 
+        var training_confs = [
+        [0,0,1,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0],
+        [0,0,1,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0],
+        [0,1,0,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0]
+        ];
+
         var confs = [
-        [0,0,1,1,1,0,0,0,0,1,0,1,0,0,1,0,1,0,0,0],
-        [0,0,1,0,0,0,1,1,1,0,1,0,0,0,1,0,0,0,0,1],
-        [1,0,0,0,1,1,0,1,0,1,1,0,1,0,0,0,0,0,0,0],
-        [0,0,0,1,0,1,1,1,0,0,1,1,0,1,1,1,0,0,0,0],
-        [1,1,1,1,0,1,1,0,1,1,1,1,0,1,0,0,1,0,0,1]/*,
-        [0,0,0,0,0,1,1,1,0,0,1,1,0,0,1,1,0,1,0,0],
-        [1,1,0,0,1,1,0,1,0,0,1,0,0,0,1,0,0,0,0,1],
-        [1,1,1,0,1,0,1,0,1,1,1,1,1,1,0,1,1,0,0,1],
-        [0,0,0,0,0,1,1,1,0,0,1,1,0,0,1,1,0,1,0,0],
-        [1,0,1,0,1,0,0,0,1,0,0,0,0,0,1,0,1,1,0,0],
         [0,1,0,0,0,1,0,0,0,0,0,1,0,0,0,0,1,1,1,0],
-        [0,1,1,0,0,0,0,1,0,0,1,0,1,1,0,0,0,0,1,0],
-        [0,0,0,0,0,0,1,0,1,0,0,1,0,0,0,1,0,1,0,0],
-        [1,1,0,1,0,0,0,1,1,0,1,1,1,0,0,1,0,1,1,0],
-        [1,0,0,1,1,0,1,0,1,0,1,0,0,0,0,1,0,0,0,0],
-        [1,1,1,0,0,0,0,0,0,0,0,0,1,0,1,0,0,1,1,0],
+        [1,0,1,0,1,1,0,1,0,0,0,0,0,0,0,1,0,0,0,0],
         [0,1,0,0,0,0,1,1,0,0,0,0,0,1,0,1,1,0,1,0],
-        [0,0,0,0,1,1,0,0,0,1,0,0,1,0,0,1,0,0,1,1],
-        [0,1,1,1,0,0,0,0,0,1,0,1,0,0,0,0,1,1,0,0],
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0],
-        [0,1,0,0,0,1,1,0,1,1,0,1,0,1,0,0,0,1,1,1]*/
+        [0,0,1,1,1,0,0,0,0,1,0,1,0,0,1,0,1,0,0,0],
+        [0,0,0,1,1,0,0,0,1,0,0,1,1,1,0,0,1,0,0,0],
+        [0,1,0,0,1,0,1,0,0,1,1,0,1,0,0,0,0,1,0,1],
+        [0,0,0,0,0,1,1,1,0,0,1,1,0,0,1,1,0,1,0,0],
+        [0,0,1,0,1,1,0,1,0,0,0,0,0,1,0,1,0,1,1,0],
+        [0,0,0,1,0,1,1,1,0,0,1,1,0,1,1,1,0,0,0,0],
+        [0,0,1,0,0,1,0,1,1,1,1,0,0,1,0,0,0,0,1,1],
+        [0,1,0,1,0,1,1,1,1,0,0,1,1,1,0,0,0,0,0,0],
+        [1,1,1,1,0,0,0,1,0,0,0,0,0,1,1,1,0,1,0,1],
+        [0,1,1,1,0,0,0,1,0,1,0,1,1,0,1,0,1,1,0,0],
+        [1,0,1,0,0,0,1,0,1,0,0,1,1,1,1,0,1,0,0,1],
+        [0,0,1,0,0,1,1,0,1,0,0,1,1,1,1,1,1,1,0,0], 
+        [1,0,1,1,1,0,1,1,0,0,1,0,0,0,0,1,1,1,1,0],
+        [0,1,1,0,1,0,0,1,0,1,1,1,1,0,0,1,1,0,0,1]
         ];
 
         var getConfig = function (confArray, iterator) {
@@ -86,10 +88,60 @@
             prompt: '<p>Create the image you just saw. Click two circles to add or remove a line between them. Click submit when you are done.</p>'
         };
         */
+        //creating instructions and the instruction block
+        var palmer_instructions = "<div id='instructions'><p>In the following task, you will go through a series of images that look like this:</p><p style = 'text-align: center'>" +
+            "<img src='img/20_5.png'></p><p style = 'text-align: left;'> Your task is to recall the pattern that is presented to you " +
+            "for a short time, and then by clicking on the circles with your mouse to draw the lines, reproduce it on an empty template" +
+            " that will be presented to you. " +
+            "</p><p>You will first go through three trial images, where you can try out the experiment, and then have another information screen when "+
+            "the experiment is about to start.</p>" +
+            "</p><p style = 'text-align: center'>Press any key to start when you're ready!</p>";
 
+        var palmer_intermezzo = "<div id='instructions'><p>You completed the training! The experiment will now follow.</p><p>" +
+            "<p>Please note that the trials will become more and more difficult and you are not expected to get all of the responses correctly." +
+            "</p><p style = 'text-align: center'>Press any key to start when you're ready!</p>";
 
+        var palmer_instruction_block = {
+                type: "text",
+                text: [palmer_instructions],
+                timing_post_trial: 2500
+            };
 
-        var trial_array = [];
+        var palmer_intermezzo = {
+                type: "text",
+                text: [palmer_intermezzo],
+                timing_post_trial: 2500
+        };
+        
+        //creating stim and test blocks for training
+        var trial_array = [palmer_instruction_block];
+
+        for (var i = 0; i < training_confs.length; i++ ) {
+            
+            var training_stim_block = {
+                type: 'palmer',
+                configurations: getConfig(training_confs, i),
+                editable: false,
+                timing_item: 2500
+            };
+
+            var training_test_block = {
+                type: 'palmer',
+                configurations: training_stim_block.configurations,
+                editable: true,
+                show_feedback: true,
+                timing_feedback: 2000,
+                prompt: '<p>Create the image you just saw. Click two circles to add or remove a line between them. Click submit when you are done.</p>'
+
+            }
+
+            trial_array.push(training_stim_block, training_test_block);
+
+        }
+
+        trial_array.push(palmer_intermezzo);
+
+        //creating stim and test blocks for experiment
 
         for (var i = 0; i < confs.length; i++ ) {
             
