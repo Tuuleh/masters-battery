@@ -9,6 +9,7 @@
         <script src="scripts/jspsych.js"></script>
         <script src="scripts/plugins/jspsych-text.js"></script>
         <script src="scripts/plugins/jspsych-single-stim.js"></script>
+        <script src="scripts/plugins/categorize.js"></script>
         <!-- Load the stylesheet -->
         <link href="flanker.css" type="text/css" rel="stylesheet"></link>
     </head>
@@ -27,15 +28,21 @@
         //var welcome_message = "<div id='instructions'><p>Welcome to the " +
             //"experiment. Press enter to begin.</p></div>";
 
-        var instructions = "<div id='instructions'><p>In the next task, you will see a " +
+        var flanker_instructions = "<div id='instructions'><p>In the next task, you will see a " +
             "series of images that look similar to this:</p><p>" +
             "<img src='img/incongruent_right.gif'></p><p style = 'text-align: left;''> Your task is to press the arrow " +
             "key that corresponds to the direction that the middle arrow while trying to ignore the arrows on the sides. " +
             "For example, in this case you would press the " +
-            "right arrow key.</p><p>Press any key to start when you're ready!</p>";
+            "right arrow key."+
+            "</p><p>You will first go through a short trial where you can try out the experiment, and then have another information screen when "+
+            "the experiment is about to start.</p>" +
+            "<p style = 'text-align: center'>Press any key to start when you're ready!</p>";
 
-        var debrief = "<div id='instructions'><p>Thank you for " +
-            "participating!  Press enter to see the data.</p></div>";
+
+        var flanker_intermezzo = "<div id='instructions'><p>You completed the training! The experiment will now follow.</p>" +
+            "<br>Note that the images will now appear much faster! Try and respond as quickly and accurately as you can."+
+            "<br>Also notice that you won't get feedback on correct and false responses during the experiment."
+            "<p style = 'text-align: center'>Press any key to start when you're ready!</p>";
 
         // Generating Random Order for Stimuli
         /*var stimuli_random_order = [];
@@ -50,49 +57,79 @@
             });
         }
         */
-        var test_images =  [
-        {stimulus:"img/congruent_left.gif", data: {type: "congruent"}}, 
-        {stimulus:"img/congruent_right.gif", data: {type: "congruent"}}, 
-        {stimulus:"img/incongruent_left.gif", data: {type: "incongruent"}}, 
-        {stimulus:"img/incongruent_right.gif", data: {type: "incongruent"}}
+        var test_images = [
+        {stimulus:"img/congruent_left.gif", data: {type: "congruent", key: 'left'}}, 
+        {stimulus:"img/congruent_right.gif", data: {type: "congruent", key: 'right'}}, 
+        {stimulus:"img/incongruent_left.gif", data: {type: "incongruent", key: 'left'}}, 
+        {stimulus:"img/incongruent_right.gif", data: {type: "incongruent", key: 'right'}}
         ];
+
+        var flanker_training_answers = [];
+        var flanker_training_text_answers = [];
+        var flanker_training_images = [];
+
+        //gets random image from test_images array and appends to answers and text_answers arrays
+        //depending on the stimulus type and data attributes
+        for (var i = 0; i < 12; i++) {
+            var image = test_images[Math.round(Math.random()*test_images.length) + 1];
+            if (image.data.key == "left") {
+                flanker_training_answers.push(37);
+                flanker_training_text_answers.push("left");
+            }
+            else {
+                flanker_training_answers.push(39);
+                flanker_training_text_answers.push("right");
+            }
+        }
 
         var trial_images = jsPsych.randomization.repeat(test_images, 5, true);
 
         // Define experiment blocks
-        var instruction_block = {
+        var flanker_instruction_block = {
                 type: "text",
-                text: [/*welcome_message, */instructions],
+                text: [flanker_instructions],
                 timing_post_trial: 2500
             };
 
-        var test_block = {
+        var flanker_intermezzo_block = {
+            type: "text",
+            text: [flanker_intermezzo],
+            timing_post_trial: 2500
+        }
+
+        var flanker_test_block = {
                 type: "single-stim",
                 stimuli: trial_images.stimulus,
                 choices: [37, 39],
                 data: trial_images.data //figure out a way to write this as congruent/incongruent
             };
 
-        /*var debrief_block = {
-                type: "text",
-                text: [debrief]
-            };*/
+         var flanker_training_block = {
+            type: 'categorize',
+            stimuli: flanker_training_images,
+            key_answer: flanker_training_answers,
+            text_answer: flanker_training_text_answers,
+            choices: [37, 39],
+            correct_text: "<p class='prompt'>Correct!</p>",
+            incorrect_text: "<p class='prompt'>False!</p>",
+            prompt: "<p class='prompt'>Press left arrow if the middle arrow points left, <br>and right arrow if the middle arrow points right.</p>"
+        };
 
 
         jsPsych.init({
             display_element: $('#jspsych_target'),
-            experiment_structure: [instruction_block, test_block],
+            experiment_structure: [flanker_instruction_block, flanker_training_block, flanker_intermezzo_block, flanker_test_block],
             on_finish: function(data) {
                 $("#jspsych_target").append($('<pre>', {
                     html: jsPsych.dataAsCSV()
                 }));
 
-                jsPsych.saveCSVdata("data.csv");
+                //jsPsych.saveCSVdata("data.csv");
             }
         });
         //JOSH'S INIT
         /*jsPsych.init({
-            experiment_structure: [instruction_block, test_block, debrief_block],
+            experiment_structure: [flanker_instruction_block, flanker_test_block, debrief_block],
             on_finish: function(data) {
             $('#jspsych_target').append($('<pre>', {
                 html: JSON.stringify(data, undefined, 2)
