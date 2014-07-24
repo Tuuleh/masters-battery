@@ -61,7 +61,8 @@
             // if any trial variables are functions
             // this evaluates the function and replaces
             // it with the output of the function
-            trial = jsPsych.normalizeTrialVariables(trial);
+            //TUULI: Commented - returns an error
+            //trial = jsPsych.normalizeTrialVariables(trial);
             
             switch (part) {
             case 1:

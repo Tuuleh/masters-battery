@@ -9,7 +9,7 @@
         <script src="scripts/jspsych.js"></script>
         <script src="scripts/plugins/jspsych-text.js"></script>
         <script src="scripts/plugins/jspsych-single-stim.js"></script>
-        <script src="scripts/plugins/categorize.js"></script>
+        <script src="scripts/plugins/jspsych-categorize.js"></script>
         <!-- Load the stylesheet -->
         <link href="flanker.css" type="text/css" rel="stylesheet"></link>
     </head>
@@ -19,14 +19,7 @@
     </body>
 
     <script>
-        // Experiment parameters
-        //var n_trials = 20;
-        //var stimuli = ["img/congruent_left.gif", "img/congruent_right.gif", "img/incongruent_left.gif", "img/incongruent_right.gif"];
-        //var stimuli_types = ["congruent", "congruent", "incongruent", "incongruent"];
 
-        // Experiment Instructions
-        //var welcome_message = "<div id='instructions'><p>Welcome to the " +
-            //"experiment. Press enter to begin.</p></div>";
 
         var flanker_instructions = "<div id='instructions'><p>In the next task, you will see a " +
             "series of images that look similar to this:</p><p>" +
@@ -41,23 +34,11 @@
 
         var flanker_intermezzo = "<div id='instructions'><p>You completed the training! The experiment will now follow.</p>" +
             "<br>Note that the images will now appear much faster! Try and respond as quickly and accurately as you can."+
-            "<br>Also notice that you won't get feedback on correct and false responses during the experiment."
+            "<br>Also notice that you won't get feedback on correct and false responses during the experiment."+
             "<p style = 'text-align: center'>Press any key to start when you're ready!</p>";
 
-        // Generating Random Order for Stimuli
-        /*var stimuli_random_order = [];
-        var opt_data = [];
-
-        for (var i = 0; i < n_trials; i++) {
-            var random_choice = Math.floor(Math.random() * stimuli.length);
-
-            stimuli_random_order.push(stimuli[random_choice]);
-            opt_data.push({
-                "stimulus_type": stimuli_types[random_choice]
-            });
-        }
-        */
-        var test_images = [
+       
+       var test_images = [ 
         {stimulus:"img/congruent_left.gif", data: {type: "congruent", key: 'left'}}, 
         {stimulus:"img/congruent_right.gif", data: {type: "congruent", key: 'right'}}, 
         {stimulus:"img/incongruent_left.gif", data: {type: "incongruent", key: 'left'}}, 
@@ -71,8 +52,10 @@
         //gets random image from test_images array and appends to answers and text_answers arrays
         //depending on the stimulus type and data attributes
         for (var i = 0; i < 12; i++) {
-            var image = test_images[Math.round(Math.random()*test_images.length) + 1];
-            if (image.data.key == "left") {
+            var rnd = Math.round(Math.floor(Math.random() * 3));
+            var image = test_images[rnd]; //random stimulus setting from test_images
+            flanker_training_images.push(image.stimulus);
+            if (image.data.key === 'left') {
                 flanker_training_answers.push(37);
                 flanker_training_text_answers.push("left");
             }
@@ -82,13 +65,13 @@
             }
         }
 
-        var trial_images = jsPsych.randomization.repeat(test_images, 5, true);
+        var trial_images = jsPsych.randomization.repeat(test_images, 10, true);
 
         // Define experiment blocks
         var flanker_instruction_block = {
-                type: "text",
-                text: [flanker_instructions],
-                timing_post_trial: 2500
+            type: "text",
+            text: [flanker_instructions],
+            timing_post_trial: 2500
             };
 
         var flanker_intermezzo_block = {
@@ -98,10 +81,10 @@
         }
 
         var flanker_test_block = {
-                type: "single-stim",
-                stimuli: trial_images.stimulus,
-                choices: [37, 39],
-                data: trial_images.data //figure out a way to write this as congruent/incongruent
+            type: "single-stim",
+            stimuli: trial_images.stimulus,
+            choices: [37, 39],
+            data: trial_images.data //figure out a way to write this as congruent/incongruent
             };
 
          var flanker_training_block = {

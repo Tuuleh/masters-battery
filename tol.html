@@ -8,6 +8,7 @@
         <!-- Load the jspsych library and plugins -->
         <script src="scripts/jspsych.js"></script>
         <script src="scripts/plugins/jspsych-text.js"></script>
+        <script src="scripts/plugins/jspsych-categorize.js"></script>
         <script src="scripts/plugins/jspsych-single-stim.js"></script>
         <!-- Load the stylesheet -->
         <link href="tol.css" type="text/css" rel="stylesheet"></link>
@@ -19,9 +20,8 @@
 
     <script>
         // Experiment parameters
-        
-        // original contents: img/congruent_left.gif", "img/congruent_right.gif", "img/incongruent_left.gif", "img/incongruent_right.gif"
-        var stimuli = [
+
+        var tol_stimuli = [
         "img/tolimg/AN01.png",
         "img/tolimg/AN02.png",
         "img/tolimg/AN03.png",
@@ -46,109 +46,91 @@
         "img/tolimg/AN22.png"
         ];
 
-        var n_trials = stimuli.length;
-        
-        var stimuli_types = [
-        2,
-        2,
-        3,
-        3,
-        2,
-        1,
-        3,
-        4,
-        1,
-        4,
-        3,
-        4,
-        1,
-        2,
-        3,
-        2,
-        1,
-        4,
-        1,
-        4,
-        6,
-        5
-        ];
+        var tol_trials = tol_stimuli.length;
+        var tol_stimuli_types = [2,2,3,3,2,1,3,4,1,4,3,4,1,2,3,2,1,4,1,4,6,5];
 
         // Experiment Instructions
-        var welcome_message = "<div id='instructions'><p>Welcome to the " +
-            "experiment. Press enter to begin.</p></div>";
 
-        var instructions = "<div id='instructions'><p> You will see a " +
-            "series of images that look similar to this:</p><p>" +
-            "<img src='img/tolimg/AN18.png'></p><p style = 'text-align: left;'>Your task is to " +
-            "estimate how many moves of the disks you would need to get " +
+        var tol_instructions = "<div id='instructions'><p> In the following experiment, you will see a " +
+            "series of images that look like this:</p><p>" +
+            "<img src='img/tolimg/BP1.png'></p><p style = 'text-align: left;'>Your task is to " +
+            "estimate how many times total you would need to move a ball to get " +
             "from the starting point in the first image to the final  " +
             "layout in the second image. Press the corresponding " +
-            "key on your keyboard to give your response.</p><p>Press enter to start.</p>";
+            "key on your keyboard to give your response.</p><p>Press any key to start!</p>";
 
-        var debrief = "<div id='instructions'><p>Thank you for " +
-            "participating!  Press enter to see the data.</p></div>";
+        var tol_intermezzo = "<div id='instructions'><p>You completed the training! The experiment will now follow.</p><p>" +
+            "<p>Please note that the trials will become more and more difficult and that during the experiment, " +
+            "you will not get feedback about whether your response was correct or false."+
+            "</p><p style = 'text-align: center'>Press any key to start when you're ready!</p>";
 
-        // Generating Random Order for Stimuli
-        //FIND OUT how stimuli are organized into an array! HERE they are taken in random order from stimuli[] until twenty are met
-        //stimuli are organized into array IN AN ORDER as var stimuli = [] inside the script. Iterate through it one by one.
+        var tol_stimuli_array = [];
+        var tol_data = [];
 
-
-        /*var stimuli_random_order = [];
-        var opt_data = [];
-
-        for (var i = 0; i < n_trials; i++) {
-            var random_choice = Math.floor(Math.random() * stimuli.length);
-
-            stimuli_random_order.push(stimuli[random_choice]);
-            opt_data.push({
-                "stimulus_type": stimuli_types[random_choice]
+        //generating the array of stimuli
+        //tol_stimuli_array is a reduntant variable -> workaround
+        for (var i = 0; i < tol_trials; i++) {
+            tol_stimuli_array.push(tol_stimuli[i]);
+            tol_data.push({
+                "stimulus_type": tol_stimuli_types[i]
             });
-        }*/
-
-        //Korjaa taa niin ettei se riko koko paskaa
-        var stimuli_random_order = []; //not so random :3 
-        var opt_data = [];
-
-        for (var i = 0; i < n_trials; i++) {
-            stimuli_random_order.push(stimuli[i]);
-            opt_data.push({
-                "stimulus_type": stimuli_types[i]
+            tol_data.push({
+                "stimulus_type": tol_stimuli_types[i]
             });
 
         }
 
         // Define experiment blocks
-        var instruction_block = {
+        var tol_instruction_block = {
                 type: "text",
-                text: [welcome_message, instructions],
+                text: [tol_instructions],
                 timing_post_trial: 250
             };
 
-        var test_block = {
+        var tol_intermezzo_block = {
+                type: "text",
+                text: [tol_intermezzo],
+                timing_post_trial: 250
+            };    
+
+        var tol_test_block = {
                 type: "single-stim",
-                //change order to set from stim 1 to final stim! 
-                //changing this from stimuli_random_order to stimuli BREAKS IT
-                stimuli: stimuli_random_order,
+                stimuli: tol_stimuli_array,
                 //change choices to key presses corresponding to number keys!
                 choices: [48, 49, 50, 51, 52, 53, 54, 55, 56, 57],
-                data: opt_data
+                data: tol_data
             };
 
-        var debrief_block = {
-                type: "text",
-                text: [debrief]
-            };
+        var tol_training_images = [ 
+        {stimulus:"img/tolimg/AP1.png", data: {key: 49}}, 
+        {stimulus:"img/tolimg/AP2.png", data: {key: 50}}, 
+        {stimulus:"img/tolimg/AP3.png", data: {key: 51}}, 
+        ];
+
+        var tol_training_answers = [49,50,51];
+        var tol_training_text_answers = ['1','2','3'];
+
+        var tol_training_block = {
+            type: 'categorize',
+            stimuli: tol_training_images,
+            key_answer: tol_training_answers,
+            text_answer: tol_training_text_answers,
+            choices: [48, 49, 50, 51, 52, 53, 54, 55, 56, 57],
+            correct_text: "<p class='prompt'>Correct!</p>",
+            incorrect_text: "<p class='prompt'>False!</p>",
+            prompt: "<p class='prompt'>How many times would you need to move a ball <br>to get from the layout in image A to the layout in image B?</p>"
+        };
 
 
         jsPsych.init({
             display_element: $('#jspsych_target'),
-            experiment_structure: [instruction_block, test_block, debrief_block],
+            experiment_structure: [tol_instruction_block, tol_intermezzo_block, tol_training_block, tol_test_block],
             on_finish: function(data) {
                 $("#jspsych_target").append($('<pre>', {
                     html: jsPsych.dataAsCSV()
                 }));
 
-                jsPsych.saveCSVdata("data.csv");
+               // jsPsych.saveCSVdata("data.csv");
             }
         });
     </script>
