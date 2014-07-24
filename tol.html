@@ -46,8 +46,9 @@
         "img/tolimg/AN22.png"
         ];
 
-        var tol_trials = tol_stimuli.length;
+
         var tol_stimuli_types = [2,2,3,3,2,1,3,4,1,4,3,4,1,2,3,2,1,4,1,4,6,5];
+
 
         // Experiment Instructions
 
@@ -60,8 +61,8 @@
             "key on your keyboard to give your response.</p><p>Press any key to start!</p>";
 
         var tol_intermezzo = "<div id='instructions'><p>You completed the training! The experiment will now follow.</p><p>" +
-            "<p>Please note that the trials will become more and more difficult and that during the experiment, " +
-            "you will not get feedback about whether your response was correct or false."+
+            "<p>Please note that during the experiment you will not get feedback about whether your response was correct or false. " +
+            "<br>Try to be as fast and accurate as you can!</p>"+
             "</p><p style = 'text-align: center'>Press any key to start when you're ready!</p>";
 
         var tol_stimuli_array = [];
@@ -69,15 +70,11 @@
 
         //generating the array of stimuli
         //tol_stimuli_array is a reduntant variable -> workaround
-        for (var i = 0; i < tol_trials; i++) {
+        for (var i = 0; i < tol_stimuli.length; i++) {
             tol_stimuli_array.push(tol_stimuli[i]);
             tol_data.push({
                 "stimulus_type": tol_stimuli_types[i]
             });
-            tol_data.push({
-                "stimulus_type": tol_stimuli_types[i]
-            });
-
         }
 
         // Define experiment blocks
@@ -101,11 +98,13 @@
                 data: tol_data
             };
 
-        var tol_training_images = [ 
+        /*var tol_training_images = [ 
         {stimulus:"img/tolimg/AP1.png", data: {key: 49}}, 
         {stimulus:"img/tolimg/AP2.png", data: {key: 50}}, 
         {stimulus:"img/tolimg/AP3.png", data: {key: 51}}, 
-        ];
+        ];*/
+
+           var tol_training_images = ["img/tolimg/AP1.png", "img/tolimg/AP2.png", "img/tolimg/AP3.png"];
 
         var tol_training_answers = [49,50,51];
         var tol_training_text_answers = ['1','2','3'];
@@ -118,19 +117,20 @@
             choices: [48, 49, 50, 51, 52, 53, 54, 55, 56, 57],
             correct_text: "<p class='prompt'>Correct!</p>",
             incorrect_text: "<p class='prompt'>False!</p>",
-            prompt: "<p class='prompt'>How many times would you need to move a ball <br>to get from the layout in image A to the layout in image B?</p>"
+            prompt: "<p class='prompt'>How many times would you need to move a ball <br>to get from the layout in image A to the layout in image B?</p>" +
+            "<p>Press the corresponding key on your keyboard to give your response.</p>"
         };
 
 
         jsPsych.init({
             display_element: $('#jspsych_target'),
-            experiment_structure: [tol_instruction_block, tol_intermezzo_block, tol_training_block, tol_test_block],
+            experiment_structure: [tol_instruction_block, tol_training_block, tol_intermezzo_block, tol_test_block],
             on_finish: function(data) {
                 $("#jspsych_target").append($('<pre>', {
                     html: jsPsych.dataAsCSV()
                 }));
 
-               // jsPsych.saveCSVdata("data.csv");
+               jsPsych.saveCSVdata("data.csv");
             }
         });
     </script>
