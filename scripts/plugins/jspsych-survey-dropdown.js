@@ -36,28 +36,22 @@
         };
 
         plugin.trial = function(display_element, block, trial, part) {
+             
+            //for (var i = 0; i < trials.length; i++) {
+                // creates the div - the selector element that works as a button        //where does this trial here point to?
+                var currentDropdown = $("<div id='jspsych-survey-dropdown', class='dropdown-selector'><span class ='valueHolder'" + trial.questions + "</span>");
+                display_element.append(currentDropdown);
 
-            // code for running the trial goes here
-            /*...*/
-            //function for creating the dropdown list and appending it to the selection button
-            function createDropdown(drop, options_list){
                 var htmlString = '<div id="dropContainer">';
 
-                    for(var i = 0; i < options_list.length; i++){
-                        var option = options_list[i];
-                        htmlString += '<div class="dropOption">' + option + '</div>';
-                    }
-
-                    htmlString += '</div>';
-                    drop.append(htmlString);
+                for (var i = 0; i < trial.options.length; i++) {                        
+                    htmlString += '<div class="dropOption">' + trial.options[i] + '</div>';
+                
                 }
 
-            for (var i = 0; i < trial.questions.length; i++) {
-                // creates the div - the selector element that works as a button        //where does this trial here point to?
-                var currentDropdown = $("<div id='jspsych-survey-dropdown', class='dropdown-selector'><span class ='valueHolder'" + trial.questions[i] + "</span>")
-                display_element.append(currentDropdown);
-                createDropdown(currentDropdown, trial.options[i]);
-                };
+                    htmlString += '</div>';
+                    currentDropdown.append(htmlString);
+                //};
 
             //for toggling and hiding dropdown lists upon click
             $('#jspsych-survey-dropdown').on('click', function(event){
@@ -67,10 +61,10 @@
 
                     if(target.hasClass('valueHolder') || target.attr('id') === 'jspsych-survey-dropdown'){
                             container.show();
-                    }else if(target.hasClass('dropOption')){
+                    }/*else if(target.hasClass('dropOption')){
                             drop.find('span.valueHolder').text(target.text());
                             container.hide();
-                    }
+                    }*/
             });
 
             // data saving

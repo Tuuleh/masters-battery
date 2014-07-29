@@ -36,18 +36,18 @@
 
 			var drop_the_bass = {
                 type: "survey-dropdown",
-                questions: ["age", "gender", "faction"],
-                options: [["young","old"],["male","female"],["good","evil"]]
+                questions: ["age"],
+                options: [["young","old"]]
             };
 
 			jsPsych.init({
             display_element: $('#jspsych_target'),
             experiment_structure: [drop_the_bass],
-            on_finish: function(data) {
+            /*on_finish: function(data) {
                 $('#jspsych_target').append($("<pre>", {
                     text: JSON.stringify(data, undefined, 2)
                 }));
-            }
+            }*/
         });
 
 		</script>

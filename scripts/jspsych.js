@@ -5,7 +5,7 @@
  * documentation: https://github.com/jodeleeuw/jsPsych/wiki
  *
  **/ 
- //HUOM THIS IS THE CURRENT VERSION FROM JOSH!
+ //HUOM THIS IS THE CURRENT VERSION FROM JOSH WITH OLD FUNCTIONS COPY-PASTED IN BETWEEN
 (function($) {
     jsPsych = (function() {
 
@@ -303,7 +303,7 @@
                 if (typeof jsPsych[plugin_name] == 'undefined') {
                     throw new Error("Failed attempt to create trials using plugin type " + plugin_name + ". Is the plugin loaded?");
                 }
-
+                //CALLS PLUGIN CREATE
                 var trials = jsPsych[plugin_name]["create"].call(null, opts["experiment_structure"][i]);
 
                 exp_blocks[i] = createBlock(trials);
