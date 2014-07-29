@@ -36,41 +36,38 @@
         };
 
         plugin.trial = function(display_element, block, trial, part) {
-
-            // code for running the trial goes here
-            /*...*/
-            //function for creating the dropdown list and appending it to the selection button
-            function createDropdown(drop, options_list){
-                var htmlString = '<div id="dropContainer">';
-
-                    for(var i = 0; i < options_list.length; i++){
-                        var option = options_list[i];
-                        htmlString += '<div class="dropOption">' + option + '</div>';
-                    }
-
-                    htmlString += '</div>';
-                    drop.append(htmlString);
-                }
-
-            for (var i = 0; i < trial.questions.length; i++) {
-                // creates the div - the selector element that works as a button        //where does this trial here point to?
-                var currentDropdown = $("<div id='jspsych-survey-dropdown', class='dropdown-selector'><span class ='valueHolder'" + trial.questions[i] + "</span>")
+             
+            //for (var i = 0; i < trials.length; i++) {
+                // creates the div - the selector element that works as a button (must be defined in css)       
+                var currentDropdown = $("<div id='jspsych-survey-dropdown', class='btn'><span class ='valueHolder'>" + trial.questions + "</span></div>");
                 display_element.append(currentDropdown);
-                createDropdown(currentDropdown, trial.options[i]);
-                };
 
-            //for toggling and hiding dropdown lists upon click
+                var htmlString = '<div id="dropContainer">'+'<div class="dropOption">' + trial.questions + '</div>';
+
+                for (var i = 0; i < trial.options.length; i++) {                        
+                    htmlString += '<div class="dropOption">' + trial.options[i] + '</div>';
+                }
+                    htmlString += '</div>';
+                    currentDropdown.append(htmlString);
+                
+
+            //for toggling and hiding dropdown lists upon click - doesnt work with more than one dropdown, fix it.
+            //suspected problem - doesn't distinguish div elements from one another: tells a jquery object what to do, but
+            //the effect needs to be limited to that particular div and its children
+
             $('#jspsych-survey-dropdown').on('click', function(event){
+                    var target = $(event.target);
                     var container = $('#dropContainer');
                     var drop = $('#jspsych-survey-dropdown');
-                    var target = $(event.target);
 
-                    if(target.hasClass('valueHolder') || target.attr('id') === 'jspsych-survey-dropdown'){
-                            container.show();
-                    }else if(target.hasClass('dropOption')){
-                            drop.find('span.valueHolder').text(target.text());
-                            container.hide();
-                    }
+                        if(target.hasClass('valueHolder') || target.attr('id') === 'jspsych-survey-dropdown'){
+                                container.show();
+                        }else if(target.hasClass('dropOption')){
+                                //selects the case from the list and hides the container -> use this to log the response
+                                drop.find('span.valueHolder').text(target.text());
+                                container.hide();
+                        }
+    
             });
 
             // data saving
@@ -80,6 +77,7 @@
             var trial_data = {
                 type: trial.type,
                 trial_index: block.trial_idx,
+
                 // other values to save go here
             };
             // this line merges together the trial_data object and the generic
@@ -88,6 +86,7 @@
 
             // this method must be called at the end of the trial
             block.next();
+            
         };
 
         return plugin;
