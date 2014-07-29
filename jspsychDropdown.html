@@ -20,30 +20,33 @@
 	        <!-- jsPsych -->
 	        <script src="scripts/jspsych.js"></script>
 	        <script src="scripts/plugins/jspsych-survey-dropdown.js"></script>
-	        <script src="scripts/plugins/jspsych-text.js"></script>
+
 	        <!-- style -->
 	        <link rel="stylesheet" type="text/css" href="jspsychDropdown.css">
 		</head>
 
 		<body>
-
 			<div id="jspsych_target"></div>
-
-			
 		</body>
 
-		<script type = text/javascript>
+		<script>
 
 			var drop_the_bass = {
                 type: "survey-dropdown",
-                questions: ["age"],
-                options: [["young","old"]]
+                questions: ["select your age"],
+                options: [["11","12","13","old"]]
+            };
+
+            var drop_the_bass2 = {
+                type: "survey-dropdown",
+                questions: ["select your gender"],
+                options: [["male","female", "undefined"]]
             };
 
 			jsPsych.init({
             display_element: $('#jspsych_target'),
-            experiment_structure: [drop_the_bass],
-            /*on_finish: function(data) {
+            experiment_structure: [drop_the_bass, drop_the_bass2]/*,
+            on_finish: function(data) {
                 $('#jspsych_target').append($("<pre>", {
                     text: JSON.stringify(data, undefined, 2)
                 }));
