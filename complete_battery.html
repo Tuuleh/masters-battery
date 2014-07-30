@@ -12,16 +12,13 @@
 
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
         <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css"></link>
-        
-
-        <!-- 
-        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-        <link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/black-tie/jquery-ui.min.css" rel="stylesheet" type="text/css"></link> -->
-
+        <!-- Raphael -->
+        <script src="scripts/raphael-min.js"></script>
         <!-- jsPsych -->
         <script src="scripts/jspsych.js"></script>
         <script src="scripts/plugins/jspsych-survey-likert-with-instructions.js"></script>
         <script src="scripts/plugins/jspsych-categorize.js"></script>
+        <script src="scripts/plugins/jspsych-palmer.js"></script>
         <script src="scripts/plugins/jspsych-single-stim.js"></script>
         <script src="scripts/plugins/jspsych-text.js"></script>
         <script src="scripts/plugins/jspsych-html.js"></script>
@@ -386,26 +383,162 @@
             "<p>Press the corresponding key on your keyboard to give your response.</p>"
         };
 
+        //PALMER EXPERIMENT
+
+        var training_confs = [
+        [0,0,1,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0],
+        [0,0,1,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0],
+        [0,1,0,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0]
+        ];
+
+        var confs = [
+        [0,1,0,0,0,1,0,0,0,0,0,1,0,0,0,0,1,1,1,0],
+        [1,0,1,0,1,1,0,1,0,0,0,0,0,0,0,1,0,0,0,0],
+        [0,1,0,0,0,0,1,1,0,0,0,0,0,1,0,1,1,0,1,0],
+        [0,0,1,1,1,0,0,0,0,1,0,1,0,0,1,0,1,0,0,0],
+        [0,0,0,1,1,0,0,0,1,0,0,1,1,1,0,0,1,0,0,0],
+        [0,1,0,0,1,0,1,0,0,1,1,0,1,0,0,0,0,1,0,1],
+        [0,0,0,0,0,1,1,1,0,0,1,1,0,0,1,1,0,1,0,0],
+        [0,0,1,0,1,1,0,1,0,0,0,0,0,1,0,1,0,1,1,0],
+        [0,0,0,1,0,1,1,1,0,0,1,1,0,1,1,1,0,0,0,0],
+        [0,0,1,0,0,1,0,1,1,1,1,0,0,1,0,0,0,0,1,1],
+        [0,1,0,1,0,1,1,1,1,0,0,1,1,1,0,0,0,0,0,0],
+        [1,1,1,1,0,0,0,1,0,0,0,0,0,1,1,1,0,1,0,1],
+        [0,1,1,1,0,0,0,1,0,1,0,1,1,0,1,0,1,1,0,0],
+        [1,0,1,0,0,0,1,0,1,0,0,1,1,1,1,0,1,0,0,1],
+        [0,0,1,0,0,1,1,0,1,0,0,1,1,1,1,1,1,1,0,0], 
+        [1,0,1,1,1,0,1,1,0,0,1,0,0,0,0,1,1,1,1,0],
+        [0,1,1,0,1,0,0,1,0,1,1,1,1,0,0,1,1,0,0,1]
+        ];
+
+        var getConfig = function (confArray, iterator) {
+            return [confArray[iterator]];
+        };
+
+        /*var stim_block1 = {
+            type: 'palmer',
+            configurations: [[0,1,1,0,0,0,0,1,0,0,1,0,1,1,0,0,0,0,1,0]],
+            editable: false,
+            timing_item: 2500
+        };
+
+        var test_block1 = {
+            type: 'palmer',
+            configurations: stim_block1.configurations,
+            editable: true,
+            show_feedback: true,
+            timing_feedback: 2000,
+            prompt: '<p>Create the image you just saw. Click two circles to add or remove a line between them. Click submit when you are done.</p>'
+        };
+        */
+        //creating instructions and the instruction block
+        var palmer_instructions = "<div id='instructions'><p>In the following task, you will go through a series of images that look like this:</p><p style = 'text-align: center'>" +
+            "<img src='img/20_5.png'></p><p style = 'text-align: left;'> Your task is to recall the pattern that is presented to you " +
+            "for a short time, and then by clicking on the circles with your mouse to draw the lines, reproduce it on an empty template" +
+            " that will be presented to you. " +
+            "</p><p>You will first go through three trial images, where you can try out the experiment, and then have another information screen when "+
+            "the experiment is about to start.</p>" +
+            "</p><p style = 'text-align: center'>Press any key to start when you're ready!</p>";
+
+        var palmer_intermezzo = "<div id='instructions'><p>You completed the training! The experiment will now follow.</p><p>" +
+            "<p>Please note that the trials will become more and more difficult and you are not expected to get all of the responses correctly." +
+            "</p><p style = 'text-align: center'>Press any key to start when you're ready!</p>";
+
+        var palmer_instruction_block = {
+                type: "text",
+                text: [palmer_instructions],
+                timing_post_trial: 2500
+            };
+
+        var palmer_intermezzo = {
+                type: "text",
+                text: [palmer_intermezzo],
+                timing_post_trial: 2500
+        };
+        
+        //creating stim and test blocks for training
+        var trial_array = [palmer_instruction_block];
+
+        for (var i = 0; i < training_confs.length; i++ ) {
+            
+            var training_stim_block = {
+                type: 'palmer',
+                configurations: getConfig(training_confs, i),
+                editable: false,
+                timing_item: 2500
+            };
+
+            var training_test_block = {
+                type: 'palmer',
+                configurations: training_stim_block.configurations,
+                editable: true,
+                show_feedback: true,
+                timing_feedback: 2000,
+                prompt: '<p>Create the image you just saw. Click two circles to add or remove a line between them. Click submit when you are done.</p>'
+
+            }
+
+            trial_array.push(training_stim_block, training_test_block);
+
+        }
+
+        trial_array.push(palmer_intermezzo);
+
+        //creating stim and test blocks for experiment
+
+        for (var i = 0; i < confs.length; i++ ) {
+            
+            var stim_block = {
+                type: 'palmer',
+                configurations: getConfig(confs, i),
+                editable: false,
+                timing_item: 2500
+            };
+
+            var test_block = {
+                type: 'palmer',
+                configurations: stim_block.configurations,
+                editable: true,
+                show_feedback: true,
+                timing_feedback: 2000,
+                prompt: '<p>Create the image you just saw. Click two circles to add or remove a line between them. Click submit when you are done.</p>'
+
+            }
+
+            trial_array.push(stim_block, test_block);
+
+        };
+
+        //constructing the experiment structure in an array and then appending the palmer experiment 
+        //components to it (because they were generated to be stored in a separate array
+
+        var experiment_array = [
+            html_block, 
+            survey_intro_block, 
+            GEQ_block1, 
+            GEQ_block2, 
+            TLX, 
+            flanker_instruction_block, 
+            flanker_training_block, 
+            flanker_intermezzo_block, 
+            flanker_test_block,
+            tol_instruction_block, 
+            tol_training_block, 
+            tol_intermezzo_block, 
+            tol_test_block
+            ];
+
+        for (var i = 0; i < trial_array.length; i++) {
+            experiment_array.push(trial_array[i]);
+        }
+
         // LAUNCH JSPSYCH
 
         jsPsych.init({
             display_element: $('#jspsych_target'),
 
-            experiment_structure: [
-                html_block, 
-                survey_intro_block, 
-                GEQ_block1, 
-                GEQ_block2, 
-                TLX, 
-                flanker_instruction_block, 
-                flanker_training_block, 
-                flanker_intermezzo_block, 
-                flanker_test_block,
-                tol_instruction_block, 
-                tol_training_block, 
-                tol_intermezzo_block, 
-                tol_test_block
-                ],
+            //trial_array is the entire Palmer experiment structure - it breaks the experiment structure because it's an array
+            experiment_structure: experiment_array,
 
             on_finish: function(data) {
                 $('#jspsych_target').append($("<pre>", {
