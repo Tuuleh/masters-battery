@@ -7,11 +7,6 @@
 	        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	        <!-- this plugin requires the jQuery UI library and stylesheet -->
 	        <!-- these can be loaded from google's servers with the following links -->
-	        
-
-	        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
-	        <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css"></link>
-	        
 
 	        <!-- 
 	        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
@@ -22,7 +17,7 @@
 	        <script src="scripts/plugins/jspsych-survey-dropdown.js"></script>
 
 	        <!-- style -->
-	        <link rel="stylesheet" type="text/css" href="jspsychDropdown.css">
+	        <!--<link rel="stylesheet" type="text/css" href="jspsychDropdown.css">-->
 		</head>
 
 		<body>
@@ -31,21 +26,16 @@
 
 		<script>
 
-			var drop_the_bass = {
+			var class_selection = {
                 type: "survey-dropdown",
-                questions: ["select your age"],
-                options: [["11","12","13","old"]]
-            };
-
-            var drop_the_bass2 = {
-                type: "survey-dropdown",
-                questions: ["select your gender"],
-                options: [["male","female", "undefined"]]
+                dropdown_title: "select your class and talent specialization",
+                options: ["mage","warrior","warlock"],
+                submenu_options: [["fire", "frost", "arcane"], ["fury", "arms", "protection"], ["destruction", "annihilation", "demonology"]]
             };
 
 			jsPsych.init({
             display_element: $('#jspsych_target'),
-            experiment_structure: [drop_the_bass, drop_the_bass2]/*,
+            experiment_structure: [class_selection]/*,
             on_finish: function(data) {
                 $('#jspsych_target').append($("<pre>", {
                     text: JSON.stringify(data, undefined, 2)
