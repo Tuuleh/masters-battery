@@ -33,6 +33,7 @@
                 // is always a good idea. it allows people to pass in the data
                 // parameter, but if they don't it gracefully adds an empty object
                 // in it's place.
+                trials[i].submenu_options = (typeof params.submenu_options === 'undefined') ? [] : params.submenu_options;
                 trials[i].data = (typeof params.data === 'undefined') ? {} : params.data[i];
             }
             return trials;
@@ -73,28 +74,21 @@
                     var option_array = trial.submenu_options[i];
 
                     for (var j = 0; j < option_array.length; j++) {
-                        console.log("the option array for this iteration on class " + trial.options[i] + " is " + option_array);
+                        console.log("in the class loop now - submenu_html_string is " + submenu_html_string);
                         
                         var submenu_option_string = "<option value= '" + option_array[j] + "'>" + option_array[j] + "</option>"
                         submenu_html_string += submenu_option_string;
-                        console.log("concatenated the html strings as follows: ");
-                        console.log(submenu_html_string);
-                        first_menu_html_string += submenu_option_string;
 
-                    }
+
+                    };
+
+                    first_menu_html_string += (submenu_html_string + "</select>");
                     
-                    display_element.append(first_menu_html_string);
                 };
 
-
-
-    /*  <select name="dropdownmain1" id="" title="">
-        <option value="dropdownmain1-submenu1">dropdownmain1-submenu1</option>
-        <option value="dropdownmain1-submenu2">dropdownmain1-submenu2</option>
-        <option value="dropdownmain1-submenu3">dropdownmain1-submenu3</option>
-        <option value="dropdownmain1-submenu4">dropdownmain1-submenu4</option>*/
             display_element.append(first_menu_html_string);
-            }
+            console.log(first_menu_html_string);
+            };
                 //construct items for the rest of the dropdowns as well
                 //manage script for showing and hiding dropdowns
                 //append data from the chosen dropdown selectors to the data object
