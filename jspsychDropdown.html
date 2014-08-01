@@ -18,6 +18,12 @@
 
 	        <!-- style -->
 	        <!--<link rel="stylesheet" type="text/css" href="jspsychDropdown.css">-->
+
+	        <style>
+	        #dropdown_item {
+	        	display: inline-block;	
+	        }
+	        </style>
 		</head>
 
 		<body>
@@ -30,17 +36,37 @@
                 type: "survey-dropdown",
                 dropdown_title: "select your class and talent specialization",
                 options: ["mage","warrior","warlock"],
-                //submenu_options: [["fire", "frost", "arcane"], ["fury", "arms", "protection"], ["destruction", "annihilation", "demonology"]]
+                submenu_options: [["fire", "frost", "arcane"], ["fury", "arms", "protection"], ["destruction", "annihilation", "demonology"]]
+            };
+
+            var server = {
+                type: "survey-dropdown",
+                dropdown_title: "select your region and server",
+                options: ["US","EU","Korea"],
+                submenu_options: [["Server a", "Server b", "Server c"], ["Server a EU", "server b EU", "server c EU"], ["server a Korea", "server b Korea", "server c Korea"]]
+            };
+
+            var gender = {
+            	type: "survey-dropdown",
+            	dropdown_title: "gender",
+            	options: ["male", "female"]
+            };
+
+            var favorite_dessert = {
+            	type: "survey-dropdown",
+            	dropdown_title: "Select your favorite dessert",
+            	options: ["ice cream", "cake","cookies"],
+            	submenu_options: [["vanilla","chocolate","strawberry"],["chocolate","meringue"],["chocolate chip","weed cookies"]]
             };
 
 			jsPsych.init({
             display_element: $('#jspsych_target'),
-            experiment_structure: [class_selection]/*,
+            experiment_structure: [class_selection, server, gender, favorite_dessert],
             on_finish: function(data) {
                 $('#jspsych_target').append($("<pre>", {
                     text: JSON.stringify(data, undefined, 2)
                 }));
-            }*/
+            }
         });
 
 		</script>

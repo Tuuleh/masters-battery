@@ -43,17 +43,17 @@
              
            
             //construct items for one dropdown menu, append to the display object
-            var first_menu_html_string = "<p>"+trial.dropdown_title+"</p>" +
-            "<select name= '" + trial.dropdown_title +"' id ='' title= '' >";
+            //changed div id to unique id containing trial.dropdown_title to avoid several items having the same id
+            var first_menu_html_string = "<div id ='dropdown_item-"+trial.dropdown_title+"-header' style = 'display: block'><p>"+trial.dropdown_title+"</p>" +
+            "<select name= '" + trial.dropdown_title +"' id ='"+trial.dropdown_title+"-main_menu' title= '' >"; //changed id to trial.dropdown_title to avoid colliding ids
             for (var i = 0; i < trial.options.length; i++) {
                 var option_string = "<option value='" + trial.options[i] + "'>" + trial.options[i] + "</option>"
                 first_menu_html_string += option_string;
             }
             first_menu_html_string += "</select>";
             
-
-
             if (trial.submenu_options.length == 0) {
+                first_menu_html_string += "</div>"
                 display_element.append(first_menu_html_string);
                 console.log("no submenus");
                 //append data gained from the single dropdown menu to the data object
@@ -61,21 +61,12 @@
             
             else {
 
-                //this thing is broken, fix eet
                 for (var i = 0; i < trial.options.length; i++) {
-                    /*submenu html string start defines the given submenu's html string so that it is named after the element it corresponds
-                    to in the main menu, so the first one is trial.options[i].
-                    Within this structure, we will have a for loop with var j that will iterate through the menu corresponding to that item. That menu is located in the
-                    i:th array in the submenu_options array. On each iteration through the menu, stopping at j < trial.submenu_options[i].length we concatenate to the 
-                    first menu html string the submenu option string containing the submenu option.
-                    */
-                    //prob: constantly overwriting submenu_html_string
-                    var submenu_html_string = "<select name = '"+ trial.options[i] +"' id='' title='' >";
+                    //construct items for the rest of the dropdowns as well
+                    var submenu_html_string = "<select name = '"+ trial.options[i] +"' id='"+trial.options[i] + "-" + trial.dropdown_title + "-selector' title='' class = 'selector'>"; //changed the id to trial.options[i] to prevent duplicate ids
                     var option_array = trial.submenu_options[i];
 
-                    for (var j = 0; j < option_array.length; j++) {
-                        console.log("in the class loop now - submenu_html_string is " + submenu_html_string);
-                        
+                    for (var j = 0; j < option_array.length; j++) {                        
                         var submenu_option_string = "<option value= '" + option_array[j] + "'>" + option_array[j] + "</option>"
                         submenu_html_string += submenu_option_string;
 
@@ -85,63 +76,38 @@
                     first_menu_html_string += (submenu_html_string + "</select>");
                     
                 };
+                first_menu_html_string += "</div>"
+                display_element.append(first_menu_html_string);
 
-            display_element.append(first_menu_html_string);
-            console.log(first_menu_html_string);
+                //script for showing and hiding dropdowns - code adapted from StackOverFlow 
+                //http://stackoverflow.com/questions/15949327/conditional-dropdownlist-using-jquery-or-javascript-only
+                console.log(first_menu_html_string);
+
+                $(document).ready(function() {
+                    var $topSelect = $('select[id *="'+trial.dropdown_title+'"]');
+                    var $nestedSelects = $("select[class=selector][id *= '"+trial.dropdown_title +"']");
+
+                    showApplicableSelect();
+                    $topSelect.change(showApplicableSelect);
+
+                    function showApplicableSelect() {
+                        $nestedSelects.hide();
+                        $('select[name="' + $topSelect.val() + '"]').show();
+                    };
+
+                });
+
             };
-                //construct items for the rest of the dropdowns as well
-                //manage script for showing and hiding dropdowns
-                //append data from the chosen dropdown selectors to the data object
+
+            //append data from the chosen dropdown selectors to the data objectn
             
-
-            
-/*
-            //for (var i = 0; i < trials.length; i++) {
-                // creates the div - the selector element that works as a button (must be defined in css)       
-                var currentDropdown = $("<div id='jspsych-survey-dropdown-" + trial.dropdown +"', class='btn'><span class ='valueHolder'>" + trial.dropdown + "</span></div>");
-                display_element.append(currentDropdown);
-
-                var htmlString = "<div id='dropContainer-" + trial.dropdown + "', class='dropOption'>" + trial.dropdown + '</div>';
-
-                for (var i = 0; i < trial.options.length; i++) {                        
-                    htmlString += '<div class="dropOption">' + trial.options[i] + '</div>';
-                }
-                    htmlString += '</div>';
-                    currentDropdown.append(htmlString);
-                
-
-            //for toggling and hiding dropdown lists upon click - doesnt work with more than one dropdown, fix it.
-            //suspected problem - doesn't distinguish div elements from one another: tells a jquery object what to do, but
-            //the effect needs to be limited to that particular div and its children
-            //GIVE SEPARATE IDS FOR ALL DROPDOWN DIVS AND THEIR OPTIONS AND MODIFY THEIR APPEARANCE WITH CLASSES
-
-            $("[id = jspsych-survey-dropdown]").on('click', function(event){
-                //$("[id^=jander]")
-                    var drop = $(this);
-                    var target = $(event.target);
-                    //correct this so it's precisely the dropcontainer div of $(this)
-                    //make var containerNum = $(this) by extracting what the trial.question is from the id, and append that to dropContainer 
-                    var container = $('#dropContainer');
-                    
-                        if(target.hasClass('valueHolder') || target.attr('id') === 'jspsych-survey-dropdown'){
-                                container.show();
-                        }else if(target.hasClass('dropOption')){
-                                //selects the case from the list and hides the container -> use this to log the response
-                                // except that it doesn't seem to be working the way I'd want it to...
-                                drop.find('span.valueHolder').text(target.text());
-
-                                container.hide();
-                        }
-    
-            });
-*/
             // data saving
             // this is technically optional, but virtually every plugin will
             // need to do it. it is good practice to include the type and 
             // trial_index fields for all plugins.
             var trial_data = {
                 type: trial.type,
-                trial_index: block.trial_idx,
+                trial_index: block.trial_idx
 
                 // other values to save go here
             };
