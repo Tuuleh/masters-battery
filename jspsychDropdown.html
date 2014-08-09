@@ -56,12 +56,13 @@
             	type: "survey-dropdown",
             	dropdown_title: "Select your favorite dessert",
             	options: ["ice cream", "cake","cookies"],
-            	submenu_options: [["vanilla","chocolate","strawberry"],["chocolate","meringue"],["chocolate chip","weed cookies"]]
+            	submenu_options: [["vanilla","chocolate","strawberry"],["chocolate","meringue"],["chocolate chip","weed cookies"]],
+            	last_item: true
             };
 
 			jsPsych.init({
             display_element: $('#jspsych_target'),
-            experiment_structure: [class_selection, server, gender, favorite_dessert],
+            experiment_structure: [class_selection, server],
             on_finish: function(data) {
                 $('#jspsych_target').append($("<pre>", {
                     text: JSON.stringify(data, undefined, 2)
