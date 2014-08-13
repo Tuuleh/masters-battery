@@ -82,55 +82,66 @@
                 //script for showing and hiding dropdowns - code adapted from StackOverFlow 
                 //http://stackoverflow.com/questions/15949327/conditional-dropdownlist-using-jquery-or-javascript-only
 
+                var trial_data = {
+                type: trial.type,
+                trial_index: block.trial_idx,
+                main_option: "main_option",
+                submenu_option: "submenu_option"
+                };
+
 
             $(document).ready(function() {
+
+                //wrap this all in a function that will return main_option and submenu_option 
+                //and execute while submit button hasn't been pushed?
+                //make it a do while, in case someone is content with the default options and doesn't need to change anything
+
                 var $topSelect = $('select[id *="' + trial.dropdown_title + '"]');
                 var $nestedSelects = $("select[class=selector][id *= '" + trial.dropdown_title +"']");
-
-                var results = showApplicableSelect();
-                //var $selected_from_submenu = results[0];
-                var main_option = results[1];
-                var submenu_option = results[2];
-
-                $topSelect.change(showApplicableSelect);
 
                 function showApplicableSelect() {
                     $nestedSelects.hide();
                     var $showable = $('select[name="' + $topSelect.val() + '"]');
+                    var return_array = [$showable, $topSelect.val(), $showable.val()];
                     $showable.show();
-
-                    var return_array = [$showable, $topSelect.val(), $showable.val]; 
                     return return_array;
                     };
 
-                var trial_data = {
-                type: trial.type,
-                trial_index: block.trial_idx,
-                main_option: main_option,
-                submenu_option: submenu_option
-                };
-                
+                var results = showApplicableSelect();
+                $selected_from_submenu = results[0];
+                var main_selected = results[1]; // value of the selected the main option is the second item on the results array
+                var submenu_selected = results[2]; // value of the selected submenu option is the third item on the results array -> no it's not, you broke it, gj
+
+                $topSelect.change(showApplicableSelect);
+                console.log(main_selected);
+                console.log(submenu_selected);
+ 
             });
 
 
 
+
 /*
-plugin plan:
-add a parameter: last_item, default value is false
-if the user specifies the block as the last item (last_item = true),
-a submit data button will be appended to the display element after that
-and upon clicking the button, data from the items will be sent to the data object
-THIS TIME PLAN PROPERLY
+PROBLEM: If trial_data object is defined within $(document).ready(function(){}); it is out of reach for block.writeData(...).
+If trial_data object is defined before $(document).ready(function(){});, no changes to it remain for block.writeData(...).
+QUESTION: where and how do I define variables that I can store in trial_data so that it can be passed to block.writeData(...)
+without any problems on the way?
+If I defined it within $(document).ready(function(){});, but at the start, it will store the first options from the menus
+in the trial_data object, but these will not change when the user changes options.
+
+block.writeData looks like this:
+
+writeData: function(data_object) {
+                    this.data[this.trial_idx] = data_object;
+                    opts.on_data_update(data_object);
+                },
+
+a $.extend is called in parameters for writeData, merging items from trial_data and trial.data to an empty object
 
 */
 
-
-
-
             // this line merges together the trial_data object and the generic
             // data object (trial.data), and then stores them.
-
-          
 
             block.writeData($.extend({}, trial_data, trial.data));
 
