@@ -16,14 +16,13 @@
 	        <script src="scripts/jspsych.js"></script>
 	        <script src="scripts/plugins/jspsych-survey-dropdown.js"></script>
 
-	        <!-- style -->
-	        <!--<link rel="stylesheet" type="text/css" href="jspsychDropdown.css">-->
-
+	        <!-- style (commented for now)
 	        <style>
 	        #dropdown_item {
 	        	display: inline-block;	
 	        }
-	        </style>
+	        </style> -->
+
 		</head>
 
 		<body>
@@ -32,18 +31,24 @@
 
 		<script>
 
-			var class_selection = {
-                type: "survey-dropdown",
-                dropdown_title: "select your class and talent specialization",
-                options: ["mage","warrior","warlock"],
-                submenu_options: [["fire", "frost", "arcane"], ["fury", "arms", "protection"], ["destruction", "annihilation", "demonology"]]
+            //dropdown_intro and dropdown_finish are text that I used to see whether the dropdown block would be displayed
+            //between two different types of blocks. It isn't working right now, but I think the button solution would fix it.
+            var dropdown_intro = {
+                type: "text",
+                text: "Welcome to the dropdown intro! You should be able to select a few conditional items on the next page."
+            };
+
+            var dropdown_finish = {
+            type: "text",
+            text: "the results will be displayed shortly"
             };
 
             var server = {
                 type: "survey-dropdown",
                 dropdown_title: "select your region and server",
                 options: ["US","EU","Korea"],
-                submenu_options: [["Server a", "Server b", "Server c"], ["Server a EU", "server b EU", "server c EU"], ["server a Korea", "server b Korea", "server c Korea"]]
+                submenu_options: [["Server a", "Server b", "Server c"], ["Server a EU", "server b EU", "server c EU"], ["server a Korea", "server b Korea", "server c Korea"]],
+                last_item: true
             };
 
             var gender = {
@@ -55,14 +60,15 @@
             var favorite_dessert = {
             	type: "survey-dropdown",
             	dropdown_title: "Select your favorite dessert",
-            	options: ["ice cream", "cake","cookies"],
-            	submenu_options: [["vanilla","chocolate","strawberry"],["chocolate","meringue"],["chocolate chip","weed cookies"]],
+            	options: ["ice cream", "cake","cookies", "fudge"],
+            	submenu_options: [["vanilla","chocolate","strawberry"],["chocolate","meringue","space cake"],["chocolate chip","weed"],["let's just agree there's only one type of fudge :}"]],
             	last_item: true
             };
 
+            //experiment_structure defines what blocks should be displayed in the experimental sequence. Only the server and dessert block are displayed atm.
 			jsPsych.init({
             display_element: $('#jspsych_target'),
-            experiment_structure: [class_selection, server],
+            experiment_structure: [server, favorite_dessert],
             on_finish: function(data) {
                 $('#jspsych_target').append($("<pre>", {
                     text: JSON.stringify(data, undefined, 2)
