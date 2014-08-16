@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+
+    <head>
+        <title>mental rotation task</title>
+        <!-- jQuery -->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <!-- Load the jspsych library and plugins -->
+        <script src="scripts/jspsych.js"></script>
+        <script src="scripts/plugins/jspsych-two-stim.js"></script>
+        <script src="scripts/plugins/jspsych-xab.js"></script>
+        <!-- style -->
+        <link href="css/jspsych.css" rel="stylesheet" type="text/css"></link>
+    </head>
+
+    <body>
+        <div id="jspsych_target"></div>
+    </body>
+    <script type="text/javascript">
+
+        var images = [
+            {stimulus:"img/mental_rotation/RotacijaA/A-0.gif", data: {item: "A", type: "identical", correct_key: "q", rotation: "0"}},
+            {stimulus:"img/mental_rotation/RotacijaA/A-0m.gif", data: {item: "A", type: "mirrored", correct_key: "p", rotation: "0"}},
+            {stimulus:"img/mental_rotation/RotacijaA/A-120.gif", data: {item: "A", type: "identical", correct_key: "q", rotation: "120"}},
+            {stimulus:"img/mental_rotation/RotacijaA/A-120m.gif", data: {item: "A", type: "mirrored", correct_key: "p", rotation: "120"}},
+            {stimulus:"img/mental_rotation/RotacijaA/A-180.gif", data: {item: "A", type: "identical", correct_key: "q", rotation: "180"}},
+            {stimulus:"img/mental_rotation/RotacijaA/A-180m.gif", data: {item: "A", type: "mirrored", correct_key: "p", rotation: "180"}},
+            {stimulus:"img/mental_rotation/RotacijaA/A-240.gif", data: {item: "A", type: "identical", correct_key: "q", rotation: "240"}},
+            {stimulus:"img/mental_rotation/RotacijaA/A-240m.gif", data: {item: "A", type: "mirrored", correct_key: "p", rotation: "240"}},
+            {stimulus:"img/mental_rotation/RotacijaA/A-300.gif", data: {item: "A", type: "identical", correct_key: "q", rotation: "300"}},
+            {stimulus:"img/mental_rotation/RotacijaA/A-300m.gif", data: {item: "A", type: "mirrored", correct_key: "p", rotation: "300"}},
+            {stimulus:"img/mental_rotation/RotacijaA/A-60.gif", data: {item: "A", type: "identical", correct_key: "q", rotation: "60"}},
+            {stimulus:"img/mental_rotation/RotacijaA/A-60m.gif", data: {item: "A", type: "mirrored", correct_key: "p", rotation: "60"}},
+            {stimulus:"img/mental_rotation/RotacijaA/B-0.gif", data: {item: "B", type: "identical", correct_key: "q", rotation: "0"}},
+            {stimulus:"img/mental_rotation/RotacijaA/B-0m.gif", data: {item: "B", type: "mirrored", correct_key: "p", rotation: "0"}},
+            {stimulus:"img/mental_rotation/RotacijaA/B-120.gif", data: {item: "B", type: "identical", correct_key: "q", rotation: "120"}},
+            {stimulus:"img/mental_rotation/RotacijaA/B-120m.gif", data: {item: "B", type: "mirrored", correct_key: "p", rotation: "120"}},
+            {stimulus:"img/mental_rotation/RotacijaA/B-180.gif", data: {item: "B", type: "identical", correct_key: "q", rotation: "180"}},
+            {stimulus:"img/mental_rotation/RotacijaA/B-180m.gif", data: {item: "B", type: "mirrored", correct_key: "p", rotation: "180"}},
+            {stimulus:"img/mental_rotation/RotacijaA/B-240.gif", data: {item: "B", type: "identical", correct_key: "q", rotation: "240"}},
+            {stimulus:"img/mental_rotation/RotacijaA/B-240m.gif", data: {item: "B", type: "mirrored", correct_key: "p", rotation: "240"}},
+            {stimulus:"img/mental_rotation/RotacijaA/B-300.gif", data: {item: "B", type: "identical", correct_key: "q", rotation: "300"}},
+            {stimulus:"img/mental_rotation/RotacijaA/B-300m.gif", data: {item: "B", type: "mirrored", correct_key: "p", rotation: "300"}},
+            {stimulus:"img/mental_rotation/RotacijaA/B-60.gif", data: {item: "B", type: "identical", correct_key: "q", rotation: "60"}},
+            {stimulus:"img/mental_rotation/RotacijaA/B-60m.gif", data: {item: "B", type: "mirrored", correct_key: "p", rotation: "60"}},
+            {stimulus:"img/mental_rotation/RotacijaA/C-0.gif", data: {item: "C", type: "identical", correct_key: "q", rotation: "0"}},
+            {stimulus:"img/mental_rotation/RotacijaA/C-0m.gif", data: {item: "C", type: "mirrored", correct_key: "p", rotation: "0"}},
+            {stimulus:"img/mental_rotation/RotacijaA/C-120.gif", data: {item: "C", type: "identical", correct_key: "q", rotation: "120"}},
+            {stimulus:"img/mental_rotation/RotacijaA/C-120m.gif", data: {item: "C", type: "mirrored", correct_key: "p", rotation: "120"}},
+            {stimulus:"img/mental_rotation/RotacijaA/C-180.gif", data: {item: "C", type: "identical", correct_key: "q", rotation: "180"}},
+            {stimulus:"img/mental_rotation/RotacijaA/C-180m.gif", data: {item: "C", type: "mirrored", correct_key: "p", rotation: "180"}},
+            {stimulus:"img/mental_rotation/RotacijaA/C-240.gif", data: {item: "C", type: "identical", correct_key: "q", rotation: "240"}},
+            {stimulus:"img/mental_rotation/RotacijaA/C-240m.gif", data: {item: "C", type: "mirrored", correct_key: "p", rotation: "240"}},
+            {stimulus:"img/mental_rotation/RotacijaA/C-300.gif", data: {item: "C", type: "identical", correct_key: "q", rotation: "300"}},
+            {stimulus:"img/mental_rotation/RotacijaA/C-300m.gif", data: {item: "C", type: "mirrored", correct_key: "p", rotation: "300"}},
+            {stimulus:"img/mental_rotation/RotacijaA/C-60.gif", data: {item: "C", type: "identical", correct_key: "q", rotation: "60"}},
+            {stimulus:"img/mental_rotation/RotacijaA/C-60m.gif", data: {item: "C", type: "mirrored", correct_key: "p", rotation: "60"}},
+            {stimulus:"img/mental_rotation/RotacijaA/D-0.gif", data: {item: "D", type: "identical", correct_key: "q", rotation: "0"}},
+            {stimulus:"img/mental_rotation/RotacijaA/D-0m.gif", data: {item: "D", type: "mirrored", correct_key: "p", rotation: "0"}},
+            {stimulus:"img/mental_rotation/RotacijaA/D-120.gif", data: {item: "D", type: "identical", correct_key: "q", rotation: "120"}},
+            {stimulus:"img/mental_rotation/RotacijaA/D-120m.gif", data: {item: "D", type: "mirrored", correct_key: "p", rotation: "120"}},
+            {stimulus:"img/mental_rotation/RotacijaA/D-180.gif", data: {item: "D", type: "identical", correct_key: "q", rotation: "180"}},
+            {stimulus:"img/mental_rotation/RotacijaA/D-180m.gif", data: {item: "D", type: "mirrored", correct_key: "p", rotation: "180"}},
+            {stimulus:"img/mental_rotation/RotacijaA/D-240.gif", data: {item: "D", type: "identical", correct_key: "q", rotation: "240"}},
+            {stimulus:"img/mental_rotation/RotacijaA/D-240m.gif", data: {item: "D", type: "mirrored", correct_key: "p", rotation: "240"}},
+            {stimulus:"img/mental_rotation/RotacijaA/D-300.gif", data: {item: "D", type: "identical", correct_key: "q", rotation: "300"}},
+            {stimulus:"img/mental_rotation/RotacijaA/D-300m.gif", data: {item: "D", type: "mirrored", correct_key: "p", rotation: "300"}},
+            {stimulus:"img/mental_rotation/RotacijaA/D-60.gif", data: {item: "D", type: "identical", correct_key: "q", rotation: "60"}},
+            {stimulus:"img/mental_rotation/RotacijaA/D-60m.gif", data: {item: "D", type: "mirrored", correct_key: "p", rotation: "60"}},
+            ];
+
+        //creates a separate array for preloading the images -> the images array doesn't work because of the additional object
+        var preload = [];
+        for (var i = 0; i < images.length; i++) {
+            preload.push(images[i].stimulus);
+        }
+
+        var targets = [
+            {stimulus:"img/mental_rotation/RotacijaA/A-0.gif", data: {item: "A", type: "target", correct_key: "q", rotation: "0"}},
+            {stimulus:"img/mental_rotation/RotacijaA/B-0.gif", data: {item: "B", type: "target", correct_key: "q", rotation: "0"}},
+            {stimulus:"img/mental_rotation/RotacijaA/C-0.gif", data: {item: "C", type: "target", correct_key: "q", rotation: "0"}},
+            {stimulus:"img/mental_rotation/RotacijaA/D-0.gif", data: {item: "D", type: "target", correct_key: "q", rotation: "0"}},
+        ];
+
+        //by console.logging, pairs works fine now, but nothing gets displayed on the screen
+        var pairs = [];
+
+        for (var i = 0; i < images.length; i++) {
+            // goes through the image array, sets that item as first stimulus, and then goes to targets array,
+            // finds the corresponding target and sets that as second stimulus
+            var first_stim = images[i].stimulus;
+            for (var j = 0; j < targets.length; j++ ) {
+                if (targets[j].data.item === images[i].data.item) {
+                    var second_stim = targets[j].stimulus;
+                }
+            }
+            // add the pair
+            pairs.push([first_stim, second_stim]);
+        }   
+        console.log(pairs);
+
+        // create free-sort block for jspsych
+        var rotation_block = {
+            type: 'two-stim',
+            stimuli: pairs,
+            prompt: "<p>Press Q if the images are copies, and P if mirror images.</p>"
+        };
+
+        //Tuuli: Added call for start(), there must be something with jsPsych.preloadImages
+        // preload images
+        // call start() when loading is complete
+        jsPsych.preloadImages(preload, start);
+        //start();
+
+        // launch jspsych experiment
+        function start() {
+            jsPsych.init({
+                display_element: $('#jspsych_target'),
+                experiment_structure: [rotation_block],
+                on_finish: function(data) {
+                    jsPsych.dataAPI.displayData();
+                }
+            });
+        }
+    </script>
+
+</html>
