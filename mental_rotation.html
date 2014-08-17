@@ -118,6 +118,9 @@
           return array;
         }
 
+        //here I shuffle the array containing both the images and the data, and below I separate data and images to 
+        //two separate arrays. I only need data from the foil, not the target, so I only add that to the data object
+        //in rotation_block.
         var shuffled_pairs = shuffle(pairs);   
         var shuffled_images = [];
         var shuffled_foil_data = [];
@@ -128,14 +131,13 @@
             shuffled_foil_data.push(shuffled_pairs[i][1].data);
         }
 
-        console.log("shuffled images are " + shuffled_images);
 
-        // create free-sort block for jspsych
+        //creates a mental rotation task block for jspsych
         var rotation_block = {
             type: 'two-stim',
             stimuli: shuffled_images,
             prompt: "<p>Press Q if the images are identical, and P if mirror images of each other. Note that the images may be rotated!</p>",
-            data: shuffled_foil_data
+            data: shuffled_foil_data,
         };
 
         // preload images
