@@ -38,22 +38,11 @@
             for (var i = 0; i < trials.length; i++) {
                 trials[i] = {};
                 trials[i].type = "two-stim";
-                trials[i].x_path = params.stimuli[i][0];
-                // if there is only a pair of stimuli, then the first is the target and is shown twice.
-                // if there is a triplet, then the first is X, the second is the target, and the third is foil (useful for non-exact-match XAB).
-                if (params.stimuli[i].length == 2) {
-                    trials[i].a_path = params.stimuli[i][0];
-                    trials[i].b_path = params.stimuli[i][1];
-                }
-                else {
-                    trials[i].a_path = params.stimuli[i][1];
-                    trials[i].b_path = params.stimuli[i][2];
-                }
+                trials[i].a_path = params.stimuli[i][0];
+                trials[i].b_path = params.stimuli[i][1];
                 trials[i].left_key = params.left_key || 81; // defaults to 'q'
                 trials[i].right_key = params.right_key || 80; // defaults to 'p'
                 // timing parameters
-                trials[i].timing_x = params.timing_x || 1000; // defaults to 1000msec.
-                trials[i].timing_xab_gap = params.timing_xab_gap || 1000; // defaults to 1000msec.
                 trials[i].timing_ab = params.timing_ab || -1; // defaults to -1, meaning infinite time on AB. If a positive number is used, then AB will only be displayed for that length.
                 trials[i].timing_post_trial = (typeof params.timing_post_trial === 'undefined') ? 1000 : params.timing_post_trial; // defaults to 1000msec.
                 // optional parameters
@@ -67,54 +56,12 @@
 
         var xab_trial_complete = false;
 
-        plugin.trial = function(display_element, block, trial, part) {
+        plugin.trial = function(display_element, block, trial) {
             
             // if any trial variables are functions
             // this evaluates the function and replaces
             // it with the output of the function
             //trial = jsPsych.normalizeTrialVariables(trial);
-            
-            switch (part) {
-
-                // the first part of the trial is to show the X stimulus.    
-            case 1:
-                // reset this variable to false
-                xab_trial_complete = false;
-
-                // how we display the content depends on whether the content is 
-                // HTML code or an image path.
-                if (!trial.is_html) {
-                    display_element.append($('<img>', {
-                        src: trial.x_path,
-                        "class": 'jspsych-xab-stimulus'
-                    }));
-                }
-                else {
-                    display_element.append($('<div>', {
-                        "class": 'jspsych-xab-stimulus',
-                        html: trial.x_path
-                    }));
-                }
-
-                // start a timer of length trial.timing_x to move to the next part of the trial
-                setTimeout(function() {
-                    plugin.trial(display_element, block, trial, part + 1);
-                }, trial.timing_x);
-                break;
-
-                // the second part of the trial is the gap between X and AB.
-            case 2:
-                // remove the x stimulus
-                $('.jspsych-xab-stimulus').remove();
-
-                // start timer
-                setTimeout(function() {
-                    plugin.trial(display_element, block, trial, part + 1);
-                }, trial.timing_xab_gap);
-                break;
-
-                // the third part of the trial is to display A and B, and get the subject's response
-            case 3:
 
                 // randomize whether the target is on the left or the right
                 var images = [trial.a_path, trial.b_path];
@@ -127,20 +74,21 @@
                 if (!trial.is_html) {
                     display_element.append($('<img>', {
                         "src": images[0],
-                        "class": 'jspsych-xab-stimulus'
+                        "class": 'jspsych-two-stim-stimulus'
                     }));
                     display_element.append($('<img>', {
                         "src": images[1],
-                        "class": 'jspsych-xab-stimulus'
+                        "class": 'jspsych-two-stim-stimulus'
                     }));
+
                 }
                 else {
                     display_element.append($('<div>', {
-                        "class": 'jspsych-xab-stimulus',
+                        "class": 'jspsych-two-stim-stimulus',
                         html: images[0]
                     }));
                     display_element.append($('<div>', {
-                        "class": 'jspsych-xab-stimulus',
+                        "class": 'jspsych-two-stim-stimulus',
                         html: images[1]
                     }));
                 }
@@ -156,7 +104,7 @@
                 if (trial.timing_ab > 0) {
                     setTimeout(function() {
                         if (!xab_trial_complete) {
-                            $('.jspsych-xab-stimulus').css('visibility', 'hidden');
+                            $('.jspsych-two-stim-stimulus').css('visibility', 'hidden');
                         }
                     }, trial.timing_ab);
                 }
@@ -184,7 +132,7 @@
                         var rt = (endTime - startTime);
                         // create object to store data from trial
                         var trial_data = {
-                            "trial_type": "xab",
+                            "trial_type": "two-stim",
                             "trial_index": block.trial_idx,
                             "rt": rt,
                             "correct": correct,
@@ -193,6 +141,7 @@
                             "stimulus_b": trial.b_path,
                             "key_press": e.which
                         };
+
                         block.writeData($.extend({}, trial_data, trial.data));
                         $(document).unbind('keydown', resp_func); // remove response function from keys
                         display_element.html(''); // remove all
@@ -208,8 +157,6 @@
                     }
                 };
                 $(document).keydown(resp_func);
-                break;
-            }
         };
 
         return plugin;
