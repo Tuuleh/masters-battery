@@ -46,40 +46,32 @@
 
             for(var val in trial.options) {
                 $("<option />", {value: val, text: trial.options[val]}).appendTo($main_menu);
-                //initiates submenu as an empty jquery object that'll dp nothing to the DOM when appended, unless it's overridden
-                //in the for loop for submenu creation
-                var $submenu = $();
 
-                if ((trial.submenu_options[val] != undefined) && (val == (trial.options.length-1))) {
-                    console.log("passed condition");
-
-                    for (var i in trial.submenu_options) {  
-                        $submenu = $("<select class = 'submenu' id = 'submenu_" + i + "' parent_item='main_menu_"+trial.number+"'/>");
-                        console.log("Creating submenu number " + i + ".");
-                        //submenu was alreaedy defined above under the first for
-
-                        for (var j in trial.submenu_options[i]) {
-                            var $submenu_option = $("<option />", {value: j, text: trial.submenu_options[val[i[j]]]})
-                            $submenu.append($submenu_option);
-                        }
-                        $submenu.append("</select");
-                                         
-                    }
-
-                    $main_menu.append("</select>" + $submenu);
-
-                }
-
-                else if (trial.submenu_options[val] == undefined && val == (trial.options.length-1)) {
+                if (val == (trial.options.length-1)) {
                     $main_menu.append("</select>");
-                }   
+                    display_element.append($main_menu);
+
+                    if (trial.submenu_options[val] != undefined) {
+
+                        for (var i in trial.submenu_options) {  
+                            var $submenu = $("<select class = 'submenu' id = 'submenu_" + i + "' parent_item='main_menu_"+trial.number+"'/>");
+                            console.log("Creating submenu number " + i + ".");
+
+                            for (var j in trial.submenu_options[i]) {
+                                console.log(trial.submenu_options[i][j]);
+                                var $submenu_option = $("<option />", {value: j, text: trial.submenu_options[i][j]})
+                                $submenu.append($submenu_option);
+                                console.log("appended submenu option number " + j + ", which looks like this: " + $submenu_option);
+                            }
+
+                            $submenu.append("</select");
+                            display_element.append($submenu);
+                        }
+                    }
+                }  
             }
 
-            
-
-            display_element.append($main_menu);
-
-        /*
+        
             $('select[class="submenu"]').hide(); //hides all submenus
             //shows all items where name corresponds to main menu's value
             //change to show all items where id is submenu_ + main_menu's val
@@ -92,7 +84,7 @@
                 $('select[class="submenu"][parent-item="'+$(this).attr("id")+'"][id="submenu_' + $(this).val() + '"]').show();
             });
 
-        */
+        
             block.writeData($.extend({}, {drek: this.value}, trial.data));
 
                 // let's say this is the end here:
