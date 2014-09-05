@@ -41,96 +41,70 @@
         //change this so that you can define several items simultaneously and so it runs for the length of items array
         plugin.trial = function(display_element, block, trial, part) {
 
-            //do I really need separate div containers, or can I just use the display element?
-            var $container = $("<div class='dropdown_item' style='display: block'/>");
-            $container.append("<p>" + trial.items + "</p>");
+            display_element.append("<p>" + trial.items + "</p>");
             var $main_menu = $("<select class='main_menu' id='main_menu_" + trial.number + "' text='" + trial.items + "'/>");
-            //will create a submenu and not append it anywhere if the submenu options array is empty
-
-            console.log(trial.number);
 
             for(var val in trial.options) {
                 $("<option />", {value: val, text: trial.options[val]}).appendTo($main_menu);
-                console.log("submenu val", trial.submenu_options[val])
-                if (trial.submenu_options[val].length > 0) {
-            
-                    var $submenu = $("<select class = 'submenu' id = 'submenu_" + val + "' text ='" + trial.submenu_options[val] + "' parent='"+trial.options[val]+"'/>");
-                    for (var i in trial.submenu_options[val]) {                        
-                        $("<option />", {value: i, text: trial.submenu_options[val][i]}).appendTo($submenu);
+                //initiates submenu as an empty jquery object that'll dp nothing to the DOM when appended, unless it's overridden
+                //in the for loop for submenu creation
+                var $submenu = $();
+
+                if ((trial.submenu_options[val] != undefined) && (val == (trial.options.length-1))) {
+                    console.log("passed condition");
+
+                    for (var i in trial.submenu_options) {  
+                        $submenu = $("<select class = 'submenu' id = 'submenu_" + i + "' parent_item='main_menu_"+trial.number+"'/>");
+                        console.log("Creating submenu number " + i + ".");
+                        //submenu was alreaedy defined above under the first for
+
+                        for (var j in trial.submenu_options[i]) {
+                            var $submenu_option = $("<option />", {value: j, text: trial.submenu_options[val[i[j]]]})
+                            $submenu.append($submenu_option);
+                        }
+                        $submenu.append("</select");
+                                         
                     }
-                    $main_menu.append($submenu);        
+
+                    $main_menu.append("</select>" + $submenu);
+
                 }
-                
+
+                else if (trial.submenu_options[val] == undefined && val == (trial.options.length-1)) {
+                    $main_menu.append("</select>");
+                }   
             }
 
-            $container.append($main_menu);
-            display_element.append($container);
+            
 
+            display_element.append($main_menu);
 
-            /*var $container = 
-            $container.append('<p>' + trial.items + '</p>');
-            var $main_menu = $('<select id="' + trial.items.replace(" ", "") + '-main_menu" name="' + trial.items + '" />');
+        /*
+            $('select[class="submenu"]').hide(); //hides all submenus
+            //shows all items where name corresponds to main menu's value
+            //change to show all items where id is submenu_ + main_menu's val
+            $('select[id="submenu_' + $('select[class="main_menu"]').val() + '"]').show(); 
 
-            for(var val in trial.options) {
-                console.log("val is" + val);
-                $("<option />", {value: val, text: trial.options[val]}).appendTo($main_menu);
-                console.log("s is " + $main_menu);
-                console.log("trial.options[val] is " + trial.options[val]);
-            }
+            $('select[class="main_menu"]').change(function(){
+                //hide if class is submenu, parent item is id of $this, but id is not submenu_ + $(this).val()
+                //show if class is submenu, parent item is id of $this, and id is submenu_ + $(this).val()                
+                $('select[class="submenu"][parent-item="'+$(this).attr("id")+'"][id!="submenu_' + $(this).val() + '"]').hide();
+                $('select[class="submenu"][parent-item="'+$(this).attr("id")+'"][id="submenu_' + $(this).val() + '"]').show();
+            });
 
-            $main_menu.appendTo($container); //appends select to div, then appends div to display element
-            $container.appendTo(display_element);*/
-
-        
-            //This is how you monitor a select for change:
-            $('.main_menu').change(function() {
-                alert(this.value); 
-                // or
-                // $(this).val(); // the jQuery-fied way
-
-                // This function get's called every time the value changes. It's as simple as updating the value in your data
-                // json from here.
-
-                block.writeData($.extend({}, {drek: this.value}, trial.data));
+        */
+            block.writeData($.extend({}, {drek: this.value}, trial.data));
 
                 // let's say this is the end here:
-                block.next();
-            })
-
-            //construct items for the conditional menus
-            /*call this inside the main menu loop if length of corresponding submenu array is more than 0
-            for(var option in trial.options) {
-                // Note: this could also be done in the first loop - but since the magnitude of elements will always be small, it doesn't matter much
-
-                // You should realy rethink ids: store them wherever you construct this options objects. Also, id is an optional field.
-                var id = trial.options[option].replace(" ", "") + " " + trial.items.replace(" ", "") + "-selector";
-                var submenu = $('<select name="' + trial.options[option] + '" id="' + id + '" class="selector" />');
-
-                for(var i in trial.submenu_options[option]) {
-                    $("<option />", {value: i, text: trial.submenu_options[option][i]}).appendTo(submenu);
-                }
-                submenu.appendTo($container);
-
-            }
-            */
+            block.next();
+            
 
             //script for showing and hiding dropdowns - code adapted from StackOverFlow 
             //http://stackoverflow.com/questions/15949327/conditional-dropdownlist-using-jquery-or-javascript-only
 
             //make this a selector.change function 
 
-            var $topSelect = $('select[id *="' + trial.items.replace(" ", "") + '"]');
-            var $nestedSelects = $("select[class=selector][id *= '" + trial.items.replace(" ", "") +"']");
-
-            //function that selects appropriate items for showing and returns the selected values in an array
-            function showApplicableSelect() {
-                //this is now broken with the changed top select val
-                var $main_menuhowable = $('select[name="' + trial.options[$topSelect.val()] + '"]');
-                $main_menuhowable.show();
-                $nestedSelects.hide();
-                };
-
-            $topSelect.change(showApplicableSelect);
+            console.log(display_element);
 
 
 
