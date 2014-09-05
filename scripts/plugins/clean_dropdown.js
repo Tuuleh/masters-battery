@@ -29,11 +29,11 @@
                     // other information needed for the trial method can be added here
                     items: params.items[i],
                     options: params.options[i],
-                    submenu_options: params.submenu_options[i],
-                    number: i
-                });
-                trials.submenu_options = (typeof params.submenu_options === 'undefined') ? [] : params.submenu_options;
-                trials.data = (typeof params.data === 'undefined') ? {} : params.data[i];
+                    //submenu_options: params.submenu_options[i],
+                    number: i,
+                    submenu_options: (typeof params.submenu_options === 'undefined') ? [] : params.submenu_options[i],
+                    data: (typeof params.data === 'undefined') ? {} : params.data[i]
+                });   
             }
             return trials;
         };
@@ -51,21 +51,23 @@
                     $main_menu.append("</select>");
                     display_element.append($main_menu);
 
-                    //this works perfectly now, but I don't like it that it appends an empty select if the submenu options array is empty
-                    if (trial.submenu_options[val] != undefined) {
-                        //console.log(trial.submenu_options[val].length);
+                    //constructs submenus if the length of the array containing the submenu options arrays is above 0
+                    if (trial.submenu_options.length != undefined) {
 
                         for (var i in trial.submenu_options) {  
-                            var $submenu = $("<select class = 'submenu' id = 'submenu_" + i + "' parent_item='main_menu_" + trial.number +"'/>");
 
-                            for (var j in trial.submenu_options[i]) {
-                                console.log(trial.submenu_options[i].length);
-                                var $submenu_option = $("<option />", {value: j, text: trial.submenu_options[i][j]})
-                                $submenu.append($submenu_option);
+                            if (trial.submenu_options[i].length > 0) {
+                                var $submenu = $("<select class = 'submenu' id = 'submenu_" + i + "' parent_item='main_menu_" + trial.number +"'/>");
+
+                                for (var j in trial.submenu_options[i]) {
+                                    console.log(trial.submenu_options[i].length);
+                                    var $submenu_option = $("<option />", {value: j, text: trial.submenu_options[i][j]})
+                                    $submenu.append($submenu_option);
+                                }
+
+                                $submenu.append("</select");
+                                display_element.append($submenu);
                             }
-
-                            $submenu.append("</select");
-                            display_element.append($submenu);
                         }
                     }
                 }  
