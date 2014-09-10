@@ -9,8 +9,8 @@
         <script src="scripts/jspsych.js"></script>
         <script src="scripts/plugins/jspsych-two-stim.js"></script>
         <script src="scripts/plugins/jspsych-xab.js"></script>
-        <!-- style -->
-        <link href="css/jspsych.css" rel="stylesheet" type="text/css"></link>
+        <script src="scripts/plugins/jspsych-text.js"></script>
+        
     </head>
 
     <body>
@@ -131,12 +131,26 @@
             shuffled_foil_data.push(shuffled_pairs[i][1].data);
         }
 
+        var mental_rotation_instructions = "<div id='instructions'><p>In the next task, you will see a " +
+            "series of pairs of images that look similar to these two:</p><p>" +
+            "<img src='img/mental_rotation/RotacijaA/A-0.gif'><img src='img/mental_rotation/RotacijaA/A-60.gif'></p>"+
+            "<p style = 'text-align: left;''> Your task is to assess as quickly and accurately as you can,"+
+            " if the images are identical or mirrored versions of each other, <br>and then press the Q if the images "+
+            "are identical, and P if they are mirror images. <br>For example, in this case you can see that " +
+            "the rotated item on the right is identical to the unrotated item on the left, and so you should press Q."+
+            "</p><p>You will first go through a short trial where you can try out the experiment, and then have another information screen when "+
+            "the experiment is about to start.</p>" +
+            "<p style = 'text-align: center'>Press any key to start when you're ready!</p>";
 
+        var mental_rotation_intro = {
+            type: 'text',
+            text: [mental_rotation_instructions]
+        }
         //creates a mental rotation task block for jspsych
         var rotation_block = {
             type: 'two-stim',
             stimuli: shuffled_images,
-            prompt: "<p>Press Q if the images are identical, and P if mirror images of each other. Note that the images may be rotated!</p>",
+            prompt: "<p>Press Q if the images are identical, and P if mirrored.</p>",
             data: shuffled_foil_data
         };
 
@@ -148,7 +162,7 @@
         function start() {
             jsPsych.init({
                 display_element: $('#jspsych_target'),
-                experiment_structure: [rotation_block],
+                experiment_structure: [mental_rotation_intro, rotation_block],
                 on_finish: function(data) {
                 $("#jspsych_target").append($('<pre>', {
                     html: jsPsych.dataAsCSV()
