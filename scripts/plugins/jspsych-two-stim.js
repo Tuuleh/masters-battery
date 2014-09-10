@@ -40,6 +40,7 @@
                 trials[i].type = "two-stim";
                 trials[i].a_path = params.stimuli[i][0];
                 trials[i].b_path = params.stimuli[i][1];
+                trials[i].correct_key = params.data[i].correct_key,
                 trials[i].left_key = params.left_key || 81; // defaults to 'q'
                 trials[i].right_key = params.right_key || 80; // defaults to 'p'
                 // timing parameters
@@ -112,21 +113,14 @@
                 // create the function that triggers when a key is pressed.
                 var resp_func = function(e) {
                     var flag = false; // true when a valid key is chosen
-                    var correct = false; // true when the correct response is chosen
-                    if (e.which == trial.left_key) // 'q' key by default
-                    {
+                    var correct = 0; // true when the correct response is chosen
+                    if (e.which == trial.left_key || trial.right_key) {
                         flag = true;
-                        if (target_left) {
-                            correct = true;
+                            if (e.which == trial.correct_key) {
+                            correct = 1;
                         }
                     }
-                    else if (e.which == trial.right_key) // 'p' key by default
-                    {
-                        flag = true;
-                        if (!target_left) {
-                            correct = true;
-                        }
-                    }
+                    
                     if (flag) {
                         var endTime = (new Date()).getTime();
                         var rt = (endTime - startTime);
@@ -136,9 +130,6 @@
                             "trial_index": block.trial_idx,
                             "rt": rt,
                             "correct": correct,
-                            "stimulus_x": trial.x_path,
-                            "stimulus_a": trial.a_path,
-                            "stimulus_b": trial.b_path,
                             "key_press": e.which
                         };
 
@@ -150,9 +141,11 @@
                         if(trial.timing_post_trial > 0) {
                             setTimeout(function() {
                                 block.next();
+                                console.log(trial.correct_key);
                             }, trial.timing_post_trial);
                         } else {
                             block.next();
+                            console.log(trial.correct_key);
                         }
                     }
                 };
