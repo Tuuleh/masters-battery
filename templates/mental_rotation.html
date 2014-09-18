@@ -1,0 +1,212 @@
+<!doctype html>
+<html>
+
+    <head>
+        <title>mental rotation task</title>
+        <!-- jQuery -->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <!-- Load the jspsych library and plugins -->
+        <script src="scripts/jspsych.js"></script>
+        <script src="scripts/plugins/jspsych-two-stim.js"></script>
+        <script src="scripts/plugins/jspsych-xab.js"></script>
+        <script src="scripts/plugins/jspsych-text.js"></script>
+        <link href="css/reset.css" type="text/css" rel="stylesheet"></link>
+        <link href="css/experiment.css" type="text/css" rel="stylesheet"></link>
+        
+    </head>
+
+    <body>
+        <div id="jspsych_target"></div>
+    </body>
+    <script type="text/javascript">
+
+        var images = [
+            {stimulus:"img/mental_rotation/RotacijaA/A-0.gif", data: {item: "A", type: "identical", correct_key: "81", rotation: "0"}},
+            {stimulus:"img/mental_rotation/RotacijaA/A-0m.gif", data: {item: "A", type: "mirrored", correct_key: "80", rotation: "0"}},
+            {stimulus:"img/mental_rotation/RotacijaA/A-120.gif", data: {item: "A", type: "identical", correct_key: "81", rotation: "120"}},
+            {stimulus:"img/mental_rotation/RotacijaA/A-120m.gif", data: {item: "A", type: "mirrored", correct_key: "80", rotation: "120"}},
+            {stimulus:"img/mental_rotation/RotacijaA/A-180.gif", data: {item: "A", type: "identical", correct_key: "81", rotation: "180"}},
+            {stimulus:"img/mental_rotation/RotacijaA/A-180m.gif", data: {item: "A", type: "mirrored", correct_key: "80", rotation: "180"}},
+            {stimulus:"img/mental_rotation/RotacijaA/A-240.gif", data: {item: "A", type: "identical", correct_key: "81", rotation: "240"}},
+            {stimulus:"img/mental_rotation/RotacijaA/A-240m.gif", data: {item: "A", type: "mirrored", correct_key: "80", rotation: "240"}},
+            {stimulus:"img/mental_rotation/RotacijaA/A-300.gif", data: {item: "A", type: "identical", correct_key: "81", rotation: "300"}},
+            {stimulus:"img/mental_rotation/RotacijaA/A-300m.gif", data: {item: "A", type: "mirrored", correct_key: "80", rotation: "300"}},
+            {stimulus:"img/mental_rotation/RotacijaA/A-60.gif", data: {item: "A", type: "identical", correct_key: "81", rotation: "60"}},
+            {stimulus:"img/mental_rotation/RotacijaA/A-60m.gif", data: {item: "A", type: "mirrored", correct_key: "80", rotation: "60"}},
+            {stimulus:"img/mental_rotation/RotacijaA/B-0.gif", data: {item: "B", type: "identical", correct_key: "81", rotation: "0"}},
+            {stimulus:"img/mental_rotation/RotacijaA/B-0m.gif", data: {item: "B", type: "mirrored", correct_key: "80", rotation: "0"}},
+            {stimulus:"img/mental_rotation/RotacijaA/B-120.gif", data: {item: "B", type: "identical", correct_key: "81", rotation: "120"}},
+            {stimulus:"img/mental_rotation/RotacijaA/B-120m.gif", data: {item: "B", type: "mirrored", correct_key: "80", rotation: "120"}},
+            {stimulus:"img/mental_rotation/RotacijaA/B-180.gif", data: {item: "B", type: "identical", correct_key: "81", rotation: "180"}},
+            {stimulus:"img/mental_rotation/RotacijaA/B-180m.gif", data: {item: "B", type: "mirrored", correct_key: "80", rotation: "180"}},
+            {stimulus:"img/mental_rotation/RotacijaA/B-240.gif", data: {item: "B", type: "identical", correct_key: "81", rotation: "240"}},
+            {stimulus:"img/mental_rotation/RotacijaA/B-240m.gif", data: {item: "B", type: "mirrored", correct_key: "80", rotation: "240"}},
+            {stimulus:"img/mental_rotation/RotacijaA/B-300.gif", data: {item: "B", type: "identical", correct_key: "81", rotation: "300"}},
+            {stimulus:"img/mental_rotation/RotacijaA/B-300m.gif", data: {item: "B", type: "mirrored", correct_key: "80", rotation: "300"}},
+            {stimulus:"img/mental_rotation/RotacijaA/B-60.gif", data: {item: "B", type: "identical", correct_key: "81", rotation: "60"}},
+            {stimulus:"img/mental_rotation/RotacijaA/B-60m.gif", data: {item: "B", type: "mirrored", correct_key: "80", rotation: "60"}},
+            {stimulus:"img/mental_rotation/RotacijaA/C-0.gif", data: {item: "C", type: "identical", correct_key: "81", rotation: "0"}},
+            {stimulus:"img/mental_rotation/RotacijaA/C-0m.gif", data: {item: "C", type: "mirrored", correct_key: "80", rotation: "0"}},
+            {stimulus:"img/mental_rotation/RotacijaA/C-120.gif", data: {item: "C", type: "identical", correct_key: "81", rotation: "120"}},
+            {stimulus:"img/mental_rotation/RotacijaA/C-120m.gif", data: {item: "C", type: "mirrored", correct_key: "80", rotation: "120"}},
+            {stimulus:"img/mental_rotation/RotacijaA/C-180.gif", data: {item: "C", type: "identical", correct_key: "81", rotation: "180"}},
+            {stimulus:"img/mental_rotation/RotacijaA/C-180m.gif", data: {item: "C", type: "mirrored", correct_key: "80", rotation: "180"}},
+            {stimulus:"img/mental_rotation/RotacijaA/C-240.gif", data: {item: "C", type: "identical", correct_key: "81", rotation: "240"}},
+            {stimulus:"img/mental_rotation/RotacijaA/C-240m.gif", data: {item: "C", type: "mirrored", correct_key: "80", rotation: "240"}},
+            {stimulus:"img/mental_rotation/RotacijaA/C-300.gif", data: {item: "C", type: "identical", correct_key: "81", rotation: "300"}},
+            {stimulus:"img/mental_rotation/RotacijaA/C-300m.gif", data: {item: "C", type: "mirrored", correct_key: "80", rotation: "300"}},
+            {stimulus:"img/mental_rotation/RotacijaA/C-60.gif", data: {item: "C", type: "identical", correct_key: "81", rotation: "60"}},
+            {stimulus:"img/mental_rotation/RotacijaA/C-60m.gif", data: {item: "C", type: "mirrored", correct_key: "80", rotation: "60"}},
+            {stimulus:"img/mental_rotation/RotacijaA/D-0.gif", data: {item: "D", type: "identical", correct_key: "81", rotation: "0"}},
+            {stimulus:"img/mental_rotation/RotacijaA/D-0m.gif", data: {item: "D", type: "mirrored", correct_key: "80", rotation: "0"}},
+            {stimulus:"img/mental_rotation/RotacijaA/D-120.gif", data: {item: "D", type: "identical", correct_key: "81", rotation: "120"}},
+            {stimulus:"img/mental_rotation/RotacijaA/D-120m.gif", data: {item: "D", type: "mirrored", correct_key: "80", rotation: "120"}},
+            {stimulus:"img/mental_rotation/RotacijaA/D-180.gif", data: {item: "D", type: "identical", correct_key: "81", rotation: "180"}},
+            {stimulus:"img/mental_rotation/RotacijaA/D-180m.gif", data: {item: "D", type: "mirrored", correct_key: "80", rotation: "180"}},
+            {stimulus:"img/mental_rotation/RotacijaA/D-240.gif", data: {item: "D", type: "identical", correct_key: "81", rotation: "240"}},
+            {stimulus:"img/mental_rotation/RotacijaA/D-240m.gif", data: {item: "D", type: "mirrored", correct_key: "80", rotation: "240"}},
+            {stimulus:"img/mental_rotation/RotacijaA/D-300.gif", data: {item: "D", type: "identical", correct_key: "81", rotation: "300"}},
+            {stimulus:"img/mental_rotation/RotacijaA/D-300m.gif", data: {item: "D", type: "mirrored", correct_key: "80", rotation: "300"}},
+            {stimulus:"img/mental_rotation/RotacijaA/D-60.gif", data: {item: "D", type: "identical", correct_key: "81", rotation: "60"}},
+            {stimulus:"img/mental_rotation/RotacijaA/D-60m.gif", data: {item: "D", type: "mirrored", correct_key: "80", rotation: "60"}}
+            ];
+
+        //creates a separate array for preloading the images -> the images array doesn't work because of object structure
+        var preload = [];
+        for (var i = 0; i < images.length; i++) {
+            preload.push(images[i].stimulus);
+        }
+
+        var targets = [
+            {stimulus:"img/mental_rotation/RotacijaA/A-0.gif", data: {item: "A", type: "target"}},
+            {stimulus:"img/mental_rotation/RotacijaA/B-0.gif", data: {item: "B", type: "target"}},
+            {stimulus:"img/mental_rotation/RotacijaA/C-0.gif", data: {item: "C", type: "target"}},
+            {stimulus:"img/mental_rotation/RotacijaA/D-0.gif", data: {item: "D", type: "target"}},
+        ];
+
+        //by console.logging, pairs works fine now, but nothing gets displayed on the screen
+        var pairs = [];
+
+        for (var i = 0; i < images.length; i++) {
+            // goes through the image array, sets that item as first stimulus, and then goes to targets array,
+            // finds the corresponding target and sets that as second stimulus, storing both the stimuli and their data
+            var second_stim = images[i];
+            for (var j = 0; j < targets.length; j++ ) {
+                if (targets[j].data.item === images[i].data.item) {
+                    var first_stim = targets[j];
+                }
+            }
+            // add the pair
+            pairs.push([first_stim, second_stim]);
+        }   
+
+        //Fisher-Yates/Knuth shuffle algorithm to randomly mix up the pairs array,
+        //from Stackoverflow: http://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+
+        function shuffle(array) {
+          var currentIndex = array.length, temporaryValue, randomIndex ;
+          // While there remain elements to shuffle...
+          while (0 !== currentIndex) {
+
+            // Pick a remaining element...
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+
+            // And swap it with the current element.
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+          }
+          return array;
+        }
+
+        //here I shuffle the array containing both the images and the data, and below I separate data and images to 
+        //two separate arrays. I only need data from the foil, not the target, so I only add that to the data object
+        //in rotation_block.
+        var shuffled_pairs = shuffle(pairs);   
+        var shuffled_images = [];
+        var shuffled_foil_data = [];
+
+        for (i = 0; i < shuffled_pairs.length; i++) {
+            shuffled_images.push([shuffled_pairs[i][0].stimulus, shuffled_pairs[i][1].stimulus]);
+            //stores data from the foil item into a foil data array that will be appended to the generic data object
+            shuffled_foil_data.push(shuffled_pairs[i][1].data);
+        }
+
+        var training_image_div = "<div id = 'training_images' display='inline'> <img src='img/mental_rotation/RotacijaA/A-0.gif'>"+
+        "<img src='img/mental_rotation/RotacijaA/A-60.gif'> </div>"
+
+        var mental_rotation_instructions = "<h1>Great job!</h1><p class='centered'>In the next task, you will see a " +
+            "series of pairs of images that look similar to these two:</p><p>" + training_image_div+
+            "<p> Your task is to assess as quickly and accurately as you can,"+
+            " if the images are identical or mirrored versions of each other, and then press Q if the images "+
+            "are identical, and P if they are mirror images. For example, in this case you can see that " +
+            "the rotated item on the right is <strong>identical</strong> to the unrotated item on the left, and so you should press Q."+
+            "</p><p>You will first go through a short trial where you can try out the experiment, and then have another information screen when "+
+            "the experiment is about to start.</p>" +
+            "<p class='anykey'>Press any key to start when you're ready!</p>";
+
+        var correct_feedback = "<p class='correct'>Correct!</p>";
+        var false_feedback = "<p class='false'>False!</p>";
+
+        var mental_rotation_intro = {
+            type: 'text',
+            text: [mental_rotation_instructions]
+        }
+
+        //creates a mental rotation task block for jspsych
+        var training_images = shuffled_images.slice(12, 19);
+        var training_data = shuffled_foil_data.slice(12, 19);
+
+        var training_block = {
+            type: 'two-stim',
+            stimuli: training_images,
+            prompt: "<p class='centered'>Press Q if the images are identical, and P if mirrored.</p>",
+            correct_feedback: correct_feedback,
+            false_feedback: false_feedback,
+            data: training_data,
+            feedback_duration: 800
+        };
+
+        var rotation_text = "<div id='instructions'><p class='centered'><strong>Great!</strong> You completed the training! The experiment will now follow.<br>" +
+            "As always, try and respond as quickly and accurately as you can.</p>"+
+            "<p class='anykey'>Press any key to start when you're ready!</p>"
+
+        var rotation_intermezzo = {
+            type: 'text',
+            text: [rotation_text],
+            timing_post_trial: 1000
+        };
+
+        var rotation_block = {
+            type: 'two-stim',
+            stimuli: shuffled_images,
+            prompt: "<p class='centered'>Q - identical, P - mirrored.</p>",
+            correct_feedback: correct_feedback,
+            time_post_trial: 500,
+            false_feedback: false_feedback,
+            data: training_data,
+            feedback_duration: 500,
+            data: shuffled_foil_data
+        };
+
+        
+        // preload images
+        // call start() when loading is complete
+        jsPsych.preloadImages(preload, start);
+ 
+        // launch jspsych experiment
+        function start() {
+            jsPsych.init({
+                display_element: $('#jspsych_target'),
+                experiment_structure: [mental_rotation_intro, training_block, rotation_intermezzo, rotation_block],
+                on_finish:function(){
+                    //$('#jspsych_target').append('<a href="tol.html">Continue to the next part!</a>'); 
+                    window.location.href = "tol.html";
+                    }
+            
+            });
+        }
+    </script>
+
+</html>

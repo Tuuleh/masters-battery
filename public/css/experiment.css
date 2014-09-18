@@ -1,0 +1,110 @@
+body {
+	background: #fff; 
+	font-size: 18px; 
+	font-family:  'Arial','Helvetica', sans-serif; 
+	line-height: 120%;
+
+}
+
+strong {
+	font-weight: bold;
+}
+
+h1 {
+	text-align:center;
+	font-size: 40px;
+	font-weight: bold; 
+	margin: 30px;
+	line-height: 130%;
+}
+
+h2 {
+	text-align:center;
+	font-size: 32px;
+	font-weight: bold;
+	margin: 20px;
+}
+
+p {
+	margin: 10px;
+	text-align: left;
+	
+}
+
+.button {
+  -webkit-border-radius: 9;
+  -moz-border-radius: 9;
+  border-radius: 10px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 18px;
+  background: #1d1e1f;
+  padding: 8px 12px 8px 12px;
+  border: solid #5f707a 2px;
+  text-decoration: none;
+  margin-top: 30px;
+
+}
+
+.button:hover {
+  background: #ff3030;
+  text-decoration: none;
+}
+
+.anykey {
+	font-weight: bold;
+	margin: 20px;
+	text-align: center;
+}
+
+/*#jspsych_target {
+	width: 100%; 
+	margin: 10px; 
+	margin-left: auto; 
+	margin-right: auto; 
+	margin-top: 50px; 
+	margin-bottom: auto; 
+	text-align: center; 
+	padding: 15px;
+}*/
+#jspsych_target {
+    margin: 50px auto 50px auto;
+    width: 800px;
+    font-size:18px;
+    text-align: center;
+}
+
+#jspsych_target pre {
+	text-align: center;
+}
+
+#instructions {
+	width: 100%; 
+	margin-left: auto; 
+	margin-right: auto; 
+	text-align: center; 
+}
+
+.centered {
+	text-align: center;
+	margin: 20px;
+	padding: 10px;
+}
+
+.correct {
+	color: #198D19;
+	text-align: center;
+	margin:20px;
+	padding: 15px;
+}
+
+.false {
+	color: #CC0000;
+	text-align: center;
+	margin:20px;
+	padding: 15px;
+}
+
+.target {
+	text-align: center
+}

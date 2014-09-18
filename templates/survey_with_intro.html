@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+
+     <head>
+        <meta charset="utf-8"/>
+        <title>GEQ and TLI</title>
+        <!-- jQuery -->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <!-- this plugin requires the jQuery UI library and stylesheet -->
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
+        <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css"></link>
+
+        <!-- jsPsych -->
+        <script src="scripts/jspsych.js"></script>
+        <script src="scripts/plugins/jspsych-survey-likert-with-instructions.js"></script>
+        <script src="scripts/plugins/jspsych-text.js"></script>
+        <!-- style 
+        <link href="reset.css" type="text/css" rel="stylesheet"></link> -->
+        <link href="css/experiment.css" type="text/css" rel="stylesheet"></link> 
+        <link rel="stylesheet" type="text/css" href="css/survey.css"> 
+    </head>
+
+    <body>
+        <div id="jspsych_target"></div>
+    </body>
+
+    <script type="text/javascript">
+
+        var survey_intro = "<div id='instructions'><h1>Let's get started!</h1><p>You will now enter a section with a few short questionnaires. There are no right or wrong answers, so please give your immediate reaction."+
+        "<p>The first questionnaire is designed to assess your <strong>perception of your highest rated ranked team</strong>, and the second one will assess the <strong>task load</strong> you experience during gameplay.</p><p>If you do not play games in a ranked team, feel free to submit the team inventories with default values, but please still respond to the questions about task load! </p>" +
+        "<p>Some of the questions may seem repetitive, but please answer all of them! Your personal responses will be kept in strictest confidence.</p>"+
+        "<p class='anykey'>Press any key to continue!</p>"
+
+        var instr1 = "The following statements are designed to assess your feelings about <strong>your personal involvement with your highest rated ranked team</strong>. "+
+        "Please select your response on the slider to indicate your level of agreement with each of these statements.</p>"+
+        "<p>Please note that questions about spending time or getting together with the team also involve spending time together online!</p>"
+
+        var instr2 = "The following statements are designed to assess your perceptions of <strong>your team as a whole</strong>. "+
+        "Please select your response on the slider to indicate your level of agreement with each of these statements.</p>"+
+        "<p>Please note that questions about spending time or getting together with the team also involve spending time together online.</p>"
+
+        var TLX_instr = "Think about your past games on in your <strong>most frequently played role and position</strong>. "+
+        "Drag the slider on the scale to the point that best indicates your typical experience of the task load during a game."
+
+        // defining groups of questions that will go together.
+        var page_1_questions = [
+        "1. I do not enjoy being a part of the social activities of this team.",
+        "2. I'm not happy with the amount of playing time I get.",
+        "3. I am not going to miss the members of this team when the season ends.",
+        "4. I'm unhappy with my team's level of desire to win.",
+        "5. Some of my best friends are on this team.",
+        "6. This team does not give me enough opportunities to improve my personal performance.",
+        "7. I enjoy spending time with other people rather than my team mates.", //I enjoy other parties rather than team parties.
+        "8. I do not like the style of play on this team.",
+        "9. For me, this team is one of the most important social groups to which I belong."
+        ];
+
+        var page_2_questions = [
+        "10.    Our team is united in trying to reach its goals for performance.",
+        "11.    Members of our team would rather do things on their own than get together as a team.",
+            // Members of our team would rather go out on their own than get together as a team.
+        "12.    We all take responsibility for any loss or poor performance by our team.",
+        "13.    Our team members rarely spend time together (in virtual space or in real life).",
+            // Our team members rarely party together.
+        "14.    Our team members have conflicting aspirations for the team's performance.",
+        "15.    Our team would like to do things together outside in the off season.",
+            // Our team would like to spend time together in the off season.
+        "16.    If members of our team are having problems in game, everyone wants to help them so we can get back together again.",
+            // If members of our team have problems in practice, everyone wants to help them so we can get back together again.
+        "17.    Members of our team do not stick together outside of practice and games.",
+        "18.    Our team members do not communicate freely about each player's responsibilities."
+            // Our team members do not communicate freely about each player's responsibilities during competition or practice.
+        ];
+
+        var TLX_items = [
+        "<strong>1. Mental Demand</strong> <p>How much mental and perceptual activity was required (e.g., thinking, deciding, calculating, remembering, looking, searching, etc.)? <br>Was the task easy or demanding, simple or complex, exacting or forgiving?</p>",
+        "<strong>2. Physical Demand </strong> <p>How much physical activity was required (e.g., pushing, pulling, turning, controlling, activating, etc.)? <br>Was the task easy or demanding, slow or brisk, slack or strenuous, restful or laborious?</p>",
+        "<strong>3. Temporal Demand </strong> <p>How much time pressure did you feel due to the rate or pace at which the tasks or task elements occurred? <br>Was the pace slow and leisurely or rapid and frantic?</p>",
+        "<strong>4. Performance </strong> <p>How successful do you think you were in accomplishing the goals of the task? <br>How satisfied were you with your performance in accomplishing these goals?</p>",
+        "<strong>5. Effort </strong> <p>How hard did you have to work (mentally and physically) to accomplish your level of performance?</p>",
+        "<strong>6. Frustration </strong> <p>How insecure, discouraged, irritated, stressed and annoyed versus secure, gratified, content, relaxed and complacent did you feel during the task?</p>"
+        ];
+
+        
+        var scale_GEQ = ["1<br>Strongly Disagree", "2", "3", "4", "5", "6", "7", "8", "9<br>Strongly Agree"];
+        var page1_labels = [];
+        var page2_labels = [];
+        //nine-point Likert scale
+        var interval = 9;
+        var page1_intervals = [];
+        var page2_intervals = [];
+
+        for (var i = 0; i < page_1_questions.length; i++) {
+            page1_labels.push(scale_GEQ);
+            page1_intervals.push(interval);
+        }
+
+        for (var i = 0; i < page_2_questions.length; i++) {
+            page2_labels.push(scale_GEQ);
+            page2_intervals.push(interval);
+        }
+
+        var scale_TLX = [];
+        var TLX_labels = [];
+        var TLX_interval = 20;
+        var TLX_intervals = [];
+
+        for (var i = 0; i < TLX_interval; i++) {
+            scale_TLX.push("");
+        }
+
+        scale_TLX[0] = "Very Low";
+        scale_TLX[(TLX_interval-1)] = "Very High";
+
+        for (var i = 0; i < TLX_interval; i++) {
+            TLX_labels.push(scale_TLX);
+            TLX_intervals.push(TLX_interval);
+        }
+
+        var survey_intro_block = {
+                type: "text",
+                text: survey_intro,
+                timing_post_trial: 500
+            };
+
+        var GEQ_block1 = {
+            type: 'survey-likert',
+            instructions: instr1,
+            questions: [page_1_questions],
+            labels: [page1_labels], // need one scale for every question on a page
+            intervals: [page1_intervals] // note the the intervals and labels don't necessarily need to match.
+        };
+
+        var GEQ_block2 = {
+            type: 'survey-likert',
+            instructions: instr2,
+            questions: [page_2_questions],
+            labels: [page2_labels], // need one scale for every question on a page
+            intervals: [page2_intervals] // note the the intervals and labels don't necessarily need to match.
+        };
+
+        var TLX = {
+            type: 'survey-likert',
+            instructions: TLX_instr,
+            questions: [TLX_items],
+            labels: [TLX_labels], // need one scale for every question on a page
+            intervals: [TLX_intervals]
+        };
+
+        // launch jspsych experiment
+        jsPsych.init({
+            display_element: $('#jspsych_target'),
+            experiment_structure: [survey_intro_block, GEQ_block1, GEQ_block2, TLX],
+            on_finish:function(){
+                window.location.href = "flanker.html";
+                //$('#jspsych_target').append('<a href="flanker.html">Continue to the next part!</a>'); 
+            }
+        });
+    </script>
+
+</html>

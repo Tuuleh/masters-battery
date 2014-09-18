@@ -1,0 +1,81 @@
+html {
+	background-image: url(../img/astronaut_teemo.jpg);
+ 	background-size: cover;
+ 	color: white;
+ 	background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: left; 
+}
+
+
+body {
+	background: transparent; 
+	font-size: 18px; 
+	font-family:  'Arial','Helvetica', sans-serif; 
+	line-height: 120%;
+}
+
+p {
+	margin-left:0px;
+	margin-right:0px;
+	margin-top:30px;
+	margin-bottom:1px;
+}
+
+form {
+	padding: 10px; 
+	opacity: 0%;
+	background-color: transparent;
+}
+
+span {
+
+}
+
+.long {
+	display: inline-block;
+	width: 610px
+}
+
+label.short {
+	display: inline-block;
+	width: 340px
+}
+
+#gender {
+	display: inline-block
+}
+
+select, input {
+	margin-top: 8px;	
+}
+
+select, form input[type=text]{
+	width:200px	
+}
+
+option {
+	width: 80px
+}
+
+select.short, input.short {
+	width:98px
+}
+
+option.short {
+	width: 70px
+}
+
+option {
+	margin-bottom: 5px
+}
+
+.button {
+	margin-left: 18%;
+	margin-top: 40px
+
+}
+
+div {
+	background-color: transparent;
+}

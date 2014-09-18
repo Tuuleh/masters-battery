@@ -1,0 +1,44 @@
+#jspsych_target {
+    margin: 50px auto 50px auto;
+    width: 800px;
+    font-size:18px;
+    text-align: center;
+}
+
+#instructions {
+    text-align: left;
+}
+
+pre {
+    text-align: left;
+}
+
+.jspsych-survey-likert-question p { 
+    font-size: 17px;
+    padding-top: 30px;
+    padding-bottom: 5px
+}
+
+.jspsych-survey-likert-sliderlabels{
+    font-size: 17px;
+    width: 100%;
+    height: 30px;
+}
+
+.jspsych-survey-likert-text {
+    text-align: left;
+}
+
+
+.ui-slider-handle.ui-state-default{   
+  -webkit-border-radius: 9;
+  -moz-border-radius: 9;
+  border-radius: 15px;
+  background: #1d1e1f;
+  border: solid #5f707a 2px;
+}
+
+.ui-slider-handle:hover {
+  background: #ff3030;
+}
+

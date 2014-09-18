@@ -1,0 +1,290 @@
+<picture blank>
+/ numitems = 1
+/ items = ("blank.bmp")
+/ position = (50, 50)
+</picture>
+
+<text napaka>
+/ numitems = 1
+/ items = ("   NAPAKA    ")
+/ color = (255, 0, 0)
+/ font = ("Courier New", -37, 700, 0, 49)
+</text>
+
+<text ok>
+/ numitems = 1
+/ items = ("     OK      ")
+/ color = (255, 0, 0)
+/ font = ("Courier New", -37, 700, 0, 49)
+</text>
+
+<text start>
+/ numitems = 1
+/ items = ("      +      ")
+/ font = ("Courier New", -37, 700, 0, 49)
+</text>
+
+<text nic>
+/ numitems = 1
+/ items = ("             ")
+/ font = ("Courier New", -37, 700, 0, 49)
+</text>
+
+<picture Aok>
+/ numitems = 6
+/ erase = true(255, 255, 255)
+/ items = Aiok
+/ position = (61, 50)
+</picture>
+
+<picture Bok>
+/ numitems = 6
+/ erase = true(255, 255, 255)
+/ items = Biok
+/ position = (61, 50)
+</picture>
+
+<picture Cok>
+/ numitems = 6
+/ erase = true(255, 255, 255)
+/ items = Ciok
+/ position = (61, 50)
+</picture>
+
+<picture Dok>
+/ numitems = 6
+/ erase = true(255, 255, 255)
+/ items = Diok
+/ position = (61, 50)
+</picture>
+
+<picture Amir>
+/ numitems = 6
+/ items = Aimir
+/ position = (61, 50)
+/ erase = true(255, 255, 255)
+</picture>
+
+<picture Bmir>
+/ numitems = 6
+/ items = Bimir
+/ position = (61, 50)
+/ erase = true(255, 255, 255)
+</picture>
+
+<picture Cmir>
+/ numitems = 6
+/ items = Cimir
+/ position = (61, 50)
+/ erase = true(255, 255, 255)
+</picture>
+
+<picture Dmir>
+/ numitems = 6
+/ items = Dimir
+/ position = (61, 50)
+/ erase = true(255, 255, 255)
+</picture>
+
+<picture Atok>
+/ numitems = 1
+/ erase = true(255, 255, 255)
+/ items = ("A-0.gif")
+/ position = (39, 50)
+</picture>
+
+<picture Btok>
+/ numitems = 1
+/ erase = true(255, 255, 255)
+/ items = ("B-0.gif")
+/ position = (39, 50)
+</picture>
+
+<picture Ctok>
+/ numitems = 1
+/ erase = true(255, 255, 255)
+/ items = ("C-0.gif")
+/ position = (39, 50)
+</picture>
+
+<picture Dtok>
+/ numitems = 1
+/ erase = true(255, 255, 255)
+/ items = ("D-0.gif")
+/ position = (39, 50)
+</picture>
+
+
+<item Aiok>
+/ 1 = "A-0.gif"
+/ 2 = "A-60.gif"
+/ 3 = "A-120.gif"
+/ 4 = "A-180.gif"
+/ 5 = "A-240.gif"
+/ 6 = "A-300.gif"
+</item>
+
+<item Biok>
+/ 1 = "B-0.gif"
+/ 2 = "B-60.gif"
+/ 3 = "B-120.gif"
+/ 4 = "B-180.gif"
+/ 5 = "B-240.gif"
+/ 6 = "B-300.gif"
+</item>
+
+<item Ciok>
+/ 1 = "C-0.gif"
+/ 2 = "C-60.gif"
+/ 3 = "C-120.gif"
+/ 4 = "C-180.gif"
+/ 5 = "C-240.gif"
+/ 6 = "C-300.gif"
+</item>
+
+<item Diok>
+/ 1 = "D-0.gif"
+/ 2 = "D-60.gif"
+/ 3 = "D-120.gif"
+/ 4 = "D-180.gif"
+/ 5 = "D-240.gif"
+/ 6 = "D-300.gif"
+</item>
+
+<item Aimir>
+/ 1 = "A-0m.gif"
+/ 2 = "A-60m.gif"
+/ 3 = "A-120m.gif"
+/ 4 = "A-180m.gif"
+/ 5 = "A-240m.gif"
+/ 6 = "A-300m.gif"
+</item>
+
+<item Bimir>
+/ 7 = "B-0m.gif"
+/ 8 = "B-60m.gif"
+/ 9 = "B-120m.gif"
+/ 10 = "B-180m.gif"
+/ 11 = "B-240m.gif"
+/ 12 = "B-300m.gif"
+</item>
+
+<item Cimir>
+/ 13 = "C-0m.gif"
+/ 14 = "C-60m.gif"
+/ 15 = "C-120m.gif"
+/ 16 = "C-180m.gif"
+/ 17 = "C-240m.gif"
+/ 18 = "C-300m.gif"
+</item>
+
+<item Dimir>
+/ 19 = "D-0m.gif"
+/ 20 = "D-60m.gif"
+/ 21 = "D-120m.gif"
+/ 22 = "D-180m.gif"
+/ 23 = "D-240m.gif"
+/ 24 = "D-300m.gif"
+</item>
+
+--------------------  enako  -------------
+
+<trial Aok>  
+/ correctresponse = ("m")
+/ stimulustimes = [1=Atok, Aok]
+</trial>
+
+<trial Bok>  
+/ correctresponse = ("m")
+/ stimulustimes = [1=Btok, Bok]
+</trial>
+
+<trial Cok>  
+/ correctresponse = ("m")
+/ stimulustimes = [1=Ctok, Cok]
+</trial>
+
+<trial Dok>  
+/ correctresponse = ("m")
+/ stimulustimes = [1=Dtok, Dok]
+</trial>
+
+<trial Amir>  
+/ correctresponse = ("x")
+/ stimulustimes = [1=Atok, Amir]
+</trial>
+
+<trial Bmir>  
+/ correctresponse = ("x")
+/ stimulustimes = [1=Btok, Bmir]
+</trial>
+
+<trial Cmir>  
+/ correctresponse = ("x")
+/ stimulustimes = [1=Ctok, Cmir]
+</trial>
+
+<trial Dmir>  
+/ correctresponse = ("x")
+/ stimulustimes = [1=Dtok, Dmir]
+</trial>
+
+---------------------- bloki -------------------
+
+<block priprava>
+/ preinstructions = (intro1)
+/ trials = [1-10 = random(Aok, Amir, Bok, Bmir, Cok, Cmir, Dok, Dmir)]
+/ errormessage = true(napaka, 200)
+</block>
+
+<block test>
+/ preinstructions = (go1)
+/ trials = [1-48 = random(Aok, Amir, Bok, Bmir, Cok, Cmir, Dok, Dmir)]
+/ errormessage = true(napaka, 200)
+</block>
+
+
+<expt>
+/ blocks = [1 = priprava; 2-7 = test]
+/ postinstructions = (pkonec)
+</expt>
+
+
+<defaults>
+/ screencolor = (255, 255, 255)
+/ pretrialpause = 500
+/ posttrialpause = 500
+/ txbgcolor = (255, 255, 255)
+/ validresponse = ("x", "m")
+</defaults>
+
+<page intro1>
+Lepo pozdravljeni v preizkusu mentalne rotacije!
+
+^^Pred vami je veèje število preizkusov v vsakem preizkusu se bo na levi strani zaslona
+najprej pojavil nek lik, na desni strani pa se bo isti lik pojavil obrnjen za razlièen kot in v polovici primerov v zrcalni obliki. Vaša 
+naloga je, da èimhitreje odgvorite, ali je lik na desni strani narisan v pravi ali zrcalni obliki. Èe je narisan
+v pravi obliki pritisnite na tipko "m", èe je narisan v zrcalni obliki pa pritisnite
+na tipko "x". Pomembno je, da odgovarjate èim hitreje, kljub temu pa bodite gotovi v
+svoj odgovor.
+
+^^Pred testnim delom bomo izvedli najprej kratek trening. Ko ste pripravljeni, pritisnite 
+Enter. 
+</page>
+
+
+<page go1>
+Zelo dobro!
+
+^^Nadaljujemo s testnim delom. Ne pozabite:
+
+^^Prava podoba -> tipka "m"
+^^Zrcalna podoba -> tipka "x"
+
+^^Ko ste 
+pripravljeni, pritisnite tipko za presledek.
+</page>
+
+<page pkonec>
+Èestitamo, uspešno ste opravili preizkus miselne rotacije.
+</page>

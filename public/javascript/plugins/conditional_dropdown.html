@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+            <!-- this plugin requires the jQuery UI library and stylesheet -->
+            <!-- these can be loaded from google's servers with the following links --> 
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css"></link>
+    <!--<script src="conditional_dropdown.js"> </script>-->
+
+        <script> 
+        $(document).ready(function() {
+            var $topSelect = $('select[name="dropdownmain"]');
+            var $nestedSelects = $('select[name!="dropdownmain"]');
+            function showApplicableSelect() {
+                $nestedSelects.hide();
+                $('select[name="' + $topSelect.val() + '"]').show();
+            }
+
+            showApplicableSelect();
+            $topSelect.change(showApplicableSelect);
+        });
+    </script> 
+            
+</head>
+<body>
+    <select name="dropdownmain" id="" title="">
+        <option value="dropdownmain1">dropdownmain1</option>
+        <option value="dropdownmain2">dropdownmain2</option>
+        <option value="dropdownmain3">dropdownmain3</option>
+        <option value="dropdownmain4">dropdownmain4</option>
+    </select>
+    <select name="dropdownmain1" id="" title="">
+        <option value="dropdownmain1-submenu1">dropdownmain1-submenu1</option>
+        <option value="dropdownmain1-submenu2">dropdownmain1-submenu2</option>
+        <option value="dropdownmain1-submenu3">dropdownmain1-submenu3</option>
+        <option value="dropdownmain1-submenu4">dropdownmain1-submenu4</option>
+    </select>
+    <select name="dropdownmain2" id="" title="">
+        <option value="dropdownmain2-submenu1">dropdownmain2-submenu1</option>
+        <option value="dropdownmain2-submenu2">dropdownmain2-submenu2</option>
+        <option value="dropdownmain2-submenu3">dropdownmain2-submenu3</option>
+        <option value="dropdownmain2-submenu4">dropdownmain2-submenu4</option>
+    </select>
+    <select name="dropdownmain3" id="" title="">
+        <option value="dropdownmain3-submenu1">dropdownmain3-submenu1</option>
+        <option value="dropdownmain3-submenu2">dropdownmain3-submenu2</option>
+        <option value="dropdownmain3-submenu3">dropdownmain3-submenu3</option>
+        <option value="dropdownmain3-submenu4">dropdownmain3-submenu4</option>
+    </select>
+    <select name="dropdownmain4" id="" title="">
+        <option value="dropdownmain4-submenu1">dropdownmain4-submenu1</option>
+        <option value="dropdownmain4-submenu2">dropdownmain4-submenu2</option>
+        <option value="dropdownmain4-submenu3">dropdownmain4-submenu3</option>
+        <option value="dropdownmain4-submenu4">dropdownmain4-submenu4</option>
+    </select>      
+
+</body>
+
+</html>
