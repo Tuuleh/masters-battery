@@ -1,11 +1,10 @@
-/**
+/*
  * jspsych.js
  * Josh de Leeuw
  * 
  * documentation: https://github.com/jodeleeuw/jsPsych/wiki
  *
- **/ 
- //HUOM THIS IS THE CURRENT VERSION FROM JOSH WITH OLD FUNCTIONS COPY-PASTED IN BETWEEN
+ */ 
 (function($) {
     jsPsych = (function() {
 

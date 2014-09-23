@@ -66,6 +66,7 @@
         }
 
         var trial_images = jsPsych.randomization.repeat(test_images, 6, true);
+        console.log(trial_images);
 
         // Define experiment blocks
         var flanker_instruction_block = {
@@ -117,10 +118,6 @@
                     window.location.href = "mental_rotation"; 
                 });
             }
-
-                //jsPsych.saveCSVdata("data.csv");
-    
         });
-
     </script>
 </html>
