@@ -95,13 +95,11 @@
                 }
                 
                 var feedback_func = function(correct) {
-                    if (correct === 1) {
+                    if (correct === true) {
                         display_element.append(trial.correct_feedback);
-                        console.log("feedback func correct");
                     }
                     else {
                         display_element.append(trial.false_feedback);
-                        console.log("feedback func false");
                     }
                 }
 
@@ -129,13 +127,13 @@
                     var endTime = (new Date()).getTime();
                     var rt = (endTime - startTime);
                     var flag = false; // true when a valid key is chosen
-                    var correct = 0; // 1 when the correct response is chosen
+                    var correct = false; // true when the correct response is chosen
 
                     if (e.which === trial.left_key || e.which === trial.right_key) {
                         flag = true;
                         enabled = false;
                             if (e.which == trial.correct_key) {
-                            correct = 1;
+                            correct = true;
                         }
 
                         var trial_data = {

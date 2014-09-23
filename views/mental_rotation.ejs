@@ -200,10 +200,18 @@
             jsPsych.init({
                 display_element: $('#jspsych_target'),
                 experiment_structure: [mental_rotation_intro, training_block, rotation_intermezzo, rotation_block],
-                on_finish:function(){
-                    //$('#jspsych_target').append('<a href="tol.html">Continue to the next part!</a>'); 
-                    window.location.href = "tol";
-                    }
+                on_finish:function(data){
+                console.log(JSON.stringify(data));
+                    $.ajax({
+                        type: "POST",
+                        url: "/mental_rotation-data",
+                        data: JSON.stringify(data),
+                        contentType: "application/json"
+                    }).done(function() {
+                        alert(1);
+                        window.location.href = "tol"; 
+                    });
+                }
             });
         }
     </script>

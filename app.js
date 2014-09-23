@@ -51,6 +51,11 @@ app.get('/mental_rotation', function (req, res) {
     res.render('mental_rotation', {});
 });
 
+app.post('/mental_rotation-data', function (req, res) {
+    console.log(JSON.stringify(req.body));
+    res.send("{'status':'ok'}");
+});
+
 app.get('/tol', function (req, res) {
     res.render('tol', {});
 });
