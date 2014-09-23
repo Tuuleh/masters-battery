@@ -6,6 +6,8 @@
  * Updated October 2013
  * 
  * parameters:
+ *      inventory: the name of the questionnaire,
+ *      instructions: instruction paragraph to be pinned to the top of the questionnaire
  *      questions: array of arrays. inner arrays are arrays of strings, where each string represents a prompt
  *                  for the user to respond to.
  *      labels: array of arrays of arrays. inner most arrays are label markers for the slider, e.g. ["Strongly Disagree", "Neutral", "Strongly Agree"]. 
@@ -26,6 +28,7 @@
             for (var i = 0; i < params.questions.length; i++) {
                 trials.push({
                     type: "survey-likert",
+                    inventory: params.inventory,
                     instructions: params.instructions,
                     questions: params.questions[i],
                     labels: params.labels[i],
@@ -159,8 +162,9 @@
 
                 // save data
                 block.writeData($.extend({}, {
+                    "inventory": trial.inventory,
                     "trial_type": "survey-likert",
-                    "trial_index": block.trial_idx,
+                    //"trial_index": block.trial_idx, //unnecessary, really
                     "rt": response_time
                 }, question_data, trial.data));
 
