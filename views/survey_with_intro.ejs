@@ -64,7 +64,7 @@
         "13.    Our team members rarely spend time together (in virtual space or in real life).",
             // Our team members rarely party together.
         "14.    Our team members have conflicting aspirations for the team's performance.",
-        "15.    Our team would like to do things together outside in the off season.",
+        "15.    Our team would like to do things together in the off season.",
             // Our team would like to spend time together in the off season.
         "16.    If members of our team are having problems in game, everyone wants to help them so we can get back together again.",
             // If members of our team have problems in practice, everyone wants to help them so we can get back together again.
@@ -125,23 +125,26 @@
             };
 
         var GEQ_block1 = {
-            type: 'survey-likert',
+            type: "survey-likert",
+            inventory: "GEQ1",
             instructions: instr1,
             questions: [page_1_questions],
-            labels: [page1_labels], // need one scale for every question on a page
-            intervals: [page1_intervals] // note the the intervals and labels don't necessarily need to match.
+            labels: [page1_labels], 
+            intervals: [page1_intervals] 
         };
 
         var GEQ_block2 = {
-            type: 'survey-likert',
+            type: "survey-likert",
+            inventory: "GEQ2",
             instructions: instr2,
             questions: [page_2_questions],
-            labels: [page2_labels], // need one scale for every question on a page
-            intervals: [page2_intervals] // note the the intervals and labels don't necessarily need to match.
+            labels: [page2_labels], 
+            intervals: [page2_intervals] 
         };
 
         var TLX = {
-            type: 'survey-likert',
+            type: "survey-likert",
+            inventory: "TLX",
             instructions: TLX_instr,
             questions: [TLX_items],
             labels: [TLX_labels], // need one scale for every question on a page
@@ -152,10 +155,19 @@
         jsPsych.init({
             display_element: $('#jspsych_target'),
             experiment_structure: [survey_intro_block, GEQ_block1, GEQ_block2, TLX],
-            on_finish:function(){
-                window.location.href = "flanker";
-
+            on_finish:function(data){
+                console.log("survey data is " + JSON.stringify(data));
+                $.ajax({
+                    type: "POST",
+                    url: "/survey_with_intro-data",
+                    data: JSON.stringify(data),
+                    contentType: "application/json"
+                }).done(function() {
+                    alert(1);
+                    //window.location.href = "flanker"; 
+                });
             }
+            
         });
     </script>
 

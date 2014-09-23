@@ -33,6 +33,11 @@ app.get('/survey_with_intro', function (req, res) {
     res.render('survey_with_intro', {});
 });
 
+app.post('/survey_with_intro-data', function (req, res) {
+    console.log(JSON.stringify(req.body));
+    res.send("{'status':'ok'}");
+});
+
 app.get('/flanker', function (req, res) {
     res.render('flanker', {});
 });
@@ -40,7 +45,6 @@ app.get('/flanker', function (req, res) {
 app.post('/flanker-data', function (req, res) {
     console.log(JSON.stringify(req.body));
     res.send("{'status':'ok'}");
-    //figure how to get data out of jfish
 });
 
 app.get('/mental_rotation', function (req, res) {
