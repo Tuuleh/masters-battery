@@ -93,6 +93,15 @@
                     "key_press": info.key
                 };
 
+                //Tuuli: adding this for my flanker task, remove for reusing this plugin:
+                if (trial.data.correct_key != undefined) {
+                    trial_data.correct = false;
+                    if (trial.data.correct_key == info.key) {
+                        trial_data.correct = true;
+                        console.log("correct!")
+                    }
+                }
+
                 block.writeData($.extend({}, trial_data, trial.data));
                 
                 display_element.html('');

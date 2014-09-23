@@ -39,10 +39,10 @@
 
        
        var test_images = [ 
-        {stimulus:"img/congruent_left.gif", data: {type: "congruent", key: 'left'}}, 
-        {stimulus:"img/congruent_right.gif", data: {type: "congruent", key: 'right'}}, 
-        {stimulus:"img/incongruent_left.gif", data: {type: "incongruent", key: 'left'}}, 
-        {stimulus:"img/incongruent_right.gif", data: {type: "incongruent", key: 'right'}}
+        {stimulus:"img/congruent_left.gif", data: {type: "congruent", direction: "left", correct_key: "37"}}, 
+        {stimulus:"img/congruent_right.gif", data: {type: "congruent", direction: "right", correct_key: "39"}}, 
+        {stimulus:"img/incongruent_left.gif", data: {type: "incongruent", direction: "left", correct_key: "37"}}, 
+        {stimulus:"img/incongruent_right.gif", data: {type: "incongruent", direction: "right", correct_key: "39"}}
         ];
 
         var flanker_training_answers = [];
@@ -55,7 +55,7 @@
             var rnd = Math.round(Math.floor(Math.random() * 3));
             var image = test_images[rnd]; //random stimulus setting from test_images
             flanker_training_images.push(image.stimulus);
-            if (image.data.key === 'left') {
+            if (image.data.direction === 'left') {
                 flanker_training_answers.push(37);
                 flanker_training_text_answers.push("left");
             }
@@ -84,11 +84,11 @@
             type: "single-stim",
             stimuli: trial_images.stimulus,
             choices: [37, 39],
-            data: trial_images.data //figure out a way to write this as congruent/incongruent
+            data: trial_images.data 
             };
 
          var flanker_training_block = {
-            type: 'categorize',
+            type: "categorize",
             stimuli: flanker_training_images,
             key_answer: flanker_training_answers,
             text_answer: flanker_training_text_answers,
