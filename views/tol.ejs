@@ -48,9 +48,8 @@
         "img/tolimg/AN22.png"
         ];
 
-
-        var tol_stimuli_types = [2,2,3,3,2,1,3,4,1,4,3,4,1,2,3,2,1,4,1,4,6,5];
-
+        //array of correct numerical responses corresponding to the images
+        var moves = [2,2,3,3,2,1,3,4,1,4,3,4,1,2,3,2,1,4,1,4,6,5];
 
         // Experiment Instructions
 
@@ -66,17 +65,30 @@
             "Try to be as fast and accurate as you can!</p>"+
             "</p><p class='anykey'>Press any key to start when you're ready!</p>";
 
+
+        //Function for calculating correct keycode from the number of moves required for the stimulus.
+        var correct_key = function (move) {
+            if (move > 0 && move <= 9) {
+               var response = move + 48;
+            }
+            return response;
+        };
+
         var tol_stimuli_array = [];
-        var tol_data = [];
+        var tol_data_array = [];
 
         //generating the array of stimuli
-        //tol_stimuli_array is a reduntant variable -> workaround
         for (var i = 0; i < tol_stimuli.length; i++) {
             tol_stimuli_array.push(tol_stimuli[i]);
-            tol_data.push({
-                "stimulus_type": tol_stimuli_types[i]
-            });
-        }
+
+            tol_data_array.push({
+                "moves" : moves[i],
+                "correct_key": correct_key(moves[i])
+                });
+            }
+
+        var tol_experiment = {'stimulus': tol_stimuli_array, 'data': tol_data_array};
+
 
         // Define experiment blocks
         var tol_instruction_block = {
@@ -93,20 +105,13 @@
 
         var tol_test_block = {
                 type: "single-stim",
-                stimuli: tol_stimuli_array,
-                //change choices to key presses corresponding to number keys!
+                stimuli: tol_experiment.stimulus,
                 choices: [48, 49, 50, 51, 52, 53, 54, 55, 56, 57],
-                data: tol_data
+                data: tol_experiment.data,
+                correct_key: tol_experiment.data.correct_key
             };
 
-        /*var tol_training_images = [ 
-        {stimulus:"img/tolimg/AP1.png", data: {key: 49}}, 
-        {stimulus:"img/tolimg/AP2.png", data: {key: 50}}, 
-        {stimulus:"img/tolimg/AP3.png", data: {key: 51}}, 
-        ];*/
-
         var tol_training_images = ["img/tolimg/AP1.png", "img/tolimg/AP2.png", "img/tolimg/AP3.png"];
-
         var tol_training_answers = [49,50,51];
         var tol_training_text_answers = ['1','2','3'];
 
@@ -126,10 +131,18 @@
         jsPsych.init({
             display_element: $('#jspsych_target'),
             experiment_structure: [tol_instruction_block, tol_training_block, tol_intermezzo_block, tol_test_block],
-            on_finish:function(){
-                window.location.href = "palmer-experiments";
-              }
-               //jsPsych.saveCSVdata("data.csv");
+            on_finish:function(data){
+                console.log(JSON.stringify(data));
+                    $.ajax({
+                        type: "POST",
+                        url: "/tol-data",
+                        data: JSON.stringify(data),
+                        contentType: "application/json"
+                    }).done(function() {
+                        alert(1);
+                        window.location.href = "palmer-experiments"; 
+                    });
+                }
         });
     </script>
 </html>
