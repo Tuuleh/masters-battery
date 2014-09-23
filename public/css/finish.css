@@ -1,0 +1,48 @@
+html {
+    background-image: url(../img/Fiddlesticks_SurprisePartySkin.jpg);
+    background-size: cover;
+    color: white;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: left; 
+}
+
+img {
+    vertical-align: middle;
+    margin-top: 30px;
+}
+
+body {
+    background: transparent; 
+    font-size: 18px; 
+    font-family:  'Arial','Helvetica', sans-serif; 
+    line-height: 120%;
+    width: 65%;
+}
+
+p {
+    margin-top:30px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+}
+
+div {
+    background-color: transparent;
+}
+
+div.block {
+    text-align: center; 
+    float:middle;
+    display:block;
+
+}
+
+.mini {
+    top-margin:5px;
+    font-size: 14px;
+
+}
+.clearBoth { 
+    clear:both; 
+}
