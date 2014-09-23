@@ -30,8 +30,8 @@
             
             params = jsPsych.pluginAPI.enforceArray(params, ['stimuli', 'choices', 'data']);
             
-            var trials = new Array(params.stimuli.length);
-            for (var i = 0; i < trials.length; i++) {
+            var trials = []
+            for (var i = 0; i < params.stimuli.length; i++) {
                 trials[i] = {};
                 trials[i].type = "single-stim";
                 trials[i].a_path = params.stimuli[i];
@@ -82,9 +82,7 @@
             }
 
             var end_trial = function(info) {
-                
                 trial_complete = true;
-
                 var trial_data = {
                     "trial_type": "single-stim",
                     "trial_index": block.trial_idx,
@@ -93,12 +91,11 @@
                     "key_press": info.key
                 };
 
-                //Tuuli: adding this for my flanker task, remove for reusing this plugin:
+                //if correct_key is defined in the data object for the trial:
                 if (trial.data.correct_key != undefined) {
                     trial_data.correct = false;
                     if (trial.data.correct_key == info.key) {
                         trial_data.correct = true;
-                        console.log("correct!")
                     }
                 }
 
