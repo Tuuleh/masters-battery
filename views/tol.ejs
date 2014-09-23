@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+
+    <head>
+        <title>Tower of London</title>
+        <!-- Load jQuery -->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <!-- Load the jspsych library and plugins -->
+        <script src="scripts/jspsych.js"></script>
+        <script src="scripts/plugins/jspsych-text.js"></script>
+        <script src="scripts/plugins/jspsych-categorize.js"></script>
+        <script src="scripts/plugins/jspsych-single-stim.js"></script>
+        <!-- Load the stylesheet -->
+        <link href="css/reset.css" type="text/css" rel="stylesheet"></link>
+        <link href="css/experiment.css" type="text/css" rel="stylesheet"></link>
+        <!--<link href="tol.css" type="text/css" rel="stylesheet"></link>-->
+    </head>
+
+    <body>
+        <div id="jspsych_target"></div>
+    </body>
+
+    <script>
+        // TOWER OF LONDON
+
+        var tol_stimuli = [
+        "img/tolimg/AN01.png",
+        "img/tolimg/AN02.png",
+        "img/tolimg/AN03.png",
+        "img/tolimg/AN04.png",
+        "img/tolimg/AN05.png",
+        "img/tolimg/AN06.png",
+        "img/tolimg/AN07.png",
+        "img/tolimg/AN08.png", 
+        "img/tolimg/AN09.png",  
+        "img/tolimg/AN10.png",  
+        "img/tolimg/AN11.png",
+        "img/tolimg/AN12.png",  
+        "img/tolimg/AN13.png",  
+        "img/tolimg/AN14.png",  
+        "img/tolimg/AN15.png",  
+        "img/tolimg/AN16.png",  
+        "img/tolimg/AN17.png",  
+        "img/tolimg/AN18.png",  
+        "img/tolimg/AN19.png",  
+        "img/tolimg/AN20.png",  
+        "img/tolimg/AN21.png",  
+        "img/tolimg/AN22.png"
+        ];
+
+
+        var tol_stimuli_types = [2,2,3,3,2,1,3,4,1,4,3,4,1,2,3,2,1,4,1,4,6,5];
+
+
+        // Experiment Instructions
+
+        var tol_instructions = "<div id='instructions'><h1>Well done!</h1><p class='centered'> In the following experiment, you will see a " +
+            "series of images that look like this:</p><p class='centered'><img src='img/tolimg/BP1.png'></p><p>Your task is to " +
+            "estimate how many times total you would need to move a ball to get " +
+            "from the starting point in the first image to the final  " +
+            "layout in the second image. Press the corresponding " +
+            "key on your keyboard to give your response.</p><p class='anykey'>Press any key to start!</p>";
+
+        var tol_intermezzo = "<div id='instructions'><p class='centered'>You completed the training! The experiment will now follow.</p><p>" +
+            "<p>Please note that during the experiment you will not get feedback about whether your response was correct or false. " +
+            "Try to be as fast and accurate as you can!</p>"+
+            "</p><p class='anykey'>Press any key to start when you're ready!</p>";
+
+        var tol_stimuli_array = [];
+        var tol_data = [];
+
+        //generating the array of stimuli
+        //tol_stimuli_array is a reduntant variable -> workaround
+        for (var i = 0; i < tol_stimuli.length; i++) {
+            tol_stimuli_array.push(tol_stimuli[i]);
+            tol_data.push({
+                "stimulus_type": tol_stimuli_types[i]
+            });
+        }
+
+        // Define experiment blocks
+        var tol_instruction_block = {
+                type: "text",
+                text: [tol_instructions],
+                timing_post_trial: 250
+            };
+
+        var tol_intermezzo_block = {
+                type: "text",
+                text: [tol_intermezzo],
+                timing_post_trial: 250
+            };    
+
+        var tol_test_block = {
+                type: "single-stim",
+                stimuli: tol_stimuli_array,
+                //change choices to key presses corresponding to number keys!
+                choices: [48, 49, 50, 51, 52, 53, 54, 55, 56, 57],
+                data: tol_data
+            };
+
+        /*var tol_training_images = [ 
+        {stimulus:"img/tolimg/AP1.png", data: {key: 49}}, 
+        {stimulus:"img/tolimg/AP2.png", data: {key: 50}}, 
+        {stimulus:"img/tolimg/AP3.png", data: {key: 51}}, 
+        ];*/
+
+        var tol_training_images = ["img/tolimg/AP1.png", "img/tolimg/AP2.png", "img/tolimg/AP3.png"];
+
+        var tol_training_answers = [49,50,51];
+        var tol_training_text_answers = ['1','2','3'];
+
+        var tol_training_block = {
+            type: 'categorize',
+            stimuli: tol_training_images,
+            key_answer: tol_training_answers,
+            text_answer: tol_training_text_answers,
+            choices: [48, 49, 50, 51, 52, 53, 54, 55, 56, 57],
+            correct_text: "<p class='correct'>Correct!</p>",
+            incorrect_text: "<p class='false'>False!</p>",
+            prompt: "<p class='centered'>How many times would you need to move a ball <br>to get from the layout in image A to the layout in image B?</p>" +
+            "<p class='centered'>Press the corresponding key on your keyboard to give your response.</p>"
+        };
+
+
+        jsPsych.init({
+            display_element: $('#jspsych_target'),
+            experiment_structure: [tol_instruction_block, tol_training_block, tol_intermezzo_block, tol_test_block],
+            on_finish:function(){
+                window.location.href = "palmer-experiments";
+              }
+               //jsPsych.saveCSVdata("data.csv");
+        });
+    </script>
+</html>

@@ -1,0 +1,13 @@
+{
+  "name": "serve_experiment_pages",
+  "description": "express test to serve jspsych pages",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "4.9.4",
+    "ejs": "*"
+  }
+}

@@ -1,0 +1,292 @@
+<doctype HTML!>
+	<html>
+		<head>
+			<meta charset="utf-8"/>
+	        <title>Demographics survey</title>
+	        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	        <script src="/scripts/jspsych.js"></script>
+	        <script src="/scripts/plugins/clean_dropdown.js"></script>
+            <link href="/css/experiment.css" type="text/css" rel="stylesheet"></link>
+            <link href="/css/demographics.css" type="text/css" rel="stylesheet"></link>
+		</head>
+
+		<body>
+           <!-- <div id="demographics_container"> -->
+                <form name="demographics" action="survey_with_intro" method="get">
+                    <div class="demographic_questions">
+                        <label for="birthyear" class="short">Birth year:</label>
+                        <select id="birthyear" name="birthyear" class="short">
+                            <option value="2014" class="short">2014</option>
+                            <option value="2013" class="short">2013</option>
+                            <option value="2012" class="short">2012</option>
+                            <option value="2011" class="short">2011</option>
+                            <option value="2010" class="short">2010</option>
+                            <option value="2009" class="short">2009</option>
+                            <option value="2008" class="short">2008</option>
+                            <option value="2007" class="short">2007</option>
+                            <option value="2006" class="short">2006</option>
+                            <option value="2005" class="short">2005</option>
+                            <option value="2004" class="short">2004</option>
+                            <option value="2003" class="short">2003</option>
+                            <option value="2002" class="short">2002</option>
+                            <option value="2001" class="short">2001</option>
+                            <option value="2000" class="short">2000</option>
+                            <option value="1999" class="short">1999</option>
+                            <option value="1998" class="short">1998</option>
+                            <option value="1997" class="short">1997</option>
+                            <option value="1996" class="short">1996</option>
+                            <option value="1995" class="short">1995</option>
+                            <option value="1994" class="short">1994</option>
+                            <option value="1993" class="short">1993</option>
+                            <option value="1992" class="short">1992</option>
+                            <option value="1991" class="short">1991</option>
+                            <option value="1990" class="short">1990</option>
+                            <option value="1989" class="short">1989</option>
+                            <option value="1988" class="short">1988</option>
+                            <option value="1987" class="short">1987</option>
+                            <option value="1986" class="short">1986</option>
+                            <option value="1985" class="short">1985</option>
+                            <option value="1984" class="short">1984</option>
+                            <option value="1983" class="short">1983</option>
+                            <option value="1982" class="short">1982</option>
+                            <option value="1981" class="short">1981</option>
+                            <option value="1980" class="short">1980</option>
+                            <option value="1979" class="short">1979</option>
+                            <option value="1978" class="short">1978</option>
+                            <option value="1977" class="short">1977</option>
+                            <option value="1976" class="short">1976</option>
+                            <option value="1975" class="short">1975</option>
+                            <option value="1974" class="short">1974</option>
+                            <option value="1973" class="short">1973</option>
+                            <option value="1972" class="short">1972</option>
+                            <option value="1971" class="short">1971</option>
+                            <option value="1970" class="short">1970</option>
+                            <option value="1969" class="short">1969</option>
+                            <option value="1968" class="short">1968</option>
+                            <option value="1967" class="short">1967</option>
+                            <option value="1966" class="short">1966</option>
+                            <option value="1965" class="short">1965</option>
+                            <option value="1964" class="short">1964</option>
+                            <option value="1963" class="short">1963</option>
+                            <option value="1962" class="short">1962</option>
+                            <option value="1961" class="short">1961</option>
+                            <option value="1960" class="short">1960</option>
+                            <option value="1959" class="short">1959</option>
+                            <option value="1958" class="short">1958</option>
+                            <option value="1957" class="short">1957</option>
+                            <option value="1956" class="short">1956</option>
+                            <option value="1955" class="short">1955</option>
+                            <option value="1954" class="short">1954</option>
+                            <option value="1953" class="short">1953</option>
+                            <option value="1952" class="short">1952</option>
+                            <option value="1951" class="short">1951</option>
+                            <option value="1950" class="short">1950</option>
+                            <option value="1949" class="short">1949</option>
+                            <option value="1948" class="short">1948</option>
+                            <option value="1947" class="short">1947</option>
+                            <option value="1946" class="short">1946</option>
+                            <option value="1945" class="short">1945</option>
+                            <option value="1944" class="short">1944</option>
+                            <option value="1943" class="short">1943</option>
+                            <option value="1942" class="short">1942</option>
+                            <option value="1941" class="short">1941</option>
+                            <option value="1940" class="short">1940</option>
+                            <option value="1939" class="short">1939</option>
+                            <option value="1938" class="short">1938</option>
+                            <option value="1937" class="short">1937</option>
+                            <option value="1936" class="short">1936</option>
+                            <option value="1935" class="short">1935</option>
+                            <option value="1934" class="short">1934</option>
+                            <option value="1933" class="short">1933</option>
+                            <option value="1932" class="short">1932</option>
+                            <option value="1931" class="short">1931</option>
+                            <option value="1930" class="short">1930</option>
+                            <option value="1929" class="short">1929</option>
+                            <option value="1928" class="short">1928</option>
+                            <option value="1927" class="short">1927</option>
+                            <option value="1926" class="short">1926</option>
+                            <option value="1925" class="short">1925</option>
+                            <option value="1924" class="short">1924</option>
+                            <option value="1923" class="short">1923</option>
+                            <option value="1922" class="short">1922</option>
+                            <option value="1921" class="short">1921</option>
+                            <option value="1920" class="short">1920</option>
+                            <option value="1919" class="short">1919</option>
+                            <option value="1918" class="short">1918</option>
+                            <option value="1917" class="short">1917</option>
+                            <option value="1916" class="short">1916</option>
+                            <option value="1915" class="short">1915</option>
+                            <option value="1914" class="short">1914</option>
+                            <option value="1913" class="short">1913</option>
+                            <option value="1912" class="short">1912</option>
+                            <option value="1911" class="short">1911</option>
+                            <option value="1910" class="short">1910</option>
+                            <option value="1909" class="short">1909</option>
+                            <option value="1908" class="short">1908</option>
+                            <option value="1907" class="short">1907</option>
+                            <option value="1906" class="short">1906</option>
+                            <option value="1905" class="short">1905</option>
+                            <option value="1904" class="short">1904</option>
+                            <option value="1903" class="short">1903</option>
+                            <option value="1902" class="short">1902</option>
+                            <option value="1901" class="short">1901</option>
+                            <option value="1900" class="short">1900</option>
+                        </select>
+                        <br>
+                        <label for="gender" class="short gender">Gender:</label>
+                        <div id="gender">
+                            <input type="radio" name="sex" id="male" value="male">
+                            <label for="male">Male</label><br>
+                            <input type="radio" name="sex" id="female" value="female">
+                            <label for="female">Female</label><br>
+                            <input type="radio" name="sex" id="other" value="other">
+                            <label for="other">Other</label><br>
+                        </div>
+                    </div>
+                    
+                    <label for="summonername" class="short">Summoner name:</label>
+                    <input type="text" name="summonername" id="summonername"><br>
+
+                    <label for="region" class="short">Game region:</label>
+                    <select class="main_menu" id="region" text="Region">
+                        <option value="0">North America (NA)</option>
+                        <option value="1">EU West (EUW)</option>
+                        <option value="2">EU Nordic &amp; East (EUNE)</option>
+                        <option value="3">Brazil (BR)</option>
+                        <option value="4">Turkey (TR)</option>
+                        <option value="5">Russia (RU)</option>
+                        <option value="6">Latin America North (LAN)</option>
+                        <option value="7">Latin America South (LAS)</option>
+                        <option value="8">Oceania (AUS &amp; NZ)</option>
+                    </select><br>
+
+                    <label for="position" class="short">Preferred position and role:</label>
+                    <select class="short main_menu" id="position" text="Preferred position">
+                        <option value="0" class="short">Top</option>
+                        <option value="1" class="short">Bottom</option>
+                        <option value="2" class="short">Middle</option>
+                        <option value="3" class="short">Jungler</option>
+                    </select>
+
+                    <select class="short main_menu" id="role" text="Preferred role">
+                        <option value="0" class="short">Carry</option>
+                        <option value="1" class="short">Support</option>
+                        <option value="2" class="short">Bruiser</option>
+                        <option value="3" class="short">Tank</option>
+                    </select><br>
+
+                    <div id="teamselect">
+                        <p>Which of the following game styles do you play? <strong>Select all that apply</strong>!</p>
+                        <input type="checkbox" name="ratings" id="non-team" value="non-team">
+                        <label for="non-team" class="long">Non-team ranked games (solo or duo-queue)</label><br>
+                        <input type="checkbox" name="ratings" id="3v3" value="3v3">
+                        <label for="3v3" class="long">3v3 ranked</label><br>
+                        <input type="checkbox" name="ratings" id="5v5" value="5v5">
+                        <label for="5v5" class="long">5v5 ranked</label><br>
+                    </div>
+
+                    <div id="non-team" class="appendable">
+                        <p>When playing non-team ranked games, do you solo- or duo queue?</p>
+                        <input type="radio" name="non-team" id="solo" value="solo">
+                        <label for="solo" class="long">I only solo queue</label><br>
+                        <input type="radio" class="longn" name="non-team" id="duo" value="duo">
+                        <label for="duo" class="long">I only duo queue</label><br>
+                        <input type="radio" name="non-team" id="both" value="both">
+                        <label for="both" class="long">I both solo and duo queue</label><br>
+                        
+                        <label for="non-team-ranked" class="short">Non-team ranked division and tier:</label>
+                        <select class="short main_menu" id="non-team-ranked" text="Division and tier">
+                            <option value="0" class="short">Bronze</option>
+                            <option value="1" class="short">Silver</option>
+                            <option value="2" class="short">Gold</option>
+                            <option value="3" class="short">Platinum</option>
+                            <option value="4" class="short">Diamond</option>
+                            <option value="5" class="short">Challenger</option>
+                        </select>                   
+                        <select class="short submenu" id="submenu_0" parent-item ="non-team-ranked">
+                            <option value="0" class="short">V</option>
+                            <option value="1" class="short">IV</option>
+                            <option value="2" class="short">III</option>
+                            <option value="3" class="short">II</option>
+                            <option value="4" class="short">I</option>
+                        </select><br>
+                    </div>
+
+                    <div id="3v3" class="appendable">
+                        <p>3v3:</p>
+                        <label for="3v3team" class="short">Team name:</label>
+                        <input type="text" id="3v3team" name="3v3team"> 
+                        <br>
+                        <label for="3v3-mainmenu" class="short">Division and Tier:</label>
+                        <select class="short main_menu" id="3v3-mainmenu" text="3v3Division and tier">
+                            <option value="0" class="short">Bronze</option>
+                            <option value="1" class="short">Silver</option>
+                            <option value="2" class="short">Gold</option>
+                            <option value="3" class="short">Platinum</option>
+                            <option value="4" class="short">Diamond</option>
+                            <option value="5" class="short">Challenger</option>
+                        </select>                   
+                        <select class="short submenu" id="3v3-submenu" parent-item ="3v3-mainmenu">
+                            <option value="0" class="short">V</option>
+                            <option value="1" class="short">IV</option>
+                            <option value="2" class="short">III</option>
+                            <option value="3" class="short">II</option>
+                            <option value="4" class="short">I</option>
+                        </select><br>
+                    </div>
+
+                    <div id="5v5" class="appendable">
+                        <p>5v5:</p>
+                        <label for="5v5team" class="short">Team name:</label>
+                        <input type="text" id="5v5team" name="5v5team">
+                        <br>
+                        <label for="5v5-mainmenu" class="short">Division and Tier</label> 
+                        <select class="short main_menu" id="5v5-mainmenu" text="5v5Division and tier">
+                            <option value="0" class="short">Bronze</option>
+                            <option value="1" class="short">Silver</option>
+                            <option value="2" class="short">Gold</option>
+                            <option value="3" class="short">Platinum</option>
+                            <option value="4" class="short">Diamond</option>
+                            <option value="5" class="short">Challenger</option>
+                        </select>
+                        <select class="short submenu" id="5v5-submenu" parent-item ="5v5-mainmenu">
+                            <option value="0" class="short">V</option>
+                            <option value="1" class="short">IV</option>
+                            <option value="2" class="short">III</option>
+                            <option value="3" class="short">II</option>
+                            <option value="4" class="short">I</option>
+                        </select><br>   
+                    </div><br>
+
+                    <input type="submit" value="Submit" class="button">
+
+                </form>
+            <!-- </div> -->
+		</body>
+
+		<script>
+
+            $('.main_menu').change(function(){
+                console.log($(this).val());
+                if ($(this).val() == 5) { //if challenger bracket is selected, hide submenu
+                    $('[class="short submenu"][parent-item="'+$(this).attr("id")+'"]').hide();
+                }
+                else {
+                    $('[class="short submenu"][parent-item="'+$(this).attr("id")+'"]').show();
+                }            
+            });
+
+            $(".appendable").hide();
+            $('input[type=checkbox][name="ratings"]').change(function () {
+            if ($(this).prop("checked")) {
+                $('[class="appendable"][id = "'+$(this).attr("value")+'"]').show();
+            }
+            else {
+                $('[class="appendable"][id = "'+$(this).attr("value")+'"]').hide();
+            }
+
+});
+		</script>
+
+
+	</html>
