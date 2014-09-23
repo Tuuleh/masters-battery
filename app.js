@@ -60,6 +60,12 @@ app.get('/tol', function (req, res) {
     res.render('tol', {});
 });
 
+app.post('/tol-data', function (req, res) {
+    console.log(JSON.stringify(req.body));
+    res.send("{'status':'ok'}");
+});
+
+
 app.get('/palmer-experiments', function (req, res) {
     res.render('palmer-experiments', {});
 });
