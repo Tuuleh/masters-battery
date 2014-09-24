@@ -153,20 +153,23 @@
                 // create object to hold responses
                 var question_data = {};
                 $("div.jspsych-survey-likert-slider").each(function(index) {
-                    var id = "Q" + index;
+                    var id = trial.inventory + "-Q" + (index+1.0);
                     var val = $(this).slider("value");
                     var obje = {};
                     obje[id] = val;
                     $.extend(question_data, obje);
                 });
 
-                // save data
-                block.writeData($.extend({}, {
+                // build object for trial-specific reaction time param
+                var rtString = "rt-" + trial.inventory;
+                var trial_object = {
                     "inventory": trial.inventory,
                     "trial_type": "survey-likert",
-                    //"trial_index": block.trial_idx, //unnecessary, really
-                    "rt": response_time
-                }, question_data, trial.data));
+                }
+                //save data
+                trial_object[rtString] = response_time;
+                block.writeData($.extend({}, 
+                trial_object, question_data, trial.data));
 
                 display_element.html('');
 
