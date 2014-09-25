@@ -156,14 +156,13 @@
             display_element: $('#jspsych_target'),
             experiment_structure: [survey_intro_block, GEQ_block1, GEQ_block2, TLX],
             on_finish:function(data){
-                console.log("survey data is " + JSON.stringify(data));
                 $.ajax({
                     type: "POST",
                     url: "/survey_with_intro-data",
                     data: JSON.stringify(data),
                     contentType: "application/json"
                 }).done(function() {
-                    alert(1);
+                    console.log(JSON.stringify(data));
                     window.location.href = "flanker"; 
                 });
             }

@@ -54,10 +54,8 @@
         // Experiment Instructions
 
         var tol_instructions = "<div id='instructions'><h1>Well done!</h1><p class='centered'> In the following experiment, you will see a " +
-            "series of images that look like this:</p><p class='centered'><img src='img/tolimg/BP1.png'></p><p>Your task is to " +
-            "estimate how many times total you would need to move a ball to get " +
-            "from the starting point in the first image to the final  " +
-            "layout in the second image. Press the corresponding " +
+            "series of images that look like this:</p><p class='centered'><img src='img/tolimg/BP1.png'></p>"+
+            "<p>Your task is to estimate how many times you would need to move a ball if you tried to get from the layout in image A to the layout in image B with as few moves as possible. Press the corresponding " +
             "key on your keyboard to give your response.</p><p class='anykey'>Press any key to start!</p>";
 
         var tol_intermezzo = "<div id='instructions'><p class='centered'>You completed the training! The experiment will now follow.</p><p>" +
@@ -107,6 +105,7 @@
                 type: "single-stim",
                 stimuli: tol_experiment.stimulus,
                 choices: [48, 49, 50, 51, 52, 53, 54, 55, 56, 57],
+                moves: moves,
                 data: tol_experiment.data,
                 correct_key: tol_experiment.data.correct_key
             };
@@ -123,8 +122,10 @@
             choices: [48, 49, 50, 51, 52, 53, 54, 55, 56, 57],
             correct_text: "<p class='correct'>Correct!</p>",
             incorrect_text: "<p class='false'>False!</p>",
-            prompt: "<p class='centered'>How many times would you need to move a ball <br>to get from the layout in image A to the layout in image B?</p>" +
-            "<p class='centered'>Press the corresponding key on your keyboard to give your response.</p>"
+            prompt: "<p class='centered'>How many times minimum would you need to move a ball <br>to get from the layout in image A to the layout in image B?</p>" +
+            "<p class='centered'>Press the corresponding key on your keyboard to give your response.</p>",
+            timing_feedback_duration: 1000,
+            timing_post_trial: 800
         };
 
 
@@ -132,14 +133,13 @@
             display_element: $('#jspsych_target'),
             experiment_structure: [tol_instruction_block, tol_training_block, tol_intermezzo_block, tol_test_block],
             on_finish:function(data){
-                console.log(JSON.stringify(data));
                     $.ajax({
                         type: "POST",
                         url: "/tol-data",
                         data: JSON.stringify(data),
                         contentType: "application/json"
                     }).done(function() {
-                        alert(1);
+                        console.log(JSON.stringify(data));
                         window.location.href = "palmer-experiments"; 
                     });
                 }
