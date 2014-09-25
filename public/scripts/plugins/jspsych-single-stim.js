@@ -39,6 +39,7 @@
                 // option to show image for fixed time interval, ignoring key responses
                 // true = image will keep displaying after response
                 // false = trial will immediately advance when response is recorded
+                trials[i].moves = params.moves[i];
                 trials[i].continue_after_response = (typeof params.continue_after_response === 'undefined') ? true : params.continue_after_response;
                 // timing parameters
                 trials[i].timing_stim = params.timing_stim || -1; // if -1, then show indefinitely
@@ -90,12 +91,17 @@
                     "stimulus": trial.a_path,
                     "key_press": info.key
                 };
-
+                
                 //if correct_key is defined in the data object for the trial:
                 if (trial.data.correct_key != undefined) {
                     trial_data.correct = false;
                     if (trial.data.correct_key == info.key) {
                         trial_data.correct = true;
+                    }
+                    //if you have an experiment where you have to keep count on by how much
+                    //the response was incorrect (e.g. Tower of London)
+                    if (trial.moves != undefined) {
+                        trial_data["missed_by"] = Math.abs(info.key-trial.data.correct_key); //trial.correct_key is string
                     }
                 }
 
