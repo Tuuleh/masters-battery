@@ -25,6 +25,7 @@
         </div>
     </body>
     <script type='text/javascript'>
+    var userId = "<%= userId%>";
 
         // the html function loads external html content into the page. 
         // the external content is a file called "external_page.html"
@@ -32,6 +33,7 @@
 
         // sample function that might be used to check if a subject has given
         // consent to participate.
+
         var check_consent = function(elem) {
             if ($('#consent_checkbox').is(':checked')) {
                 return true;
@@ -55,7 +57,7 @@
                 }));
             }*/
             on_finish:function(){
-                window.location.href = "demographics"; 
+                window.location.href = 'demographics?userId='+userId; 
             }
         });
     </script>

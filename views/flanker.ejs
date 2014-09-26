@@ -22,6 +22,8 @@
 
     <script>
 
+    var userId = "<%= userId%>";
+
         var flanker_instructions = "<div id='instructions'><h1>Well done!</h1><p class=centered>... and welcome to the first cognitive task!"+
             " In the following section, you will see a series of images that look similar to this:</p><p class='centered'>" +
             "<img src='img/incongruent_right.gif'></p>"+
@@ -66,8 +68,6 @@
         }
 
         var trial_images = jsPsych.randomization.repeat(test_images, 6, true);
-        console.log(trial_images);
-
         // Define experiment blocks
         var flanker_instruction_block = {
             type: "text",
@@ -112,10 +112,10 @@
                     type: "POST",
                     url: "/flanker-data",
                     data: JSON.stringify(data),
+                    userId: userId,
                     contentType: "application/json"
                 }).done(function() {
-                    console.log(JSON.stringify(data));
-                    //window.location.href = "mental_rotation"; 
+                    window.location.href = "mental_rotation?userId="+userId; 
                 });
             }
         });

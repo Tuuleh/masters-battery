@@ -14,14 +14,13 @@
         <link href="css/reset.css" type="text/css" rel="stylesheet"></link>
         <link href="css/experiment.css" type="text/css" rel="stylesheet"></link>
         
-
     </head>
-
     <body>
         <div id="jspsych_target"></div>
     </body>
-    <script type="text/javascript">
 
+    <script type="text/javascript">
+        var userId = "<%= userId%>";
         //a function that returns a random configuration for Palmer stimuli
         var generateConfig = function() {
             var randarray = [];

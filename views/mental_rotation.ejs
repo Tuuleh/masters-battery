@@ -19,57 +19,59 @@
         <div id="jspsych_target"></div>
     </body>
     <script type="text/javascript">
+    
+    var userId = "<%= userId%>";
 
-        var images = [
-            {stimulus:"img/mental_rotation/RotacijaA/A-0.gif", data: {item: "A", type: "identical", correct_key: "81", rotation: "0"}},
-            {stimulus:"img/mental_rotation/RotacijaA/A-0m.gif", data: {item: "A", type: "mirrored", correct_key: "80", rotation: "0"}},
-            {stimulus:"img/mental_rotation/RotacijaA/A-120.gif", data: {item: "A", type: "identical", correct_key: "81", rotation: "120"}},
-            {stimulus:"img/mental_rotation/RotacijaA/A-120m.gif", data: {item: "A", type: "mirrored", correct_key: "80", rotation: "120"}},
-            {stimulus:"img/mental_rotation/RotacijaA/A-180.gif", data: {item: "A", type: "identical", correct_key: "81", rotation: "180"}},
-            {stimulus:"img/mental_rotation/RotacijaA/A-180m.gif", data: {item: "A", type: "mirrored", correct_key: "80", rotation: "180"}},
-            {stimulus:"img/mental_rotation/RotacijaA/A-240.gif", data: {item: "A", type: "identical", correct_key: "81", rotation: "240"}},
-            {stimulus:"img/mental_rotation/RotacijaA/A-240m.gif", data: {item: "A", type: "mirrored", correct_key: "80", rotation: "240"}},
-            {stimulus:"img/mental_rotation/RotacijaA/A-300.gif", data: {item: "A", type: "identical", correct_key: "81", rotation: "300"}},
-            {stimulus:"img/mental_rotation/RotacijaA/A-300m.gif", data: {item: "A", type: "mirrored", correct_key: "80", rotation: "300"}},
-            {stimulus:"img/mental_rotation/RotacijaA/A-60.gif", data: {item: "A", type: "identical", correct_key: "81", rotation: "60"}},
-            {stimulus:"img/mental_rotation/RotacijaA/A-60m.gif", data: {item: "A", type: "mirrored", correct_key: "80", rotation: "60"}},
-            {stimulus:"img/mental_rotation/RotacijaA/B-0.gif", data: {item: "B", type: "identical", correct_key: "81", rotation: "0"}},
-            {stimulus:"img/mental_rotation/RotacijaA/B-0m.gif", data: {item: "B", type: "mirrored", correct_key: "80", rotation: "0"}},
-            {stimulus:"img/mental_rotation/RotacijaA/B-120.gif", data: {item: "B", type: "identical", correct_key: "81", rotation: "120"}},
-            {stimulus:"img/mental_rotation/RotacijaA/B-120m.gif", data: {item: "B", type: "mirrored", correct_key: "80", rotation: "120"}},
-            {stimulus:"img/mental_rotation/RotacijaA/B-180.gif", data: {item: "B", type: "identical", correct_key: "81", rotation: "180"}},
-            {stimulus:"img/mental_rotation/RotacijaA/B-180m.gif", data: {item: "B", type: "mirrored", correct_key: "80", rotation: "180"}},
-            {stimulus:"img/mental_rotation/RotacijaA/B-240.gif", data: {item: "B", type: "identical", correct_key: "81", rotation: "240"}},
-            {stimulus:"img/mental_rotation/RotacijaA/B-240m.gif", data: {item: "B", type: "mirrored", correct_key: "80", rotation: "240"}},
-            {stimulus:"img/mental_rotation/RotacijaA/B-300.gif", data: {item: "B", type: "identical", correct_key: "81", rotation: "300"}},
-            {stimulus:"img/mental_rotation/RotacijaA/B-300m.gif", data: {item: "B", type: "mirrored", correct_key: "80", rotation: "300"}},
-            {stimulus:"img/mental_rotation/RotacijaA/B-60.gif", data: {item: "B", type: "identical", correct_key: "81", rotation: "60"}},
-            {stimulus:"img/mental_rotation/RotacijaA/B-60m.gif", data: {item: "B", type: "mirrored", correct_key: "80", rotation: "60"}},
-            {stimulus:"img/mental_rotation/RotacijaA/C-0.gif", data: {item: "C", type: "identical", correct_key: "81", rotation: "0"}},
-            {stimulus:"img/mental_rotation/RotacijaA/C-0m.gif", data: {item: "C", type: "mirrored", correct_key: "80", rotation: "0"}},
-            {stimulus:"img/mental_rotation/RotacijaA/C-120.gif", data: {item: "C", type: "identical", correct_key: "81", rotation: "120"}},
-            {stimulus:"img/mental_rotation/RotacijaA/C-120m.gif", data: {item: "C", type: "mirrored", correct_key: "80", rotation: "120"}},
-            {stimulus:"img/mental_rotation/RotacijaA/C-180.gif", data: {item: "C", type: "identical", correct_key: "81", rotation: "180"}},
-            {stimulus:"img/mental_rotation/RotacijaA/C-180m.gif", data: {item: "C", type: "mirrored", correct_key: "80", rotation: "180"}},
-            {stimulus:"img/mental_rotation/RotacijaA/C-240.gif", data: {item: "C", type: "identical", correct_key: "81", rotation: "240"}},
-            {stimulus:"img/mental_rotation/RotacijaA/C-240m.gif", data: {item: "C", type: "mirrored", correct_key: "80", rotation: "240"}},
-            {stimulus:"img/mental_rotation/RotacijaA/C-300.gif", data: {item: "C", type: "identical", correct_key: "81", rotation: "300"}},
-            {stimulus:"img/mental_rotation/RotacijaA/C-300m.gif", data: {item: "C", type: "mirrored", correct_key: "80", rotation: "300"}},
-            {stimulus:"img/mental_rotation/RotacijaA/C-60.gif", data: {item: "C", type: "identical", correct_key: "81", rotation: "60"}},
-            {stimulus:"img/mental_rotation/RotacijaA/C-60m.gif", data: {item: "C", type: "mirrored", correct_key: "80", rotation: "60"}},
-            {stimulus:"img/mental_rotation/RotacijaA/D-0.gif", data: {item: "D", type: "identical", correct_key: "81", rotation: "0"}},
-            {stimulus:"img/mental_rotation/RotacijaA/D-0m.gif", data: {item: "D", type: "mirrored", correct_key: "80", rotation: "0"}},
-            {stimulus:"img/mental_rotation/RotacijaA/D-120.gif", data: {item: "D", type: "identical", correct_key: "81", rotation: "120"}},
-            {stimulus:"img/mental_rotation/RotacijaA/D-120m.gif", data: {item: "D", type: "mirrored", correct_key: "80", rotation: "120"}},
-            {stimulus:"img/mental_rotation/RotacijaA/D-180.gif", data: {item: "D", type: "identical", correct_key: "81", rotation: "180"}},
-            {stimulus:"img/mental_rotation/RotacijaA/D-180m.gif", data: {item: "D", type: "mirrored", correct_key: "80", rotation: "180"}},
-            {stimulus:"img/mental_rotation/RotacijaA/D-240.gif", data: {item: "D", type: "identical", correct_key: "81", rotation: "240"}},
-            {stimulus:"img/mental_rotation/RotacijaA/D-240m.gif", data: {item: "D", type: "mirrored", correct_key: "80", rotation: "240"}},
-            {stimulus:"img/mental_rotation/RotacijaA/D-300.gif", data: {item: "D", type: "identical", correct_key: "81", rotation: "300"}},
-            {stimulus:"img/mental_rotation/RotacijaA/D-300m.gif", data: {item: "D", type: "mirrored", correct_key: "80", rotation: "300"}},
-            {stimulus:"img/mental_rotation/RotacijaA/D-60.gif", data: {item: "D", type: "identical", correct_key: "81", rotation: "60"}},
-            {stimulus:"img/mental_rotation/RotacijaA/D-60m.gif", data: {item: "D", type: "mirrored", correct_key: "80", rotation: "60"}}
-            ];
+    var images = [
+        {stimulus:"img/mental_rotation/RotacijaA/A-0.gif", data: {item: "A", type: "identical", correct_key: "81", rotation: "0"}},
+        {stimulus:"img/mental_rotation/RotacijaA/A-0m.gif", data: {item: "A", type: "mirrored", correct_key: "80", rotation: "0"}},
+        {stimulus:"img/mental_rotation/RotacijaA/A-120.gif", data: {item: "A", type: "identical", correct_key: "81", rotation: "120"}},
+        {stimulus:"img/mental_rotation/RotacijaA/A-120m.gif", data: {item: "A", type: "mirrored", correct_key: "80", rotation: "120"}},
+        {stimulus:"img/mental_rotation/RotacijaA/A-180.gif", data: {item: "A", type: "identical", correct_key: "81", rotation: "180"}},
+        {stimulus:"img/mental_rotation/RotacijaA/A-180m.gif", data: {item: "A", type: "mirrored", correct_key: "80", rotation: "180"}},
+        {stimulus:"img/mental_rotation/RotacijaA/A-240.gif", data: {item: "A", type: "identical", correct_key: "81", rotation: "240"}},
+        {stimulus:"img/mental_rotation/RotacijaA/A-240m.gif", data: {item: "A", type: "mirrored", correct_key: "80", rotation: "240"}},
+        {stimulus:"img/mental_rotation/RotacijaA/A-300.gif", data: {item: "A", type: "identical", correct_key: "81", rotation: "300"}},
+        {stimulus:"img/mental_rotation/RotacijaA/A-300m.gif", data: {item: "A", type: "mirrored", correct_key: "80", rotation: "300"}},
+        {stimulus:"img/mental_rotation/RotacijaA/A-60.gif", data: {item: "A", type: "identical", correct_key: "81", rotation: "60"}},
+        {stimulus:"img/mental_rotation/RotacijaA/A-60m.gif", data: {item: "A", type: "mirrored", correct_key: "80", rotation: "60"}},
+        {stimulus:"img/mental_rotation/RotacijaA/B-0.gif", data: {item: "B", type: "identical", correct_key: "81", rotation: "0"}},
+        {stimulus:"img/mental_rotation/RotacijaA/B-0m.gif", data: {item: "B", type: "mirrored", correct_key: "80", rotation: "0"}},
+        {stimulus:"img/mental_rotation/RotacijaA/B-120.gif", data: {item: "B", type: "identical", correct_key: "81", rotation: "120"}},
+        {stimulus:"img/mental_rotation/RotacijaA/B-120m.gif", data: {item: "B", type: "mirrored", correct_key: "80", rotation: "120"}},
+        {stimulus:"img/mental_rotation/RotacijaA/B-180.gif", data: {item: "B", type: "identical", correct_key: "81", rotation: "180"}},
+        {stimulus:"img/mental_rotation/RotacijaA/B-180m.gif", data: {item: "B", type: "mirrored", correct_key: "80", rotation: "180"}},
+        {stimulus:"img/mental_rotation/RotacijaA/B-240.gif", data: {item: "B", type: "identical", correct_key: "81", rotation: "240"}},
+        {stimulus:"img/mental_rotation/RotacijaA/B-240m.gif", data: {item: "B", type: "mirrored", correct_key: "80", rotation: "240"}},
+        {stimulus:"img/mental_rotation/RotacijaA/B-300.gif", data: {item: "B", type: "identical", correct_key: "81", rotation: "300"}},
+        {stimulus:"img/mental_rotation/RotacijaA/B-300m.gif", data: {item: "B", type: "mirrored", correct_key: "80", rotation: "300"}},
+        {stimulus:"img/mental_rotation/RotacijaA/B-60.gif", data: {item: "B", type: "identical", correct_key: "81", rotation: "60"}},
+        {stimulus:"img/mental_rotation/RotacijaA/B-60m.gif", data: {item: "B", type: "mirrored", correct_key: "80", rotation: "60"}},
+        {stimulus:"img/mental_rotation/RotacijaA/C-0.gif", data: {item: "C", type: "identical", correct_key: "81", rotation: "0"}},
+        {stimulus:"img/mental_rotation/RotacijaA/C-0m.gif", data: {item: "C", type: "mirrored", correct_key: "80", rotation: "0"}},
+        {stimulus:"img/mental_rotation/RotacijaA/C-120.gif", data: {item: "C", type: "identical", correct_key: "81", rotation: "120"}},
+        {stimulus:"img/mental_rotation/RotacijaA/C-120m.gif", data: {item: "C", type: "mirrored", correct_key: "80", rotation: "120"}},
+        {stimulus:"img/mental_rotation/RotacijaA/C-180.gif", data: {item: "C", type: "identical", correct_key: "81", rotation: "180"}},
+        {stimulus:"img/mental_rotation/RotacijaA/C-180m.gif", data: {item: "C", type: "mirrored", correct_key: "80", rotation: "180"}},
+        {stimulus:"img/mental_rotation/RotacijaA/C-240.gif", data: {item: "C", type: "identical", correct_key: "81", rotation: "240"}},
+        {stimulus:"img/mental_rotation/RotacijaA/C-240m.gif", data: {item: "C", type: "mirrored", correct_key: "80", rotation: "240"}},
+        {stimulus:"img/mental_rotation/RotacijaA/C-300.gif", data: {item: "C", type: "identical", correct_key: "81", rotation: "300"}},
+        {stimulus:"img/mental_rotation/RotacijaA/C-300m.gif", data: {item: "C", type: "mirrored", correct_key: "80", rotation: "300"}},
+        {stimulus:"img/mental_rotation/RotacijaA/C-60.gif", data: {item: "C", type: "identical", correct_key: "81", rotation: "60"}},
+        {stimulus:"img/mental_rotation/RotacijaA/C-60m.gif", data: {item: "C", type: "mirrored", correct_key: "80", rotation: "60"}},
+        {stimulus:"img/mental_rotation/RotacijaA/D-0.gif", data: {item: "D", type: "identical", correct_key: "81", rotation: "0"}},
+        {stimulus:"img/mental_rotation/RotacijaA/D-0m.gif", data: {item: "D", type: "mirrored", correct_key: "80", rotation: "0"}},
+        {stimulus:"img/mental_rotation/RotacijaA/D-120.gif", data: {item: "D", type: "identical", correct_key: "81", rotation: "120"}},
+        {stimulus:"img/mental_rotation/RotacijaA/D-120m.gif", data: {item: "D", type: "mirrored", correct_key: "80", rotation: "120"}},
+        {stimulus:"img/mental_rotation/RotacijaA/D-180.gif", data: {item: "D", type: "identical", correct_key: "81", rotation: "180"}},
+        {stimulus:"img/mental_rotation/RotacijaA/D-180m.gif", data: {item: "D", type: "mirrored", correct_key: "80", rotation: "180"}},
+        {stimulus:"img/mental_rotation/RotacijaA/D-240.gif", data: {item: "D", type: "identical", correct_key: "81", rotation: "240"}},
+        {stimulus:"img/mental_rotation/RotacijaA/D-240m.gif", data: {item: "D", type: "mirrored", correct_key: "80", rotation: "240"}},
+        {stimulus:"img/mental_rotation/RotacijaA/D-300.gif", data: {item: "D", type: "identical", correct_key: "81", rotation: "300"}},
+        {stimulus:"img/mental_rotation/RotacijaA/D-300m.gif", data: {item: "D", type: "mirrored", correct_key: "80", rotation: "300"}},
+        {stimulus:"img/mental_rotation/RotacijaA/D-60.gif", data: {item: "D", type: "identical", correct_key: "81", rotation: "60"}},
+        {stimulus:"img/mental_rotation/RotacijaA/D-60m.gif", data: {item: "D", type: "mirrored", correct_key: "80", rotation: "60"}}
+        ];
 
         //creates a separate array for preloading the images -> the images array doesn't work because of object structure
         var preload = [];
@@ -191,9 +193,7 @@
         };
 
         
-        // preload images
-        // call start() when loading is complete
-        jsPsych.preloadImages(preload, start);
+        
  
         // launch jspsych experiment
         function start() {
@@ -205,14 +205,19 @@
                         type: "POST",
                         url: "/mental_rotation-data",
                         data: JSON.stringify(data),
+                        userId: userId,
                         contentType: "application/json"
                     }).done(function() {
-                        console.log(JSON.stringify(data));
-                        window.location.href = "tol"; 
+                        window.location.href = "tol?userId="+userId; 
                     });
                 }
             });
         }
+
+        // preload images
+        // call start() when loading is complete
+        jsPsych.preloadImages(preload, start);
+        
     </script>
 
 </html>

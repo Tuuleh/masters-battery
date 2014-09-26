@@ -15,6 +15,7 @@
            <div id='container'>
                 <form id="demographics" action="survey_with_intro" method="post">
                     <div class="demographic_questions">
+                        <input type="hidden" name="userId" value="<%= userId %>"/>
                         <label for="birthyear" class="short">Birth year:</label>
                         <select id="birth_year" name="birth_year" class="short">
                             <option value="2014" class="short">2014</option>
@@ -266,6 +267,7 @@
         </body>
 
         <script>
+        var userId = "<%= userId%>";
 
             $('.main_menu').change(function(){
                 console.log($(this).val());
@@ -296,7 +298,7 @@
                     data: $("#demographics").serialize(), // serializes the form's elements.
                     success: function(data){
                         console.log($("#demographics").serialize());
-                        //window.location.href = 'survey_with_intro';
+                        window.location.href = 'survey_with_intro?userId='+userId;
                         }
                     });
                 }); 

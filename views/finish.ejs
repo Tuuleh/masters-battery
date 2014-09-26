@@ -4,6 +4,7 @@
         <link href="/css/experiment.css" type="text/css" rel="stylesheet">        
         <link href="/css/finish.css" type="text/css" rel="stylesheet">
         <title>You did it!</title>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     </head>
     <body>
         <div class='mask'>
@@ -26,20 +27,44 @@
                 my year if even just one of your teammates participated!
             </p>
             
-            <p>If you have any questions about the study or would like to receive some information about the results
-                when I will have analysed the data, please leave a comment with your e-mail address below.
-            </p>
+            <p>If you have any questions or comments regarding the study, please leave a comment with your e-mail address below, so I can get back to you.</p>
 
-            <form action="MAILTO:tuuli.pollanen@gmail.com" method="post" enctype="text/plain">
-                Name (optional):<br>
-                <input type="text" name="name" value="your name"><br>
+            <form id = "finish" action="/thank_you" method="post">
                 E-mail:<br>
-                <input type="text" name="mail" value="your email"><br>
+                <input type="text" name="mail"><br>
                 Message: <br>
-                <textarea></textarea>
-                <br>
+                <textarea name="message"></textarea>
+
+                <p>Would you like to see the results once the data has been analysed? Note that if you do, you will have to supply your e-mail address above.</p>
+            
+                <input type="radio" name="wants_results" id="results_yes" value="yes">
+                <label for="results_yes">Yes, please.</label><br>
+                <input type="radio" name="wants_results" id="results_no" value="no">
+                <label for="results_no">No, thanks.</label><br>
+
+                <p>After I finish, I'd like to set up a web page for the project where the anonymized data and the source code for the experiments can be downloaded. As a part of the web page, I'd like to set up a short thank-you with a list of the people who participated. Would you like your summoner name published on this list?</p>
+
+                <input type="radio" name="thank_you_list" id="list_yes" value="yes">
+                <label for="list_yes">Yes, bring on the internet fame!</label><br>
+                <input type="radio" name="thank_you_list" id="list_no" value="no">
+                <label for="list_no">No, thanks, I prefer to remain incognito.</label><br>
+
                 <input type="submit" value="Send" class="button">
             </form>
         </div>
     </body>
+    <script>
+    var userId = "<%= userId%>";
+        $( "#finish" ).submit(function( event ) {
+            event.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "/finish-data",
+                data: $("#finish").serialize(), // serializes the form's elements.
+                success: function(data){
+                    window.location.href = 'thank_you?userId='+userId;
+                    }
+                });
+            });
+        </script>
 </html>

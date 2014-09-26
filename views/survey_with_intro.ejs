@@ -27,6 +27,8 @@
 
     <script type="text/javascript">
 
+        var userId = "<%= userId%>";
+
         var survey_intro = "<div id='instructions'><h1>Let's get started!</h1><p>You will now enter a section with a few short questionnaires. There are no right or wrong answers, so please give your immediate reaction."+
         "<p>The first questionnaire is designed to assess your <strong>perception of your highest rated ranked team</strong>, and the second one will assess the <strong>task load</strong> you experience during gameplay.</p><p>If you do not play games in a ranked team, feel free to submit the team inventories with default values, but please still respond to the questions about task load! </p>" +
         "<p>Some of the questions may seem repetitive, but please answer all of them! Your personal responses will be kept in strictest confidence.</p>"+
@@ -162,8 +164,7 @@
                     data: JSON.stringify(data),
                     contentType: "application/json"
                 }).done(function() {
-                    console.log(JSON.stringify(data));
-                    window.location.href = "flanker"; 
+                    window.location.href = 'flanker?userId='+userId; 
                 });
             }
             

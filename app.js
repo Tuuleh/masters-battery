@@ -1,4 +1,7 @@
 var express = require("express");
+var Sequelize = require('sequelize');
+var uuid = require("node-uuid");
+
 var app = express();
 //start defining routes via app.VERB()
 //check req and res from nodes documentation
@@ -16,8 +19,7 @@ app.use( bodyParser.urlencoded({extended: true}) );
 app.use(express.static(__dirname + '/public'));
 
 /*
-//import sequelize for mysql
-var Sequelize = require('sequelize');
+
 
 //CHECK FROM HERE ON 
 // db config
@@ -53,15 +55,18 @@ var server = app.listen(3000, function(){
 
 //controllers/routers
 app.get('/', function (req, res) {
-    res.render('index', {});
+    var userId = uuid.v4();
+    res.render('index', {userId: userId});
 });
 
 app.get('/demographics', function (req, res) {
-    res.render('demographics', {});
+    
+    var userId = req.query.userId;
+    res.render('demographics', {userId: userId});
 });
 
 app.post('/demographics-data', function (req, res) {
-
+    
     console.log(req.body.birth_year);
     console.log(req.body.gender);
     console.log(req.body.summoner_name);
@@ -77,12 +82,15 @@ app.post('/demographics-data', function (req, res) {
     console.log(req.body.team_5v5);
     console.log(req.body.division_5v5);
     console.log(req.body.tier_5v5);
+    console.log(req.body.userId);
 
     res.send('{"status":"ok"}');
 });
 
 app.get('/survey_with_intro', function (req, res) {
-    res.render('survey_with_intro', {});
+    var userId = req.query.userId;
+    console.log("logging in survey get " + req.query.userId);
+    res.render('survey_with_intro', {userId: userId});
 });
 
 app.post('/survey_with_intro-data', function (req, res) {
@@ -90,35 +98,36 @@ app.post('/survey_with_intro-data', function (req, res) {
 });
 
 app.get('/flanker', function (req, res) {
-    res.render('flanker', {});
+    var userId = req.query.userId;
+    res.render('flanker', {userId:userId});
 });
 
 app.post('/flanker-data', function (req, res) {
-    console.log(JSON.stringify(req.body));
     res.send('{"status":"ok"}');
 });
 
 app.get('/mental_rotation', function (req, res) {
-    res.render('mental_rotation', {});
+    var userId = req.query.userId;
+    res.render('mental_rotation', {userId:userId});
 });
 
 app.post('/mental_rotation-data', function (req, res) {
-    console.log(JSON.stringify(req.body));
     res.send("{'status':'ok'}");
 });
 
 app.get('/tol', function (req, res) {
-    res.render('tol', {});
+    var userId = req.query.userId;
+    res.render('tol', {userId:userId});
 });
 
 app.post('/tol-data', function (req, res) {
-    console.log(JSON.stringify(req.body));
     res.send('{"status":"ok"}');
 });
 
 
 app.get('/palmer-experiments', function (req, res) {
-    res.render('palmer-experiments', {});
+    var userId = req.query.userId;
+    res.render('palmer-experiments', {userId:userId});
 });
 
 app.post('/palmer-experiments-data', function (req, res) {
@@ -127,11 +136,19 @@ app.post('/palmer-experiments-data', function (req, res) {
 });
 
 app.get('/finish', function (req, res) {
-    res.render('finish', {});
+    var userId = req.query.userId;
+    res.render('finish', {userId:userId});
 });
 
-//do i need an app.post for the form is the resp is to email?
 app.post('/finish-data', function (req, res) {
-    console.log(JSON.stringify(req.body));
+    console.log(req.body.mail);
+    console.log(req.body.message);
+    console.log(req.body.wants_results);
+    console.log(req.body.thank_you_list);
     res.send('{"status":"ok"}');
+});
+
+app.get('/thank_you', function (req, res) {
+    var userId = req.query.userId;
+    res.render('thank_you', {userId:userId});
 });

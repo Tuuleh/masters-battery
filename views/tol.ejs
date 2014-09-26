@@ -21,7 +21,7 @@
     </body>
 
     <script>
-        // TOWER OF LONDON
+        var userId = "<%= userId%>";
 
         var tol_stimuli = [
         "img/tolimg/AN01.png",
@@ -137,10 +137,11 @@
                         type: "POST",
                         url: "/tol-data",
                         data: JSON.stringify(data),
+                        userId: userId,
                         contentType: "application/json"
                     }).done(function() {
                         console.log(JSON.stringify(data));
-                        window.location.href = "palmer-experiments"; 
+                        window.location.href = 'finish?userId='+userId; 
                     });
                 }
         });
