@@ -39,7 +39,8 @@
                 // option to show image for fixed time interval, ignoring key responses
                 // true = image will keep displaying after response
                 // false = trial will immediately advance when response is recorded
-                trials[i].moves = params.moves[i];
+                
+                trials[i].moves = (typeof params.moves === 'undefined') ? undefined: params.moves[i];
                 trials[i].continue_after_response = (typeof params.continue_after_response === 'undefined') ? true : params.continue_after_response;
                 // timing parameters
                 trials[i].timing_stim = params.timing_stim || -1; // if -1, then show indefinitely
