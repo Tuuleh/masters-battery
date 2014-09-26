@@ -1,22 +1,22 @@
 <!doctype html>
-	<html>
-		<head>
-			<meta charset="utf-8"/>
-	        <title>Demographics survey</title>
-	        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	        <script src="/scripts/jspsych.js"></script>
-	        <script src="/scripts/plugins/clean_dropdown.js"></script>
+    <html>
+        <head>
+            <meta charset="utf-8"/>
+            <title>Demographics survey</title>
+            <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+            <script src="/scripts/jspsych.js"></script>
+            <script src="/scripts/plugins/clean_dropdown.js"></script>
             <link href="/css/reset.css" type="text/css" rel="stylesheet">
             <link href="/css/experiment.css" type="text/css" rel="stylesheet">
             <link href="/css/demographics.css" type="text/css" rel="stylesheet">
-		</head>
+        </head>
 
-		<body>
+        <body>
            <div id='container'>
-                <form name="demographics" action="survey_with_intro" method="get">
+                <form id="demographics" action="survey_with_intro" method="post">
                     <div class="demographic_questions">
                         <label for="birthyear" class="short">Birth year:</label>
-                        <select id="birthyear" name="birthyear" class="short">
+                        <select id="birth_year" name="birth_year" class="short">
                             <option value="2014" class="short">2014</option>
                             <option value="2013" class="short">2013</option>
                             <option value="2012" class="short">2012</option>
@@ -136,20 +136,20 @@
                         <br>
                         <label for="gender" class="short gender">Gender:</label>
                         <div id="gender">
-                            <input type="radio" name="sex" id="male" value="male">
+                            <input type="radio" name="gender" id="male" value="male">
                             <label for="male">Male</label><br>
-                            <input type="radio" name="sex" id="female" value="female">
+                            <input type="radio" name="gender" id="female" value="female">
                             <label for="female">Female</label><br>
-                            <input type="radio" name="sex" id="other" value="other">
+                            <input type="radio" name="gender" id="other" value="other">
                             <label for="other">Other</label><br>
                         </div>
                     </div>
                     
                     <label for="summonername" class="short">Summoner name:</label>
-                    <input type="text" name="summonername" id="summonername"><br>
+                    <input type="text" name="summoner_name" id="summonername"><br>
 
-                    <label for="region" class="short">Game region:</label>
-                    <select class="main_menu" id="region" text="Region">
+                    <label for="region" class="short" name="region">Game region:</label>
+                    <select class="main_menu" id="region" text="Region" name="region">
                         <option value="0">North America (NA)</option>
                         <option value="1">EU West (EUW)</option>
                         <option value="2">EU Nordic &amp; East (EUNE)</option>
@@ -162,14 +162,14 @@
                     </select><br>
 
                     <label for="position" class="short">Preferred position and role:</label>
-                    <select class="short main_menu" id="position" text="Preferred position">
+                    <select class="short main_menu" id="position" text="Preferred position" name="position">
                         <option value="0" class="short">Top</option>
                         <option value="1" class="short">Bottom</option>
                         <option value="2" class="short">Middle</option>
                         <option value="3" class="short">Jungler</option>
                     </select>
 
-                    <select class="short main_menu" id="role" text="Preferred role">
+                    <select class="short main_menu" id="role" text="Preferred role" name="role">
                         <option value="0" class="short">Carry</option>
                         <option value="1" class="short">Support</option>
                         <option value="2" class="short">Bruiser</option>
@@ -178,25 +178,25 @@
 
                     <div id="teamselect">
                         <p>Which of the following game styles do you play? <strong>Select all that apply</strong>!</p>
-                        <input type="checkbox" name="ratings" id="non-team" value="non-team">
+                        <input type="checkbox" class ="ratings" name="plays_non_team" id="non-team" value="non-team">
                         <label for="non-team" class="long">Non-team ranked games (solo or duo-queue)</label><br>
-                        <input type="checkbox" name="ratings" id="3v3" value="3v3">
+                        <input type="checkbox" class="ratings" name="plays_3v3" id="3v3" value="3v3">
                         <label for="3v3" class="long">3v3 ranked</label><br>
-                        <input type="checkbox" name="ratings" id="5v5" value="5v5">
+                        <input type="checkbox" class="ratings" name="plays_5v5" id="5v5" value="5v5">
                         <label for="5v5" class="long">5v5 ranked</label><br>
                     </div>
 
                     <div id="non-team" class="appendable">
                         <p>When playing non-team ranked games, do you solo- or duo queue?</p>
-                        <input type="radio" name="non-team" id="solo" value="solo">
+                        <input type="radio" name="non_team_queue" id="solo" value="solo">
                         <label for="solo" class="long">I only solo queue</label><br>
-                        <input type="radio" class="longn" name="non-team" id="duo" value="duo">
+                        <input type="radio" name="non_team_queue" id="duo" value="duo">
                         <label for="duo" class="long">I only duo queue</label><br>
-                        <input type="radio" name="non-team" id="both" value="both">
+                        <input type="radio" name="non_team_queue" id="both" value="solo_and_duo">
                         <label for="both" class="long">I both solo and duo queue</label><br>
                         
                         <label for="non-team-ranked" class="short">Non-team ranked division and tier:</label>
-                        <select class="short main_menu" id="non-team-ranked" text="Division and tier">
+                        <select class="short main_menu" id="non-team-ranked" text="Division and tier" name="non_team_division">
                             <option value="0" class="short">Bronze</option>
                             <option value="1" class="short">Silver</option>
                             <option value="2" class="short">Gold</option>
@@ -204,9 +204,9 @@
                             <option value="4" class="short">Diamond</option>
                             <option value="5" class="short">Challenger</option>
                         </select>                   
-                        <select class="short submenu" id="submenu_0" parent-item ="non-team-ranked">
+                        <select class="short submenu" id="submenu_0" parent-item ="non-team-ranked" name="non_team_tier">
                             <option value="0" class="short">V</option>
-                            <option value="1" class="short">IV</option>
+                            <option value="1" class="short">IV</option> 
                             <option value="2" class="short">III</option>
                             <option value="3" class="short">II</option>
                             <option value="4" class="short">I</option>
@@ -216,10 +216,10 @@
                     <div id="3v3" class="appendable">
                         <p>3v3:</p>
                         <label for="3v3team" class="short">Team name:</label>
-                        <input type="text" id="3v3team" name="3v3team"> 
+                        <input type="text" id="3v3team" name="team_3v3"> 
                         <br>
                         <label for="3v3-mainmenu" class="short">Division and Tier:</label>
-                        <select class="short main_menu" id="3v3-mainmenu" text="3v3Division and tier">
+                        <select class="short main_menu" id="3v3-mainmenu" text="3v3Division and tier" name="division_3v3">
                             <option value="0" class="short">Bronze</option>
                             <option value="1" class="short">Silver</option>
                             <option value="2" class="short">Gold</option>
@@ -227,7 +227,7 @@
                             <option value="4" class="short">Diamond</option>
                             <option value="5" class="short">Challenger</option>
                         </select>                   
-                        <select class="short submenu" id="3v3-submenu" parent-item ="3v3-mainmenu">
+                        <select class="short submenu" id="3v3-submenu" parent-item ="3v3-mainmenu" name="tier_3v3">
                             <option value="0" class="short">V</option>
                             <option value="1" class="short">IV</option>
                             <option value="2" class="short">III</option>
@@ -239,10 +239,10 @@
                     <div id="5v5" class="appendable">
                         <p>5v5:</p>
                         <label for="5v5team" class="short">Team name:</label>
-                        <input type="text" id="5v5team" name="5v5team">
+                        <input type="text" id="5v5team" name="team_5v5">
                         <br>
                         <label for="5v5-mainmenu" class="short">Division and Tier</label> 
-                        <select class="short main_menu" id="5v5-mainmenu" text="5v5Division and tier">
+                        <select class="short main_menu" id="5v5-mainmenu" text="5v5Division and tier" name="division_5v5">
                             <option value="0" class="short">Bronze</option>
                             <option value="1" class="short">Silver</option>
                             <option value="2" class="short">Gold</option>
@@ -250,7 +250,7 @@
                             <option value="4" class="short">Diamond</option>
                             <option value="5" class="short">Challenger</option>
                         </select>
-                        <select class="short submenu" id="5v5-submenu" parent-item ="5v5-mainmenu">
+                        <select class="short submenu" id="5v5-submenu" parent-item ="5v5-mainmenu" name="tier_5v5">
                             <option value="0" class="short">V</option>
                             <option value="1" class="short">IV</option>
                             <option value="2" class="short">III</option>
@@ -263,9 +263,9 @@
 
                 </form>
             </div>
-		</body>
+        </body>
 
-		<script>
+        <script>
 
             $('.main_menu').change(function(){
                 console.log($(this).val());
@@ -278,7 +278,7 @@
             });
 
             $(".appendable").hide();
-            $('input[type=checkbox][name="ratings"]').change(function () {
+            $('input[type=checkbox][class="ratings"]').change(function () {
             if ($(this).prop("checked")) {
                 $('[class="appendable"][id = "'+$(this).attr("value")+'"]').show();
             }
@@ -287,7 +287,19 @@
             }
 
             });
-		</script>
 
+            $( "#demographics" ).submit(function( event ) {
+                event.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: "/demographics-data",
+                    data: $("#demographics").serialize(), // serializes the form's elements.
+                    success: function(data){
+                        console.log($("#demographics").serialize());
+                        //window.location.href = 'survey_with_intro';
+                        }
+                    });
+                }); 
 
-	</html>
+        </script>
+    </html>
