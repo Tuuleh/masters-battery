@@ -153,7 +153,7 @@
                 // create object to hold responses
                 var question_data = {};
                 $("div.jspsych-survey-likert-slider").each(function(index) {
-                    var id = trial.inventory + "-Q" + (index+1.0);
+                    var id = trial.inventory + "_Q" + (index+1.0);
                     var val = $(this).slider("value");
                     var obje = {};
                     obje[id] = val;
@@ -161,7 +161,7 @@
                 });
 
                 // build object for trial-specific reaction time param
-                var rtString = "rt-" + trial.inventory;
+                var rtString = trial.inventory + "_rt";
                 var trial_object = {
                     "inventory": trial.inventory,
                     "trial_type": "survey-likert",
