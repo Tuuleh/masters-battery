@@ -30,6 +30,7 @@
             <p>If you have any questions or comments regarding the study, please leave a comment with your e-mail address below, so I can get back to you.</p>
 
             <form id = "finish" action="/thank_you" method="post">
+                <input type="hidden" name="userId" value="<%= userId %>"/>
                 E-mail:<br>
                 <input type="text" name="mail"><br>
                 Message: <br>
@@ -44,9 +45,9 @@
 
                 <p>After I finish, I'd like to set up a web page for the project where the anonymized data and the source code for the experiments can be downloaded. As a part of the web page, I'd like to set up a short thank-you with a list of the people who participated. Would you like your summoner name published on this list?</p>
 
-                <input type="radio" name="thank_you_list" id="list_yes" value="yes">
+                <input type="radio" name="thank_you" id="list_yes" value="yes">
                 <label for="list_yes">Yes, bring on the internet fame!</label><br>
-                <input type="radio" name="thank_you_list" id="list_no" value="no">
+                <input type="radio" name="thank_you" id="list_no" value="no">
                 <label for="list_no">No, thanks, I prefer to remain incognito.</label><br>
 
                 <input type="submit" value="Send" class="button">
@@ -62,7 +63,7 @@
                 url: "/finish-data",
                 data: $("#finish").serialize(), // serializes the form's elements.
                 success: function(data){
-                    window.location.href = 'thank_you?userId='+userId;
+                    window.location.href = 'thank_you';
                     }
                 });
             });

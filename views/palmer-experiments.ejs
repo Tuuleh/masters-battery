@@ -159,12 +159,15 @@
             display_element: $('#jspsych_target'),
             experiment_structure: trial_array, 
             on_finish:function(data){
-                console.log(JSON.stringify(data));
+                var data_object = {
+                    userId: userId, 
+                    data: (JSON.stringify(data))
+                };
                     $.ajax({
                         type: "POST",
                         url: "/palmer-experiments-data",
-                        data: JSON.stringify(data),
-                        contentType: "application/json"
+                        data: JSON.stringify(data_object),
+                        contentType: "application/json",
                     }).done(function() {
                         alert(1);
                         window.location.href = "finish"; 

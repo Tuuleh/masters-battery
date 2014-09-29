@@ -201,11 +201,14 @@
                 display_element: $('#jspsych_target'),
                 experiment_structure: [mental_rotation_intro, training_block, rotation_intermezzo, rotation_block],
                 on_finish:function(data){
+                    var data_object = {
+                    userId: userId, 
+                    data: (JSON.stringify(data))
+                    };
                     $.ajax({
                         type: "POST",
                         url: "/mental_rotation-data",
-                        data: JSON.stringify(data),
-                        userId: userId,
+                        data: JSON.stringify(data_object),
                         contentType: "application/json"
                     }).done(function() {
                         window.location.href = "tol?userId="+userId; 

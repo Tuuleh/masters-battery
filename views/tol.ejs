@@ -133,17 +133,20 @@
             display_element: $('#jspsych_target'),
             experiment_structure: [tol_instruction_block, tol_training_block, tol_intermezzo_block, tol_test_block],
             on_finish:function(data){
-                    $.ajax({
-                        type: "POST",
-                        url: "/tol-data",
-                        data: JSON.stringify(data),
-                        userId: userId,
-                        contentType: "application/json"
-                    }).done(function() {
-                        console.log(JSON.stringify(data));
-                        window.location.href = 'finish?userId='+userId; 
-                    });
-                }
+                var data_object = {
+                    userId: userId, 
+                    data: (JSON.stringify(data))
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "/tol-data",
+                    data: JSON.stringify(data_object), //replace data and userId with data object with userId
+                    contentType: "application/json"
+                }).done(function() {
+                    console.log(JSON.stringify(data));
+                    window.location.href = 'finish?userId='+userId; 
+                });
+            }
         });
     </script>
 </html>

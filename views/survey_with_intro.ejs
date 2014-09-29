@@ -158,11 +158,15 @@
             display_element: $('#jspsych_target'),
             experiment_structure: [survey_intro_block, GEQ_block1, GEQ_block2, TLX],
             on_finish:function(data){
+                var data_object = {
+                    userId: userId, 
+                    data: (JSON.stringify(data))
+                };
                 $.ajax({
                     type: "POST",
                     url: "/survey_with_intro-data",
-                    data: JSON.stringify(data),
-                    contentType: "application/json"
+                    data: JSON.stringify(data_object),
+                    contentType: "application/json",
                 }).done(function() {
                     window.location.href = 'flanker?userId='+userId; 
                 });

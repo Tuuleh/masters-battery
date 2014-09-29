@@ -23,6 +23,7 @@
     <script>
 
     var userId = "<%= userId%>";
+    console.log("client side: userId is "+ userId)
 
         var flanker_instructions = "<div id='instructions'><h1>Well done!</h1><p class=centered>... and welcome to the first cognitive task!"+
             " In the following section, you will see a series of images that look similar to this:</p><p class='centered'>" +
@@ -105,14 +106,14 @@
             display_element: $('#jspsych_target'),
             experiment_structure: [flanker_instruction_block, flanker_training_block, flanker_intermezzo_block, flanker_test_block],
             on_finish:function(data){
-                /*$('#jspsych_target').append($("<pre>",{
-                    html: JSON.stringify(data,undefined,2)*/
-                console.log(JSON.stringify(data));
+                var data_object = {
+                    userId: userId, 
+                    data: (JSON.stringify(data))
+                };
                 $.ajax({
                     type: "POST",
                     url: "/flanker-data",
-                    data: JSON.stringify(data),
-                    userId: userId,
+                    data: JSON.stringify(data_object),
                     contentType: "application/json"
                 }).done(function() {
                     window.location.href = "mental_rotation?userId="+userId; 

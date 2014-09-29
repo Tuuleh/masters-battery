@@ -297,7 +297,6 @@
                     url: "/demographics-data",
                     data: $("#demographics").serialize(), // serializes the form's elements.
                     success: function(data){
-                        console.log($("#demographics").serialize());
                         window.location.href = 'survey_with_intro?userId='+userId;
                         }
                     });
