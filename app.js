@@ -14,18 +14,18 @@ var app = express();
 app.set('views', './views')
 app.set('view engine', 'ejs')
 //call res.render() to render template code. This following line shouldn't be necessary.
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use( bodyParser.urlencoded({extended: true}) );
+
 //allows for serving static files
 app.use(express.static(__dirname + '/public'));
-app.use(express.static(__dirname + '/models'));
 
 // gets database configurtion from database.json
 var config = require('./database.json');
 var password = config.password ? config.password : null;
 
-// initialize database connection
+// initialize database connection - pass this to all the other controllers
 var sequelize = new Sequelize(
     config.database,
     config.user,
@@ -34,6 +34,21 @@ var sequelize = new Sequelize(
         logging: console.log
     }
 );
+//creates Object.keys function for older browsers
+if (typeof Object.keys !== "function") {
+    (function() {
+        Object.keys = Object_keys;
+        function Object_keys(obj) {
+            var keys = [], name;
+            for (name in obj) {
+                if (obj.hasOwnProperty(name)) {
+                    keys.push(name);
+                }
+            }
+            return keys;
+        }
+    })();
+}
 
 
 //app.listen() takes same args as node's net.Server#listen():
@@ -42,7 +57,9 @@ var server = app.listen(3000, function(){
 });
 
 //importing finish model
-//var Finish = sequelize.import(__dirname + "/models/finish");
+var Demographics = sequelize.import(__dirname + "/models/demographics");
+var Surveys = sequelize.import(__dirname + "/models/surveys");
+var Finish = sequelize.import(__dirname + "/models/finish");
 
 //controllers/routers
 app.get('/', function (req, res) {
@@ -57,80 +74,253 @@ app.get('/demographics', function (req, res) {
 });
 
 app.post('/demographics-data', function (req, res) {
-    
-    console.log(req.body.birth_year);
-    console.log(req.body.gender);
-    console.log(req.body.summoner_name);
-    console.log(req.body.region);
-    console.log(req.body.position);
-    console.log(req.body.role);
-    console.log(req.body.non_team_queue);
-    console.log(req.body.non_team_division);
-    console.log(req.body.non_team_tier);
-    console.log(req.body.team_3v3);
-    console.log(req.body.division_3v3);
-    console.log(req.body.tier_3v3);
-    console.log(req.body.team_5v5);
-    console.log(req.body.division_5v5);
-    console.log(req.body.tier_5v5);
-    console.log(req.body.userId);
 
-    res.send('{"status":"ok"}');
-    console.log("posting demographics data, queried userId is "+req.query.userId);
-    console.log("posting demographics data, body userId is "+req.body.userId);
+    var data_object = {
+        user_id: req.body.userId,
+        birth_year:req.body.birth_year,
+        gender: req.body.gender,
+        summoner_name: req.body.summoner_name,
+        region: req.body.region,
+        position: req.body.position,
+        role: req.body.role,
+        non_team_queue: req.body.non_team_queue,
+        non_team_division: req.body.non_team_division,
+        non_team_tier: req.body.non_team_tier,
+        team_3v3: req.body.team_3v3,
+        division_3v3: req.body.division_3v3,
+        tier_3v3: req.body.tier_3v3,
+        team_5v5: req.body.team_5v5,
+        division_5v5: req.body.division_5v5,
+        tier_5v5: req.body.tier_5v5
+    };
+
+    Demographics
+        .build(data_object)
+        .save()
+        .then(function(demographics){
+            console.log("We did it! " + demographics.user_id)
+            res.send('{"status":"ok"}');
+        }).error(function(err){
+            res.status(400).send('{"status":"error"}');
+        });
 });
 
 app.get('/survey_with_intro', function (req, res) {
     var userId = req.query.userId;
     res.render('survey_with_intro', {userId:userId});
-    console.log("getting survey, queried userId is "+req.query.userId);
-    console.log("getting survey, body userId is "+req.body.userId);
 });
 
 app.post('/survey_with_intro-data', function (req, res) {
-    res.send('{"status":"ok"}');
-    console.log("posting survey data, queried userId is "+req.query.userId);
-    console.log("posting survey data, body userId is "+req.body.userId);
+
+    var data_object = {};
+    data_object.user_id = req.body.userId;
+
+    var tlx_columns = [
+        "TLX_rt", 
+        "mental_demand", 
+        "physical_demand", 
+        "temporal_demand", 
+        "performance", 
+        "effort", 
+        "frustration"
+    ];
+
+    var tlx_counter = 0;
+    var GEQ_counter = 1;
+
+    console.log(req.body.data);
+
+    for (var trial in req.body.data) {
+        console.log("looping x " + trial);
+        if (req.body.data[trial].hasOwnProperty("inventory")) {
+            console.log("has inventory!")
+            for (item in req.body.data[trial]) {
+                //if key contains the value under key "inventory",
+                var regex = new RegExp(req.body.data[trial].inventory); //regex for comparing if item name contains inventory
+                if (item.match(regex) != null) { //if item name contains an inventory
+                    //item is from TLX
+                    if (item.match(/TLX/) != null) {      
+                        data_object[tlx_columns[tlx_counter]] = req.body.data[trial][item];
+                        tlx_counter++;
+                    }
+                    //item is from GEQ
+                    else {
+                        if (item.match(/rt/) != null) { //item is for reaction time - there have to be two of these
+                            data_object[item + trial] = req.body.data[trial][item];
+                        }
+                        else {
+                            data_object[req.body.data[trial].inventory+GEQ_counter] = req.body.data[trial][item];
+                            GEQ_counter++;
+                        }                        
+                    }
+                }
+            }
+        }
+        else {
+            continue;
+        }
+    }
+/*
+    console.log("data object: "+data_object);
+    console.log("Stringified: "+JSON.stringify(data_object));
+*/
+    /*
+[
+    {
+        "trial_type": "text",
+        "trial_index": 0,
+        "rt": 559,
+        "key_press": 40
+    },
+    {
+        "inventory": "GEQ",
+        "trial_type": "survey-likert",
+        "GEQ_rt": 1863,
+        "GEQ_Q1": 5,
+        "GEQ_Q2": 5,
+        "GEQ_Q3": 5,
+        "GEQ_Q4": 5,
+        "GEQ_Q5": 5,
+        "GEQ_Q6": 5,
+        "GEQ_Q7": 5,
+        "GEQ_Q8": 5,
+        "GEQ_Q9": 5
+    },
+    {
+        "inventory": "GEQ",
+        "trial_type": "survey-likert",
+        "GEQ_rt": 1629,
+        "GEQ_Q1": 5,
+        "GEQ_Q2": 5,
+        "GEQ_Q3": 5,
+        "GEQ_Q4": 5,
+        "GEQ_Q5": 5,
+        "GEQ_Q6": 5,
+        "GEQ_Q7": 5,
+        "GEQ_Q8": 5,
+        "GEQ_Q9": 5
+    },
+    {
+        "inventory": "TLX",
+        "trial_type": "survey-likert",
+        "TLX_rt": 1705,
+        "TLX_Q1": 10,
+        "TLX_Q2": 10,
+        "TLX_Q3": 10,
+        "TLX_Q4": 10,
+        "TLX_Q5": 10,
+        "TLX_Q6": 10
+    }
+]
+
+
+    */
+
+    Surveys
+        .build(data_object)
+        .save()
+        .then(function(current_survey){
+            console.log("We did it! " + current_survey.user_id)
+            res.send('{"status":"ok"}');
+        }).error(function(err){
+            res.status(400).send('{"status":"error"}');
+        });
 });
 
 app.get('/flanker', function (req, res) {
     var userId = req.query.userId;
-    console.log("getting flanker data, queried userId is "+req.query.userId);
-    console.log("getting flanker data, body userId is "+req.body.userId);
     res.render('flanker', {userId:userId});
 });
 
 app.post('/flanker-data', function (req, res) {
     res.send('{"status":"ok"}');
-    console.log("posting flanker data, queried userId is "+req.query.userId);
-    console.log("posting flanker data, body userId is "+req.body.userId);
+    var data_object_array = [];
+/*
+user_id
+trial_index
+rt
+type
+direction
+correct
+(created_at)
+*/
+    data_object.user_id = req.body.userId;
+    for (var trial in req.body.data) {
+        //if the trial is not for training and not for instructions, 
+        //create data object for single trial in the sequence
+        if (req.body.data.trial_type = "single-stim") {
+            trial_object = {};
+            trial_object.user_id = req.body.userId;
+            trial_object.trial_index = req.body.data[trial].trial_index;
+            trial_object.rt = req.body.data[trial].rt;
+            trial_object.type = req.body.data[trial].type;
+            trial_object.direction = req.body.data[trial].direction;
+            trial_object.correct = req.body.data[trial].correct;
+        }
+
+    }
+
+
+
+
+    /*
+
+{
+    "userId": "023dc884-4f5b-4311-994f-8149e57d54ef",
+    "data": [
+        {
+            "trial_type": "text",
+            "trial_index": 0,
+            "rt": 1084,
+            "key_press": 39
+        },
+        {
+            "trial_type": "categorize",
+            "trial_index": 0,
+            "rt": 1859,
+            "correct": true,
+            "stimulus": "img/incongruent_left.gif",
+            "key_press": 37
+        },
+        {
+            "trial_type": "text",
+            "trial_index": 0,
+            "rt": 46,
+            "key_press": 39
+        },
+        {
+            "trial_type": "single-stim",
+            "trial_index": 0,
+            "rt": 113,
+            "stimulus": "img/congruent_left.gif",
+            "key_press": 39,
+            "correct": false,
+            "type": "congruent",
+            "direction": "left",
+            "correct_key": "37"
+        }
+    ]
+}
+
+    */
 });
 
 app.get('/mental_rotation', function (req, res) {
     var userId = req.query.userId;
     res.render('mental_rotation', {userId:userId});
-    console.log("getting mental rotation, queried userId is "+req.query.userId);
-    console.log("getting mental rotation, body userId is "+req.body.userId);
 });
 
 app.post('/mental_rotation-data', function (req, res) {
     res.send("{'status':'ok'}");
-    console.log("queried userId is "+req.query.userId);
-    console.log("posting mental_rotation data, queried userId is "+req.query.userId);
-    console.log("posting mental_rotation data, body userId is "+req.body.userId);
 });
 
 app.get('/tol', function (req, res) {
     var userId = req.query.userId;
     res.render('tol', {userId:userId});
-    console.log("getting ToL, queried userId is "+req.query.userId);
-    console.log("getting ToL rotation, body userId is "+req.body.userId);
 });
 
 app.post('/tol-data', function (req, res) {
     res.send('{"status":"ok"}');
-    console.log("posting tol data, queried userId is "+req.query.userId);
-    console.log("posting ToL data, body userId is "+req.body.userId);
 });
 
 
@@ -146,38 +336,11 @@ app.post('/palmer-experiments-data', function (req, res) {
 app.get('/finish', function (req, res) {
     var userId = req.query.userId;
     res.render('finish', {userId:userId});
-    console.log("getting finish, queried userId is "+req.query.userId);
-    console.log("getting finish, body userId is "+req.body.userId);
 });
 
-
 //POST FOR FINISH:
-
 app.post('/finish-data', function (req, res) {
 
-    console.log("posting finish data, queried userId is "+req.query.userId);
-    console.log("posting finish data, body userId is "+req.body.userId);
-
-    //model for the finish table in thesis_database:
-
-
-    var Finish = sequelize.define('finish', {
-        user_id: {type: Sequelize.UUID, primaryKey: true}, //CHAR(36)
-        mail: DataTypes.STRING(100), //VARCHAR(100),
-        message: DataTypes.TEXT,
-        wants_results: DataTypes.INTEGER, //TINYINT,
-        thank_you: DataTypes.INTEGER, //TINYINT
-        created_at: DataTypes.DATE,
-    },
-        {
-            timestamps: true,
-            updatedAt: false,
-            deletedAt: false,
-            freezeTableName: true,
-            createdAt: 'created_at',
-        });
-
- //Adding instances to the finish table in my database
     Finish
         .build({
             user_id: req.body.userId, 
@@ -189,10 +352,11 @@ app.post('/finish-data', function (req, res) {
         .save()
         .then(function(current_finish){
             console.log("We did it! " + current_finish.user_id)
-        }), function(err){
-            console.log("Almost there!")
-        };
-
+            res.send('{"status":"ok"}');
+        }).error(function(err){
+            res.status(400).send('{"status":"error"}');
+        });
+    
 });
 
 app.get('/thank_you', function (req, res) {

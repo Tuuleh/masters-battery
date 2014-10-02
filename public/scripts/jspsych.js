@@ -93,10 +93,10 @@
             var all_data = [];
             
             for (var i = 0; i < exp_blocks.length; i++) {
-                all_data[i] = exp_blocks[i].data;
+                all_data.push(exp_blocks[i].data);
             }
 
-            return all_data;
+            return all_data.flatten();
         };
 
         //core.dataAsCsv && core.saveCSVdata && flattenData && JSON2CSV && saveToTextFile - THESE ARE OLD FUNCTIONS copied from the first version of jsPsych - ONLY USE THEM FOR DEBUGGING
@@ -1048,5 +1048,19 @@
         }
         return out;
     }
+
+    //another array flatten function from stack overflow
+    Array.prototype.flatten = function() {
+        var r = [];
+        for (var i = 0; i < this.length; ++i) {
+            var v = this[i];
+            if (v instanceof Array) {
+                Array.prototype.push.apply(this, v.flatten());
+            } else {
+                r.push(v);
+            }
+        }
+        return r;
+    };
 
 })(jQuery);
