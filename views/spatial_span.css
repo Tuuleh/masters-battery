@@ -1,0 +1,18 @@
+#container {
+    width: 1000px;
+    height: 1000px;
+}
+
+.element {
+    height: 50px;
+    width: 50px;
+    display: inline-block;
+}
+
+.passive {
+    background-color: gray;
+}
+
+.active {
+    background-color: red;
+}

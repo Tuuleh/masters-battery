@@ -1,0 +1,157 @@
+<!doctype html>
+    <head>
+        <title>spatial span</title>
+        <!-- jQuery -->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <link href="../public/css/reset.css" type="text/css" rel="stylesheet"></link>
+        <link href="../public/css/experiment.css" type="text/css" rel="stylesheet"></link>
+        <link href="../public/css/spatial_span.css" type="text/css" rel="stylesheet"></link>
+    </head>
+    <body>
+        <div id="grid" class="grid-pad">
+            <!--Things get appended here with jQuery magic-->
+        </div>
+        <div id ="instructions">
+            Hai! Do stuff.
+        </div>
+    </body>
+    <script>
+        //makes a row_length x row_length size matrix for the working memory task
+        var row_length = 4;
+        var item = 0;
+
+        for (var i = 0; i < row_length; i++) {
+            $("#grid").append($("<div id='container_"+i+"' class='container'>"));
+                for (var j = 0; j < row_length; j++ ) {
+                    $("#container_"+i).append($("<div id ='element_"+item+"' class='passive element button' number='"+item+"'>"));
+
+                    item++;
+                }     
+        }
+        //default item difficulty
+        var item_difficulty = 4; 
+        var trials_run = 0;
+        var lives = 3; //allows for three deaths
+        var max_score = 0;
+        var experiment_running = false;
+
+
+        var generate_stimulus = function (item_difficulty) {
+            //generate a random array of elements to highlight, with length of 5
+            var stimuli = [];
+
+            while (stimuli.length < item_difficulty) {
+                var random = Math.floor(Math.random()*Math.pow(row_length, 2));
+                //if the stimuli-array already contains the random element
+                //this is not working properly for duplicates
+                if ($.inArray(random, stimuli) != -1) {
+                    continue;
+                }
+                else {
+                    stimuli.push(random);
+                }
+            }            
+            console.log("stimuli: " + stimuli);
+
+            move_to_next = function(current) {
+
+                if (current == stimuli.length-1) {
+                    $(".element").removeClass("active");
+                    console.log("deactivated all elements");
+                    return;
+                }
+
+                $current = $("[id = 'element_"+stimuli[current]+"']");
+                current++;
+
+                $current.removeClass("active");
+                $current = $("[id = 'element_"+stimuli[current]+"']");
+                $current.addClass("active");
+                console.log("active added to element "+stimuli[current]);
+                setTimeout(function() {move_to_next(current)}, 1300);
+            }
+
+            $("[id = 'element_"+stimuli[0]+"']").addClass("active");
+            console.log("active added to element "+stimuli[0]);
+            setTimeout(function() {
+                move_to_next(0);
+            }, 1300);
+
+            return stimuli;
+            //call user_input(stimuli) here!
+            }
+
+
+        var user_input = function(stimuli) {
+            var response_array = [];
+            var experiment_running = true;
+            var remove_active = function($b){
+                $b.removeClass("active")
+            }
+            //prompt the participant to reproduce the sequence
+
+            //change so that active class is added and removed only when experiment is running. 
+
+            $("#instructions").html("<p>Click the tiles to reproduce the sequence you just saw in the right order!");
+            $(".element").click(function(){
+                var $button = $(this);
+                $button.addClass("active");
+                setTimeout(function(){
+                    remove_active($button);
+                }, 500);
+                //log element num into answer array
+                response_array.push($button.attr('number'));
+                console.log(response_array);
+                console.log("stimuli", stimuli);
+                //if last item on response array is the same as the corresponding item on the stimulus array...
+                if (response_array[response_array.length-1] == stimuli[response_array.length-1]) {
+                    if (response_array.length > max_score) {
+                        max_score = response_array.length;
+                        console.log("new max score:", max_score);
+                        if (response_array.length === stimuli.length) {
+                            item_difficulty++;
+                            console.log("well done, all correct!")
+                        }
+                    }
+                }
+                else {
+                    $("#instructions").html("<p>Oops! Let's try that again...")
+                    $(".element").removeClass("active");
+                    item_difficulty--;
+                    lives--;
+                    console.log("start new trial!")
+                }
+                console.log(response_array);
+            });
+            
+
+        //call generate_stimulus(item_difficulty) here unless death counter is full, in which case you'll 
+        //just make the data object and do a post req
+        }
+
+
+        stimuli = setTimeout(function(){generate_stimulus(item_difficulty)}, 1300);
+        user_input(stimuli);
+        
+
+        
+
+        //when experiment_running = true, track click events from the element divs
+            //on click:
+                //apply class 'active' for 500 ms
+                //log element num into answer array
+            //compare answer array to stimulus array
+                //if elements are not the same
+                    //log number of stimuli remembered correctly
+                    //interrupt the trial with negative feedback msg
+                    //if death counter not max:
+                        //increment death counter
+                        //if failed twice in a row on same difficulty
+                            //decrement difficulty counter
+                //if the entire array is reproduced
+                    //check if new max score - if true, increment max score
+                    //increment difficulty counter
+                    //append a positive feedback msg and instantiate a new trial
+
+    </script>
+</html>
