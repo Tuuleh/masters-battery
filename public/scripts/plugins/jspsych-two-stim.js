@@ -37,6 +37,7 @@
                 trials[i].is_html = (typeof params.is_html === 'undefined') ? false : params.is_html;
                 trials[i].prompt = (typeof params.prompt === 'undefined') ? "" : params.prompt;
                 trials[i].data = (typeof params.data === 'undefined') ? {} : params.data[i];
+                trials[i].training = (typeof params.data === 'undefined') ? false : params.training;
 
             }
             return trials;
@@ -137,6 +138,7 @@
                         }
 
                         var trial_data = {
+                            "training" : trial.training,
                             "trial_type": "two-stim",
                             "trial_index": block.trial_idx,
                             "rt": rt,
