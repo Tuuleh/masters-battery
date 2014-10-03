@@ -1,6 +1,6 @@
 module.exports = function(sequelize, DataTypes) {
     return sequelize.define('finish', {
-        user_id: {type: Sequelize.UUID, primaryKey: true}, //CHAR(36)
+        user_id: {type: DataTypes.STRING(36), primaryKey: true}, //CHAR(36)
         mail: DataTypes.STRING(100), //VARCHAR(100),
         message: DataTypes.TEXT,
         wants_results: DataTypes.INTEGER, //TINYINT,

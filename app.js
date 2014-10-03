@@ -59,6 +59,9 @@ var server = app.listen(3000, function(){
 //importing finish model
 var Demographics = sequelize.import(__dirname + "/models/demographics");
 var Surveys = sequelize.import(__dirname + "/models/surveys");
+var Flanker = sequelize.import(__dirname + "/models/flanker");
+var Mental_rotation = sequelize.import(__dirname + "/models/mental_rotation");
+var London_tower = sequelize.import(__dirname + "/models/london_tower");
 var Finish = sequelize.import(__dirname + "/models/finish");
 
 //controllers/routers
@@ -160,61 +163,7 @@ app.post('/survey_with_intro-data', function (req, res) {
             continue;
         }
     }
-/*
-    console.log("data object: "+data_object);
-    console.log("Stringified: "+JSON.stringify(data_object));
-*/
-    /*
-[
-    {
-        "trial_type": "text",
-        "trial_index": 0,
-        "rt": 559,
-        "key_press": 40
-    },
-    {
-        "inventory": "GEQ",
-        "trial_type": "survey-likert",
-        "GEQ_rt": 1863,
-        "GEQ_Q1": 5,
-        "GEQ_Q2": 5,
-        "GEQ_Q3": 5,
-        "GEQ_Q4": 5,
-        "GEQ_Q5": 5,
-        "GEQ_Q6": 5,
-        "GEQ_Q7": 5,
-        "GEQ_Q8": 5,
-        "GEQ_Q9": 5
-    },
-    {
-        "inventory": "GEQ",
-        "trial_type": "survey-likert",
-        "GEQ_rt": 1629,
-        "GEQ_Q1": 5,
-        "GEQ_Q2": 5,
-        "GEQ_Q3": 5,
-        "GEQ_Q4": 5,
-        "GEQ_Q5": 5,
-        "GEQ_Q6": 5,
-        "GEQ_Q7": 5,
-        "GEQ_Q8": 5,
-        "GEQ_Q9": 5
-    },
-    {
-        "inventory": "TLX",
-        "trial_type": "survey-likert",
-        "TLX_rt": 1705,
-        "TLX_Q1": 10,
-        "TLX_Q2": 10,
-        "TLX_Q3": 10,
-        "TLX_Q4": 10,
-        "TLX_Q5": 10,
-        "TLX_Q6": 10
-    }
-]
 
-
-    */
 
     Surveys
         .build(data_object)
@@ -233,76 +182,39 @@ app.get('/flanker', function (req, res) {
 });
 
 app.post('/flanker-data', function (req, res) {
-    res.send('{"status":"ok"}');
+    console.log('req body.data: ' + req.body.data);
+
     var data_object_array = [];
-/*
-user_id
-trial_index
-rt
-type
-direction
-correct
-(created_at)
-*/
-    data_object.user_id = req.body.userId;
+
     for (var trial in req.body.data) {
         //if the trial is not for training and not for instructions, 
         //create data object for single trial in the sequence
-        if (req.body.data.trial_type = "single-stim") {
-            trial_object = {};
-            trial_object.user_id = req.body.userId;
-            trial_object.trial_index = req.body.data[trial].trial_index;
-            trial_object.rt = req.body.data[trial].rt;
-            trial_object.type = req.body.data[trial].type;
-            trial_object.direction = req.body.data[trial].direction;
-            trial_object.correct = req.body.data[trial].correct;
+        var data_object = {};
+        if (req.body.data[trial].trial_type == "single-stim") {
+            console.log("made a trial");
+            data_object.user_id = req.body.userId;
+            data_object.trial_index = req.body.data[trial].trial_index;
+            data_object.rt = req.body.data[trial].rt;
+            data_object.type = req.body.data[trial].type;
+            data_object.direction = req.body.data[trial].direction;
+            data_object.correct = req.body.data[trial].correct;
+
+            data_object_array.push(data_object);
+
         }
 
     }
 
+    console.log("storing data...");
 
-
-
-    /*
-
-{
-    "userId": "023dc884-4f5b-4311-994f-8149e57d54ef",
-    "data": [
-        {
-            "trial_type": "text",
-            "trial_index": 0,
-            "rt": 1084,
-            "key_press": 39
-        },
-        {
-            "trial_type": "categorize",
-            "trial_index": 0,
-            "rt": 1859,
-            "correct": true,
-            "stimulus": "img/incongruent_left.gif",
-            "key_press": 37
-        },
-        {
-            "trial_type": "text",
-            "trial_index": 0,
-            "rt": 46,
-            "key_press": 39
-        },
-        {
-            "trial_type": "single-stim",
-            "trial_index": 0,
-            "rt": 113,
-            "stimulus": "img/congruent_left.gif",
-            "key_press": 39,
-            "correct": false,
-            "type": "congruent",
-            "direction": "left",
-            "correct_key": "37"
-        }
-    ]
-}
-
-    */
+    Flanker
+    .bulkCreate(data_object_array)
+    .then(function(){
+        res.send('{"status":"ok"}');
+    },function(err){
+        console.log(err);
+        res.status(400).send('{"status":"error"}');
+    });
 });
 
 app.get('/mental_rotation', function (req, res) {
@@ -311,7 +223,42 @@ app.get('/mental_rotation', function (req, res) {
 });
 
 app.post('/mental_rotation-data', function (req, res) {
-    res.send("{'status':'ok'}");
+
+    var data_object_array = [];
+
+    for (var trial in req.body.data) {
+
+        //trial is not a training trial and is of the right type
+        if ((req.body.data[trial].training == false) && (req.body.data[trial].trial_type == "two-stim")) {
+
+            console.log("making a trial");
+            var data_object = {};
+
+            data_object.user_id = req.body.userId;
+            data_object.trial_index = req.body.data[trial].trial_index;
+            data_object.rt = req.body.data[trial].rt;
+            data_object.item = req.body.data[trial].item;
+            data_object.type = req.body.data[trial].type;
+            data_object.rotation = req.body.data[trial].rotation;
+            data_object.correct = req.body.data[trial].correct;
+
+            data_object_array.push(data_object);
+        }
+    }
+
+    console.log("storing data...");
+    console.log(data_object_array);
+
+    Mental_rotation
+    .bulkCreate(data_object_array)
+    .then(function(){
+        res.send('{"status":"ok"}');
+    },function(err){
+        console.log(err);
+        res.status(400).send('{"status":"error"}');
+    }); 
+
+
 });
 
 app.get('/tol', function (req, res) {
@@ -320,7 +267,35 @@ app.get('/tol', function (req, res) {
 });
 
 app.post('/tol-data', function (req, res) {
-    res.send('{"status":"ok"}');
+    
+    var data_object_array = [];
+
+    for (var trial in req.body.data) {
+        
+        //trial is not a training trial and is of the right type
+        if (req.body.data[trial].trial_type == "single-stim") {
+
+            var data_object = {};
+
+            data_object.user_id = req.body.userId;
+            data_object.trial_index = req.body.data[trial].trial_index;
+            data_object.rt = req.body.data[trial].rt;
+            data_object.moves = req.body.data[trial].moves;
+            data_object.missed_by = req.body.data[trial].missed_by;
+
+            data_object_array.push(data_object);
+        }
+    }
+
+    London_tower
+    .bulkCreate(data_object_array)
+    .then(function(){
+        res.send('{"status":"ok"}');
+    },function(err){
+        console.log(err);
+        res.status(400).send('{"status":"error"}');
+    }); 
+
 });
 
 
