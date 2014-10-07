@@ -135,15 +135,14 @@
             on_finish:function(data){
                 var data_object = {
                     userId: userId, 
-                    data: (JSON.stringify(data))
+                    data: data
                 };
                 $.ajax({
                     type: "POST",
                     url: "/tol-data",
-                    data: JSON.stringify(data_object), //replace data and userId with data object with userId
+                    data: JSON.stringify(data_object),
                     contentType: "application/json"
                 }).done(function() {
-                    console.log(JSON.stringify(data));
                     window.location.href = 'finish?userId='+userId; 
                 });
             }
