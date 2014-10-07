@@ -149,49 +149,49 @@
 
                     <label for="region" class="short" name="region">Game region:</label>
                     <select class="main_menu" id="region" text="Region" name="region">
-                        <option value="0">North America (NA)</option>
-                        <option value="1">EU West (EUW)</option>
-                        <option value="2">EU Nordic &amp; East (EUNE)</option>
-                        <option value="3">Brazil (BR)</option>
-                        <option value="4">Turkey (TR)</option>
-                        <option value="5">Russia (RU)</option>
-                        <option value="6">Latin America North (LAN)</option>
-                        <option value="7">Latin America South (LAS)</option>
-                        <option value="8">Oceania (AUS &amp; NZ)</option>
+                        <option value="na">North America (NA)</option>
+                        <option value="euw">EU West (EUW)</option>
+                        <option value="eune">EU Nordic &amp; East (EUNE)</option>
+                        <option value="br">Brazil (BR)</option>
+                        <option value="tr">Turkey (TR)</option>
+                        <option value="ru">Russia (RU)</option>
+                        <option value="lan">Latin America North (LAN)</option>
+                        <option value="las">Latin America South (LAS)</option>
+                        <option value="nz">Oceania (AUS &amp; NZ)</option>
                     </select><br>
 
                     <label for="position" class="short">Preferred position and role:</label>
                     <select class="short main_menu" id="position" text="Preferred position" name="position">
-                        <option value="0" class="short">Top</option>
-                        <option value="1" class="short">Bottom</option>
-                        <option value="2" class="short">Middle</option>
-                        <option value="3" class="short">Jungler</option>
+                        <option value="top" class="short">Top</option>
+                        <option value="bottom" class="short">Bottom</option>
+                        <option value="middle" class="short">Middle</option>
+                        <option value="jungler" class="short">Jungler</option>
                     </select>
 
                     <select class="short main_menu" id="role" text="Preferred role" name="role">
-                        <option value="0" class="short">Carry</option>
-                        <option value="1" class="short">Support</option>
-                        <option value="2" class="short">Bruiser</option>
-                        <option value="3" class="short">Tank</option>
+                        <option value="carry" class="short">Carry</option>
+                        <option value="support" class="short">Support</option>
+                        <option value="bruiser" class="short">Bruiser</option>
+                        <option value="tank" class="short">Tank</option>
                     </select><br>
 
                     <div id="teamselect">
                         <p>Which of the following game styles do you play? <strong>Select all that apply</strong>!</p>
-                        <input type="checkbox" class ="ratings" name="plays_non_team" id="non-team" value="non-team">
+                        <input type="checkbox" class ="ratings" name="plays_non_team" id="non-team" value="true">
                         <label for="non-team" class="long">Non-team ranked games (solo or duo-queue)</label><br>
-                        <input type="checkbox" class="ratings" name="plays_3v3" id="3v3" value="3v3">
+                        <input type="checkbox" class="ratings" name="plays_3v3" id="3v3" value="true">
                         <label for="3v3" class="long">3v3 ranked</label><br>
-                        <input type="checkbox" class="ratings" name="plays_5v5" id="5v5" value="5v5">
+                        <input type="checkbox" class="ratings" name="plays_5v5" id="5v5" value="true">
                         <label for="5v5" class="long">5v5 ranked</label><br>
                     </div>
 
-                    <div id="non-team" class="appendable">
+                    <div id="plays_non_team" class="appendable">
                         <p>When playing non-team ranked games, do you solo- or duo queue?</p>
                         <input type="radio" name="non_team_queue" id="solo" value="solo">
                         <label for="solo" class="long">I only solo queue</label><br>
                         <input type="radio" name="non_team_queue" id="duo" value="duo">
                         <label for="duo" class="long">I only duo queue</label><br>
-                        <input type="radio" name="non_team_queue" id="both" value="solo_and_duo">
+                        <input type="radio" name="non_team_queue" id="both" value="both">
                         <label for="both" class="long">I both solo and duo queue</label><br>
                         
                         <label for="non-team-ranked" class="short">Non-team ranked division and tier:</label>
@@ -212,7 +212,7 @@
                         </select><br>
                     </div>
 
-                    <div id="3v3" class="appendable">
+                    <div id="plays_3v3" class="appendable">
                         <p>3v3:</p>
                         <label for="3v3team" class="short">Team name:</label>
                         <input type="text" id="3v3team" name="team_3v3"> 
@@ -235,7 +235,7 @@
                         </select><br>
                     </div>
 
-                    <div id="5v5" class="appendable">
+                    <div id="plays_5v5" class="appendable">
                         <p>5v5:</p>
                         <label for="5v5team" class="short">Team name:</label>
                         <input type="text" id="5v5team" name="team_5v5">
@@ -280,10 +280,10 @@
             $(".appendable").hide();
             $('input[type=checkbox][class="ratings"]').change(function () {
             if ($(this).prop("checked")) {
-                $('[class="appendable"][id = "'+$(this).attr("value")+'"]').show();
+                $('[class="appendable"][id = "'+$(this).attr("name")+'"]').show();
             }
             else {
-                $('[class="appendable"][id = "'+$(this).attr("value")+'"]').hide();
+                $('[class="appendable"][id = "'+$(this).attr("name")+'"]').hide();
             }
 
             });
