@@ -42,10 +42,10 @@
 
        
        var test_images = [ 
-        {stimulus:"img/congruent_left.gif", data: {type: "congruent", direction: "left", correct_key: "37"}}, 
-        {stimulus:"img/congruent_right.gif", data: {type: "congruent", direction: "right", correct_key: "39"}}, 
-        {stimulus:"img/incongruent_left.gif", data: {type: "incongruent", direction: "left", correct_key: "37"}}, 
-        {stimulus:"img/incongruent_right.gif", data: {type: "incongruent", direction: "right", correct_key: "39"}}
+            {stimulus:"img/congruent_left.gif", data: {type: "congruent", direction: "left", correct_key: "37"}}, 
+            {stimulus:"img/congruent_right.gif", data: {type: "congruent", direction: "right", correct_key: "39"}}, 
+            {stimulus:"img/incongruent_left.gif", data: {type: "incongruent", direction: "left", correct_key: "37"}}, 
+            {stimulus:"img/incongruent_right.gif", data: {type: "incongruent", direction: "right", correct_key: "39"}}
         ];
 
         var flanker_training_answers = [];
@@ -54,6 +54,7 @@
 
         //gets random image from test_images array and appends to answers and text_answers arrays
         //depending on the stimulus type and data attributes
+
         for (var i = 0; i < 7; i++) {
             var rnd = Math.round(Math.floor(Math.random() * 3));
             var image = test_images[rnd]; //random stimulus setting from test_images
@@ -68,7 +69,7 @@
             }
         }
 
-        var trial_images = jsPsych.randomization.repeat(test_images, 6, true);
+        var trial_images = jsPsych.randomization.repeat(test_images, 12, true);
         // Define experiment blocks
         var flanker_instruction_block = {
             type: "text",
@@ -86,7 +87,8 @@
             type: "single-stim",
             stimuli: trial_images.stimulus,
             choices: [37, 39],
-            data: trial_images.data 
+            data: trial_images.data, 
+            timing_post_trial: 400
             };
 
          var flanker_training_block = {
@@ -94,8 +96,9 @@
             stimuli: flanker_training_images,
             key_answer: flanker_training_answers,
             text_answer: flanker_training_text_answers,
+            timing_feedback_duration: 500,
             choices: [37, 39],
-            timing_post_trial: 500,
+            timing_post_trial: 400,
             correct_text: "<p class='correct'>Correct!</p>",
             incorrect_text: "<p class='false'>False!</p>",
             prompt: "<p class='centered'>Press the arrow key corresponding to the direction of the middle arrow.</p>"
@@ -108,8 +111,9 @@
             on_finish:function(data){
                 var data_object = {
                     userId: userId, 
-                    data: (JSON.stringify(data))
+                    data: data
                 };
+                console.log(JSON.stringify(data_object));
                 $.ajax({
                     type: "POST",
                     url: "/flanker-data",

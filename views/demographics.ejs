@@ -44,7 +44,7 @@
                             <option value="1991" class="short">1991</option>
                             <option value="1990" class="short">1990</option>
                             <option value="1989" class="short">1989</option>
-                            <option value="1988" class="short">1988</option>
+                            <option value="1988" class="short" selected>1988</option>
                             <option value="1987" class="short">1987</option>
                             <option value="1986" class="short">1986</option>
                             <option value="1985" class="short">1985</option>
@@ -137,12 +137,10 @@
                         <br>
                         <label for="gender" class="short gender">Gender:</label>
                         <div id="gender">
-                            <input type="radio" name="gender" id="male" value="male">
+                            <input checked type="radio" name="gender" id="male" value="male">
                             <label for="male">Male</label><br>
                             <input type="radio" name="gender" id="female" value="female">
                             <label for="female">Female</label><br>
-                            <input type="radio" name="gender" id="other" value="other">
-                            <label for="other">Other</label><br>
                         </div>
                     </div>
                     
@@ -297,7 +295,8 @@
                     url: "/demographics-data",
                     data: $("#demographics").serialize(), // serializes the form's elements.
                     success: function(data){
-                        window.location.href = 'survey_with_intro?userId='+userId;
+                        //window.location.href = 'survey_with_intro?userId='+userId;
+                        console.log($("#demographics").serialize());
                         }
                     });
                 }); 
