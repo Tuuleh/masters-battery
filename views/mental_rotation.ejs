@@ -156,12 +156,12 @@
             text: [mental_rotation_instructions]
         }
 
-        //creates a mental rotation task block for jspsych
         var training_images = shuffled_images.slice(12, 19);
         var training_data = shuffled_foil_data.slice(12, 19);
 
         var training_block = {
             type: 'two-stim',
+            training: true,
             stimuli: training_images,
             prompt: "<p class='centered'>Press Q if the images are identical, and P if mirrored.</p>",
             correct_feedback: correct_feedback,
@@ -169,6 +169,7 @@
             data: training_data,
             feedback_duration: 800
         };
+
 
         var rotation_text = "<div id='instructions'><p class='centered'><strong>Great!</strong> You completed the training! The experiment will now follow.<br>" +
             "As always, try and respond as quickly and accurately as you can.</p>"+
@@ -182,6 +183,7 @@
 
         var rotation_block = {
             type: 'two-stim',
+            training: false,
             stimuli: shuffled_images,
             prompt: "<p class='centered'>Q - identical, P - mirrored.</p>",
             correct_feedback: correct_feedback,
@@ -193,8 +195,6 @@
         };
 
         
-        
- 
         // launch jspsych experiment
         function start() {
             jsPsych.init({
@@ -202,16 +202,17 @@
                 experiment_structure: [mental_rotation_intro, training_block, rotation_intermezzo, rotation_block],
                 on_finish:function(data){
                     var data_object = {
-                    userId: userId, 
-                    data: (JSON.stringify(data))
+                        userId: userId, 
+                        data: data
                     };
+                    console.log(JSON.stringify(data_object));
                     $.ajax({
                         type: "POST",
                         url: "/mental_rotation-data",
                         data: JSON.stringify(data_object),
                         contentType: "application/json"
                     }).done(function() {
-                        window.location.href = "tol?userId="+userId; 
+                        window.location.href = "spatial_span?userId="+userId; 
                     });
                 }
             });
