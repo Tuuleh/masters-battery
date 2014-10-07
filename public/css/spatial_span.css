@@ -1,34 +1,37 @@
+html {
+    background-color: #4EBABA;
+}
+
 #grid {
-    width: 700px;
+    width: 50%;
     height: 400px;
-    text-align: center;
-    display:inline-block;
+    float:left;
+    margin-top: 3%;
+    margin-left: 3%;
+
 }
 
 #instructions {
-    display: inline-block;
-    float:right;
-    width:300px;
-    height:400px;
-    background-color: red;
+    width: 40%;
+    height: 400px;
+    float: right;
+    margin-top: 3%;
+    margin-right: 3%;
+    color: white;
 }
 
 
 .container {
-    width: 20%;
+    width: 25%;
     height: 100%;
-    float: left;
+    display: inline-block;
 }
 
 .element {
-    -webkit-border-radius: 9;
-    -moz-border-radius: 9;
-    border-radius: 10px;
     font-family: Arial;
     color: #ffffff;
     font-size: 18px;
     background: #1d1e1f;
-    border: solid #5f707a 2px;
     text-decoration: none;
     width: 80%;
     height: 20%;
@@ -36,12 +39,18 @@
     padding: 0;
 }
 
+#feedback{
+    font-size: 3em;
+    color: #FFE1BA;
+}
+
+
 .passive {
-    background-color: gray;
+    background-color: #ACEDED;
     color: gray;
 }
 
 .active {
-    background-color: #ff3030;
+    background-color: #FFAF8F;
     color: red;
 }

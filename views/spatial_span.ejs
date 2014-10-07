@@ -1,0 +1,235 @@
+<!doctype html>
+    <head>
+        <title>spatial span</title>
+        <!-- jQuery -->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <link href="css/reset.css" type="text/css" rel="stylesheet"></link>
+        <link href="css/experiment.css" type="text/css" rel="stylesheet"></link>
+        <link href="css/spatial_span.css" type="text/css" rel="stylesheet"></link>
+    </head>
+    <body>
+        <div id="grid" class="grid-pad">
+            <!--Things get appended here with jQuery magic-->
+        </div>
+        <div id ="instructions">
+            <h1>Welcome to the spatial span test!</h1>
+            <p>During this task, the blocks in the grid on the left will change color one by one. Your task is to observe the sequence and once it stops, to reproduce it by clicking the blocks with your mouse.
+            </p>
+            <p>If you get all the blocks correctly, the next sequence will be longer, and if you make a mistake, it will be shorter. You have three lives to try and complete as long a sequence as possible!
+            </p>
+            <p class="anykey">Press enter when you're ready to begin!</p>
+        </div>
+    </body>
+    <script>
+
+        var userId = "<%= userId%>";
+        //makes a row_length x row_length size matrix for the working memory task
+        var experiment_running = false;
+        var trial_correct = undefined;
+
+        //keypress function that begins the experiment if enter is pressed
+        if (!experiment_running) {
+            $(document).keypress(function(event){
+                var keycode = (event.keyCode ? event.keyCode : event.which);
+                if(keycode == '13'){
+                    experiment_running = true;
+                    $("#instructions").html("");
+                    $("#instructions").append($("<div id=feedback_div>"));
+                    $("#feedback_div").append($("<h1 id='feedback'>Good luck!</h1>"));
+                    $("#feedback_div").append($("<h2 id='difficulty'> Difficulty: "+trial_object.item_difficulty + "</h2>"));
+                    $("#feedback_div").append($("<h2 id='max'> Max score: "+trial_object.max_length + "</h2>"));
+                    $("#feedback_div").append($("<h2 id='lives'> Lives: "+trial_object.lives + "</h2>"));
+                    $(document).unbind();
+                    setTimeout(run(trial_object),2000);
+                }    
+            });
+        }
+
+        function construct_feedback(trial_correct, trial_object) {
+            if (trial_correct) {
+                $("#feedback").html("Well done!");
+            }
+            else {
+                $("#feedback").html("Oops... almost!");
+            }
+            $("#difficulty").html("Difficulty: " + trial_object.item_difficulty);
+            $("#max").html("Max score: " + trial_object.max_length);
+            $("#lives").html("Lives: " + trial_object.lives);
+        }
+
+        var trial_object = {
+            row_length: 4,
+            item_difficulty: 4,
+            trials_run: 0,
+            max_correct: 0,
+            max_length: 0,
+            response_array: [],
+            lives: 0
+        };
+
+
+        var item = 0;
+        for (var i = 0; i < trial_object.row_length; i++) {
+            $("#grid").append($("<div id='container_"+i+"' class='container'>"));
+                for (var j = 0; j < trial_object.row_length; j++ ) {
+                    $("#container_"+i).append($("<div id ='element_"+item+"' class='passive element' number='"+item+"'>"));
+                    item++;
+                }     
+        }
+
+        function generate_stimulus(trial_object) {
+            stimuli = []
+            //generate a random array of elements to highlight, with length of 5
+            while (stimuli.length < trial_object.item_difficulty) {
+                var random = Math.floor(Math.random()*Math.pow(trial_object.row_length, 2));
+                //if the stimuli-array already contains the random element
+                //this is not working properly for duplicates
+                if ($.inArray(random, stimuli) != -1) {
+                    continue;
+                }
+                else {
+                    stimuli.push(random);
+                }
+            }
+            trial_object.stimuli = stimuli;
+            console.log("stimuli: "+ trial_object.stimuli);
+        }
+
+        function move_to_next(current, trial_object) {
+            previous = current-1;
+
+            if (current == trial_object.stimuli.length) {
+                $(".element").removeClass("active");
+                console.log("deactivated all elements");
+                //what if you don't call this here but instead in run?
+                user_input(trial_object);
+                return;
+            }
+
+            $previous = $("[id = 'element_"+trial_object.stimuli[previous]+"']");
+            $previous.removeClass("active");
+
+            $current = $("[id = 'element_"+trial_object.stimuli[current]+"']");
+            $current.addClass("active");
+            console.log("added class active to " + trial_object.stimuli[current]);
+            setTimeout(function() {move_to_next(current+1, trial_object)}, 1000);
+
+        }
+        
+        function user_input(trial_object) {
+
+            trial_object.response_array = [];
+            console.log("object: "+JSON.stringify(trial_object));
+
+            $("#feedback").html("Your turn!");
+
+            $(".element").click(callbacks);
+        }
+
+        function callbacks() {
+            var remove_active = function($b){
+                $b.removeClass("active");
+            }
+            $button = $(this);
+            console.log("click!");
+            $button.addClass("active");
+            setTimeout(function(){
+                remove_active($button);
+            }, 200);
+            //log element num into answer array
+            trial_object.response_array.push(parseInt($button.attr('number'), 10));
+            //if last item on response array is the same as the corresponding item on the stimulus array...
+            console.log("pushed " + trial_object.response_array[trial_object.response_array.length-1] + " corresponding to " + trial_object.stimuli[trial_object.response_array.length-1]);
+            console.log("response_array:", trial_object.response_array);
+            console.log("stimuli", trial_object.stimuli);
+
+            evaluate_trial(trial_object);
+        }
+
+        function evaluate_trial(trial_object) {
+
+            var finish = function() {
+                trial_object.response_array = [];
+                run(trial_object);
+                return;
+            }
+
+            var calculate_correct = function() {
+                var counter = 0;
+                for (item in trial_object.response_array) {
+                    if (item.indexOf(stimuli) != -1) {
+                        counter++
+                    }
+                }
+                return counter;
+            }
+
+                //at the end of the trial
+            if (trial_object.response_array.length >= trial_object.stimuli.length) {
+                $(".element").unbind();
+
+                //alter so that it searches for matching elements.
+
+                if (JSON.stringify(trial_object.response_array) == JSON.stringify(trial_object.stimuli)) {
+                    trial_object.item_difficulty++;
+                    if (trial_object.stimuli.length > trial_object.max_length) {
+                        trial_object.max_length = trial_object.stimuli.length;
+                    }
+                    if (trial_object.max_correct < trial_object.stimuli.length) {
+                        trial_object.max_correct = trial_object.stimuli.length;
+                    }
+                    construct_feedback(true,trial_object);
+                }
+
+                else {
+                    var correct = calculate_correct()
+                    if (correct > trial_object.max_correct) {
+                        max_correct = correct;
+                    } 
+                    if (trial_object.lives != 0) {
+                        trial_object.item_difficulty--;
+                        trial_object.lives--;
+                        construct_feedback(false,trial_object);
+                    }
+                    else {
+
+                        $("#feedback").html("That concludes this task!");
+                        $("#max").html("Your final max score is " + trial_object.max_length +", woo!");
+                        $("#difficulty").html("<br>");
+                        $("#lives").html("Press enter to continue!");
+                        trial_object.user_id = userId;
+                        console.log(trial_object);
+                        $(document).keypress(function(event){
+                            var keycode = (event.keyCode ? event.keyCode : event.which);
+                            if(keycode == '13'){
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/spatial_span-data",
+                                    data: JSON.stringify(trial_object),
+                                    contentType: "application/json"
+                                }).done(function() {
+                                    window.location.href = "tol?userId="+userId; 
+                                });
+                            }    
+                        });
+                        return;
+                    }
+                } 
+                finish();               
+            }
+        }
+
+        //master func for running experiment
+        function run(trial_object) {
+            trial_object.trials_run++;
+            //generating stimuli
+            generate_stimulus(trial_object);
+            setTimeout(function() {
+                move_to_next(0, trial_object);
+            }, 2000);
+            return;
+        }
+
+
+    </script>
+</html>
