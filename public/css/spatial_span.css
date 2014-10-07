@@ -21,6 +21,15 @@
 }
 
 .element {
+    -webkit-border-radius: 9;
+    -moz-border-radius: 9;
+    border-radius: 10px;
+    font-family: Arial;
+    color: #ffffff;
+    font-size: 18px;
+    background: #1d1e1f;
+    border: solid #5f707a 2px;
+    text-decoration: none;
     width: 80%;
     height: 20%;
     margin: 20%;
@@ -35,8 +44,4 @@
 .active {
     background-color: #ff3030;
     color: red;
-}
-
-.element:hover {
-    background-color: #49495C;
 }

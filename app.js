@@ -3,6 +3,7 @@ var Sequelize = require('sequelize');
 var uuid = require("node-uuid");
 var crypto = require('crypto');
 var DataTypes = require("sequelize");
+var validator = require('validator');
 
 var app = express();
 //start defining routes via app.VERB()
@@ -62,6 +63,7 @@ var Surveys = sequelize.import(__dirname + "/models/surveys");
 var Flanker = sequelize.import(__dirname + "/models/flanker");
 var Mental_rotation = sequelize.import(__dirname + "/models/mental_rotation");
 var London_tower = sequelize.import(__dirname + "/models/london_tower");
+var Spatial_span = sequelize.import(__dirname + "/models/spatial_span");
 var Finish = sequelize.import(__dirname + "/models/finish");
 
 //controllers/routers
@@ -86,6 +88,9 @@ app.post('/demographics-data', function (req, res) {
         region: req.body.region,
         position: req.body.position,
         role: req.body.role,
+        plays_non_team: req.body.plays_non_team,
+        plays_3v3: req.body.plays_3v3,
+        plays_5v5: req.body.plays_5v5,
         non_team_queue: req.body.non_team_queue,
         non_team_division: req.body.non_team_division,
         non_team_tier: req.body.non_team_tier,
@@ -100,12 +105,12 @@ app.post('/demographics-data', function (req, res) {
     Demographics
         .build(data_object)
         .save()
-        .then(function(demographics){
-            console.log("We did it! " + demographics.user_id)
+        .then(function(){
             res.send('{"status":"ok"}');
-        }).error(function(err){
+        },function(err){
+            console.log(err);
             res.status(400).send('{"status":"error"}');
-        });
+        }); 
 });
 
 app.get('/survey_with_intro', function (req, res) {
@@ -130,8 +135,6 @@ app.post('/survey_with_intro-data', function (req, res) {
 
     var tlx_counter = 0;
     var GEQ_counter = 1;
-
-    console.log(req.body.data);
 
     for (var trial in req.body.data) {
         console.log("looping x " + trial);
@@ -169,7 +172,6 @@ app.post('/survey_with_intro-data', function (req, res) {
         .build(data_object)
         .save()
         .then(function(current_survey){
-            console.log("We did it! " + current_survey.user_id)
             res.send('{"status":"ok"}');
         }).error(function(err){
             res.status(400).send('{"status":"error"}');
@@ -182,7 +184,6 @@ app.get('/flanker', function (req, res) {
 });
 
 app.post('/flanker-data', function (req, res) {
-    console.log('req body.data: ' + req.body.data);
 
     var data_object_array = [];
 
@@ -191,7 +192,6 @@ app.post('/flanker-data', function (req, res) {
         //create data object for single trial in the sequence
         var data_object = {};
         if (req.body.data[trial].trial_type == "single-stim") {
-            console.log("made a trial");
             data_object.user_id = req.body.userId;
             data_object.trial_index = req.body.data[trial].trial_index;
             data_object.rt = req.body.data[trial].rt;
@@ -308,6 +308,30 @@ app.post('/palmer-experiments-data', function (req, res) {
     res.send('{"status":"ok"}');
 });
 
+app.get('/spatial_span', function (req, res) {
+    var userId = req.query.userId;
+    res.render('spatial_span', {userId:userId});
+});
+
+app.post('/spatial_span-data', function (req, res) {
+
+    console.log(req.body);
+    Spatial_span
+        .build({
+            user_id: req.body.user_id,
+            max_correct: req.body.max_correct,
+            trials_run: req.body.trials_run,
+            max_length: req.body.max_length
+        })
+        .save()
+        .then(function(){
+            res.send('{"status":"ok"}');
+        },function(err){
+            console.log(err);
+            res.status(400).send('{"status":"error"}');
+        }); 
+});
+
 app.get('/finish', function (req, res) {
     var userId = req.query.userId;
     res.render('finish', {userId:userId});
@@ -325,12 +349,12 @@ app.post('/finish-data', function (req, res) {
             thank_you: req.body.thank_you
         })
         .save()
-        .then(function(current_finish){
-            console.log("We did it! " + current_finish.user_id)
+        .then(function(){
             res.send('{"status":"ok"}');
-        }).error(function(err){
+        },function(err){
+            console.log(err);
             res.status(400).send('{"status":"error"}');
-        });
+        }); 
     
 });
 
