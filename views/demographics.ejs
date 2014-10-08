@@ -6,6 +6,7 @@
             <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
             <script src="/scripts/jspsych.js"></script>
             <script src="/scripts/plugins/clean_dropdown.js"></script>
+            <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js"></script>
             <link href="/css/reset.css" type="text/css" rel="stylesheet">
             <link href="/css/experiment.css" type="text/css" rel="stylesheet">
             <link href="/css/demographics.css" type="text/css" rel="stylesheet">
@@ -175,10 +176,10 @@
                         <option value="tank" class="short">Tank</option>
                     </select><br>
 
-                    <div id="teamselect">
+                    <div id="teamselect" name="ranked_games">
                         <p>Which of the following game styles do you play? <strong>Select all that apply</strong>!</p>
-                        <input type="checkbox" class ="ratings" name="plays_non_team" id="non-team" value="true">
-                        <label for="non-team" class="long">Non-team ranked games (solo or duo-queue)</label><br>
+                        <input type="checkbox" class ="ratings" name="plays_non_team" id="non_team" value="true">
+                        <label for="non_team" class="long">Non-team ranked games (solo or duo-queue)</label><br>
                         <input type="checkbox" class="ratings" name="plays_3v3" id="3v3" value="true">
                         <label for="3v3" class="long">3v3 ranked</label><br>
                         <input type="checkbox" class="ratings" name="plays_5v5" id="5v5" value="true">
@@ -261,6 +262,13 @@
                     <input type="submit" value="Submit" class="button">
 
                 </form>
+                <div id = "error_container">
+                    <div id = "summoner_name" class="error"></div>
+                    <div id = "error_ranked_games" class="error"></div>
+                    <div id = "error_plays_non_team" class="error"></div>
+                    <div id = "error_plays_3v3" class="error"></div>
+                    <div id = "error_plays_5v5" class="error"></div>
+                </div>
             </div>
         </body>
 
@@ -281,14 +289,21 @@
             $('input[type=checkbox][class="ratings"]').change(function () {
             if ($(this).prop("checked")) {
                 $('[class="appendable"][id = "'+$(this).attr("name")+'"]').show();
+                // $('[type="text"][id="'+$(this).attr("id")+'team"]').prop('required', true);
+                // $('[type="radio"][name="'+$(this).attr("id")+'_queue"]').prop('required', true);
             }
             else {
                 $('[class="appendable"][id = "'+$(this).attr("name")+'"]').hide();
+                // $('[type="text"][id="'+$(this).attr("id")+'team"]').prop('required', false);
+                // $('[type="radio"][name="'+$(this).attr("id")+'_queue"]').prop('required', false);
             }
 
             });
 
+
+
             $( "#demographics" ).submit(function( event ) {
+                $(".error").html("");
                 event.preventDefault();
                 $.ajax({
                     type: "POST",
@@ -297,6 +312,45 @@
                     success: function(data){
                         //window.location.href = 'survey_with_intro?userId='+userId;
                         console.log($("#demographics").serialize());
+                    }
+                    }).fail(function(jqXHR, textStatus, errorThrown){
+                        var data = jqXHR.responseJSON;
+                        console.log(data);
+                        console.log(textStatus);
+                        console.log(errorThrown);                        
+
+                        if (data.error === "duplicate entry") {
+                            window.location.href = "/?error=duplicateid";
+                        }
+                        else {
+                            console.log(data.error);
+                            for (error in data.error) {
+                                console.log(data.error[error].path, "  ", data.error[error].message);
+                                $("[class='error'][id='"+data.error[error].path+"']").append("<p>"+data.error[error].message+"</p>");   
+                            }
+                            
+                            // var validate_this = {
+                            //     debug: true,
+                            //     rules: {},
+                            //     messages: {}
+                            // }
+                            // $("#demographics").validate({
+                            //     debug: true
+                            //     rules: {
+                            //         name: "required",
+                            //         email: {
+                            //           required: true,
+                            //           email: true
+                            //         }
+                            //       },
+                            //       messages: {
+                            //         name: "Please specify your name",
+                            //         email: {
+                            //           required: "We need your email address to contact you",
+                            //           email: "Your email address must be in the format of name@domain.com"
+                            //         }
+                            //     }
+                            // });
                         }
                     });
                 }); 
