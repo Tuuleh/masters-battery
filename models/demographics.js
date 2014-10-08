@@ -23,50 +23,36 @@ module.exports = function(sequelize, DataTypes) {
         team_3v3:  {
             type: DataTypes.STRING(1000), 
             allowNull: true, 
-            validate: {
-                length: function() {
-                    if (this.plays_3v3 != undefined && (this.team_3v3.length < 2 || this.team_3v3.length > 100)) {
-                        throw new Error("Team name length is invalid.")
-                    }
-                }
-            }
         },
         division_3v3: DataTypes.INTEGER(11),
         tier_3v3: DataTypes.INTEGER(11),
         team_5v5: {
             type: DataTypes.STRING(1000), 
             allowNull: true, 
-            validate: {
-                length: function() {        
-                    if (this.plays_5v5 != undefined && (this.team_5v5.length < 2 || this.team_5v5.length > 100)) {
-                        throw new Error("Team name length is invalid.")
-                    }
-                }
-            }
         },
         division_5v5: DataTypes.INTEGER(11),
         tier_5v5: DataTypes.INTEGER(11),
         created_at: DataTypes.DATE
         },{   
             validate: {
-                ranked_games: function() {
+                error_ranked_games: function() {
                     if (!this.plays_non_team && !this.plays_3v3 && !this.plays_5v5) {
                         throw new Error("Select what kinds of ranked games you play.");
                     }
                 },
-                missing_queue: function() {
+                error_plays_non_team: function() {
                     if (this.plays_non_team && !this.non_team_queue) {
                         throw new Error("Select your queue style for non-team games.");
                     }
                 },
-                missing_3v3: function() {
-                    if (this.plays_3v3 && !this.team_3v3) {
-                        throw new Error("Enter your 3v3 team name, division and  tier!");
+                error_plays_3v3: function() {
+                    if (this.plays_3v3 && (!this.team_3v3 || (this.team_3v3.length < 2 || this.team_3v3.length > 100))) {
+                        throw new Error("Enter a valid 3v3 team name, division and tier!");
                     }
                 },
-                missing_5v5: function() {
-                    if (this.plays_5v5 && !this.team_5v5) {
-                        throw new Error("Enter your 5v5 team name, division and  tier!");
+                error_plays_5v5: function() {
+                    if (this.plays_5v5 && (!this.team_5v5 || (this.team_5v5.length < 2 || this.team_5v5.length > 100))) {
+                        throw new Error("Enter a valid 5v5 team name, division and tier!");
                     }
                 }
             },
