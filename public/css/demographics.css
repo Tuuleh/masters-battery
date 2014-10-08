@@ -10,7 +10,30 @@ html {
 #container {
 	background: transparent;
 	padding: 30px;
+	height: 100%;
 
+}
+#error_container {
+	padding: 10px;
+	opacity: 0%;
+	background-color: transparent;
+	width: 45%;
+	float: right;
+}
+
+.error {
+	float: left;
+	text-align: left;
+	color:red;
+	width: 100%;
+}
+
+form {
+	padding: 10px; 
+	opacity: 0%;
+	background-color: transparent;
+	width: 50%;
+	float:left;
 }
 
 body {
@@ -27,20 +50,13 @@ p {
 	margin-bottom:1px;
 }
 
-form {
-	padding: 10px; 
-	opacity: 0%;
-	background-color: transparent;
-}
-
 span {
 
 }
 
 .long {
 	display: inline-block;
-	width: 610px
-}
+	width: 95%;}
 
 label.short {
 	display: inline-block;
@@ -55,8 +71,12 @@ select, input {
 	margin-top: 8px;	
 }
 
-select, form input[type=text]{
-	width:200px	
+select {
+	width: 35%	
+}
+
+form input[type=text] {
+	width: 34%
 }
 
 option {
@@ -64,11 +84,11 @@ option {
 }
 
 select.short, input.short {
-	width:98px
+	width:17%
 }
 
 option.short {
-	width: 70px
+	width: 16%
 }
 
 option {
@@ -76,7 +96,8 @@ option {
 }
 
 .button {
-	margin-left: 18%;
+	margin-left: 37%;
+	margin-right: 0%;
 	margin-top: 40px
 
 }
