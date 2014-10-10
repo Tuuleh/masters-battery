@@ -744,7 +744,6 @@
         var module = {};
         
         module.getKeyboardResponse = function(callback_function, valid_responses, rt_method, persist) {
-
             rt_method = (typeof rt_method === 'undefined') ? 'date' : rt_method;
             if (rt_method != 'date' && rt_method != 'performance') {
                 console.log('Invalid RT method specified in getKeyboardResponse. Defaulting to "date" method.');
@@ -789,8 +788,8 @@
                     }
                 }
 
-                if (valid_response) {
-                    
+                if (valid_response) {       
+
                     var after_up = function(up) {
                         
                         if(up.which == e.which) {
@@ -822,7 +821,6 @@
             
             // add this keyboard listener to the list of listeners
             keyboard_listeners.push(listener_id);
-            
             return listener_id;
             
         };

@@ -29,6 +29,9 @@
         };
 
         plugin.trial = function(display_element, block, trial, part) {
+
+            //altered with a simple jquery function to move on to next page on enter press.
+            
             
             // if any trial variables are functions
             // this evaluates the function and replaces
@@ -39,19 +42,32 @@
             display_element.html(trial.text);
 
             var after_response = function(info) {
+
+                if ((trial.cont_key == []) || (trial.cont_key = 'mouse')) {
+                    display_element.html(''); // clear the display
                     
-                display_element.html(''); // clear the display
-                
-                save_data(info.key, info.rt);
-                
-                if (trial.timing_post_trial > 0) {
-                    setTimeout(function() {
+                    save_data(info.key, info.rt);
+                    
+                    if (trial.timing_post_trial > 0) {
+                        setTimeout(function() {
+                            block.next();
+                        }, trial.timing_post_trial);
+                    }
+                    else {
                         block.next();
-                    }, trial.timing_post_trial);
+                    } // call block.next() to advance the experiment after a delay.                    
                 }
+
                 else {
-                    block.next();
-                } // call block.next() to advance the experiment after a delay.
+                    $(document).keypress(function(e) {
+                        if(e.which == trial.cont_key) {
+                            block.next();
+                        }
+                    });
+                }
+                
+
+
                 
             };
 

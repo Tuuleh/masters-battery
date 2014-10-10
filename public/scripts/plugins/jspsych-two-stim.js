@@ -57,30 +57,31 @@
                 }
 
                 // show the options
+                display_element.append($("<div id = 'stim_container'>"));
                 if (!trial.is_html) {
-                    display_element.append($('<img>', {
+                    $("#stim_container").append($('<img>', {
                         "src": images[0],
                         "class": 'jspsych-two-stim-stimulus'
                     }));
-                    display_element.append($('<img>', {
+                    $("#stim_container").append($('<img>', {
                         "src": images[1],
                         "class": 'jspsych-two-stim-stimulus'
                     }));
 
                 }
                 else {
-                    display_element.append($('<div>', {
+                    $("#stim_container").append($('<div>', {
                         "class": 'jspsych-two-stim-stimulus',
                         html: images[0]
                     }));
-                    display_element.append($('<div>', {
+                    $("#stim_container").append($('<div>', {
                         "class": 'jspsych-two-stim-stimulus',
                         html: images[1]
                     }));
                 }
 
                 if (trial.prompt !== "") {
-                    display_element.append(trial.prompt);
+                    display_element.append($("<p class = 'centered prompt'>"+trial.prompt+"</p>"));
                 }
 
                 // start measuring response time
@@ -96,11 +97,23 @@
                 }
                 
                 var feedback_func = function(correct) {
+                    console.log('feedback_func');
+                    console.log(typeof(correct));
+
                     if (correct === true) {
-                        display_element.append(trial.correct_feedback);
+                        //$(".prompt").replaceWith("<p class = 'centered correct'>" + trial.correct_feedback + "</p>");
+                        $(".prompt").replaceWith(
+                            $('<p>', {
+                                class: 'centered correct',
+                                text: trial.correct_feedback
+                            })); 
                     }
                     else {
-                        display_element.append(trial.false_feedback);
+                        $(".prompt").replaceWith(
+                            $('<p>', {
+                                class: 'centered false',
+                                text: trial.false_feedback
+                            }));
                     }
                 }
 
@@ -146,9 +159,8 @@
                             "key_press": e.which
                         };
 
-                        block.writeData($.extend({}, trial_data, trial.data));
-
                         feedback_func(correct);
+                        block.writeData($.extend({}, trial_data, trial.data));
 
                         setTimeout(function() {
                             finish_func();

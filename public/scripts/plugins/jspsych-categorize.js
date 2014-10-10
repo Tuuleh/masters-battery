@@ -96,7 +96,7 @@
 
                 // if prompt is set, show prompt
                 if (trial.prompt !== "") {
-                    display_element.append(trial.prompt);
+                    display_element.append($("<p class = 'centered prompt'>"+trial.prompt+"</p>"));
                 }
 
                 // start measuring RT
