@@ -18,6 +18,43 @@
                 <form id="demographics" action="survey_with_intro" method="post">
                     <div class="demographic_questions">
                         <input type="hidden" name="userId" value="<%= userId %>"/>
+                        <div name="summoner_name" class="error"></div>
+                            <label for="summonername" class="short">Summoner name:</label>
+                            <input type="text" name="summoner_name" id="summonername">
+                            <label for="level" class="short">Summoner level:</label>
+                        <select name="level" id="level" class = "short">
+                            <option value="30">30</option>
+                            <option value="29">29</option>
+                            <option value="28">28</option>
+                            <option value="27">27</option>
+                            <option value="26">26</option>
+                            <option value="25">25</option>
+                            <option value="24">24</option>
+                            <option value="23">23</option>
+                            <option value="22">22</option>
+                            <option value="21">21</option>
+                            <option value="20">20</option>
+                            <option value="19">19</option>
+                            <option value="18">18</option>
+                            <option value="17">17</option>
+                            <option value="16">16</option>
+                            <option value="15">15</option>
+                            <option value="14">14</option>
+                            <option value="13">13</option>
+                            <option value="12">12</option>
+                            <option value="11">11</option>
+                            <option value="10">10</option>
+                            <option value="9">9</option>
+                            <option value="8">8</option>
+                            <option value="7">7</option>
+                            <option value="6">6</option>
+                            <option value="5">5</option>
+                            <option value="4">4</option>
+                            <option value="3">3</option>
+                            <option value="2">2</option>
+                            <option value="1">1</option>
+                        </select>
+
                         <label for="birthyear" class="short">Birth year:</label>
                         <select id="birth_year" name="birth_year" class="short">
                             <option value="2014" class="short">2014</option>
@@ -142,14 +179,7 @@
                         <label for="male">Male</label>
                         <input type="radio" name="gender" id="female" value="female">
                         <label for="female">Female</label>
-                    </div>
-                    <div name="summoner_name" class="error"></div>
-                    <div id="summoner_name">
-                        <label for="summonername" class="short">Summoner name:</label>
-                        <input type="text" name="summoner_name" id="summonername">
-                    </div>
 
-                    <div>
                         <label for="region" class="short" name="region">Game region:</label>
                         <select class="main_menu" id="region" text="Region" name="region">
                             <option value="na">North America (NA)</option>
@@ -181,13 +211,17 @@
 
                     <div id="error_ranked_games" name = "error_ranked_games" class="error"></div>
                     <div id="teamselect" name="ranked_games">
-                        <p>Which of the following game styles do you play? <strong>Select all that apply</strong>!</p>
-                        <input type="checkbox" class ="ratings" name="plays_non_team" id="non_team" value="true">
-                        <label for="non_team" class="long">Non-team ranked games (solo or duo-queue)</label><br>
-                        <input type="checkbox" class="ratings" name="plays_3v3" id="3v3" value="true">
-                        <label for="3v3" class="long">3v3 ranked</label><br>
-                        <input type="checkbox" class="ratings" name="plays_5v5" id="5v5" value="true">
-                        <label for="5v5" class="long">5v5 ranked</label><br>
+                        <p>Which of the following game styles do you play frequently? <strong>Select all that apply</strong>!</p>
+                        <input type="checkbox" class ="ratings normal" name="plays_ai" id="normal_AI" value="true">
+                        <label for="non_team" class="long">Normal against AI</label><br>
+                        <input type="checkbox" class ="ratings normal" name="plays_normal_pvp" id="normal_pvp" value="true">
+                        <label for="non_team" class="long">Normal against players</label><br>
+                        <input type="checkbox" class ="ratings ranked" name="plays_non_team" id="non_team" value="true">
+                        <label for="non_team" class="long ranked">Non-team ranked games (solo or duo-queue)</label><br>
+                        <input type="checkbox" class="ratings ranked" name="plays_3v3" id="3v3" value="true">
+                        <label for="3v3" class="long ranked">3v3 ranked</label><br>
+                        <input type="checkbox" class="ratings ranked" name="plays_5v5" id="5v5" value="true">
+                        <label for="5v5" class="long ranked">5v5 ranked</label><br>
                     </div>
                     
                     <div name = "error_plays_non_team" class="error"></div>
@@ -273,8 +307,27 @@
         </body>
 
         <script>
+        function clear_form_elements(class_name) {
+            jQuery("."+class_name).find(':input').each(function() {
+            switch(this.type) {
+                case 'password':
+                case 'text':
+                case 'textarea':
+                case 'file':
+                case 'select-one':
+                case 'select-multiple':
+                    jQuery(this).val('');
+                    break;
+                case 'checkbox':
+                case 'radio':
+                    this.checked = false;
+                }
+            });
+        }
+
         error_check();
         var userId = "<%= userId%>";
+
             $('.main_menu').change(function(){
                 console.log($(this).val());
                 if ($(this).val() == 5) { //if challenger bracket is selected, hide submenu
@@ -286,20 +339,29 @@
             });
 
             $(".appendable").hide();
-            $('input[type=checkbox][class="ratings"]').change(function () {
-            if ($(this).prop("checked")) {
-                $('[class="appendable"][id = "'+$(this).attr("name")+'"]').show();
-                // $('[type="text"][id="'+$(this).attr("id")+'team"]').prop('required', true);
-                // $('[type="radio"][name="'+$(this).attr("id")+'_queue"]').prop('required', true);
-            }
-            else {
-                $('[class="appendable"][id = "'+$(this).attr("name")+'"]').hide();
-                // $('[type="text"][id="'+$(this).attr("id")+'team"]').prop('required', false);
-                // $('[type="radio"][name="'+$(this).attr("id")+'_queue"]').prop('required', false);
-            }
 
+            $('.ratings, .ranked').change(function () {
+                console.log("there we go");
+                if ($(this).prop("checked")) {
+                    $('[class="appendable"][id = "'+$(this).attr("name")+'"]').show();
+                }
+                else {
+                    $('[class="appendable"][id = "'+$(this).attr("name")+'"]').hide();
+                }
             });
 
+            $("#level").change(function () {
+                if ($(this).val() < 30) {
+                    $(".ranked").hide();
+                    $(".ranked").prop("checked", false);
+                    clear_form_elements('appendable');
+                    $(".appendable").hide();
+
+                }
+                else {
+                    $(".ranked").show();
+                }
+            });
 
 
             $( "#demographics" ).submit(function( event ) {
