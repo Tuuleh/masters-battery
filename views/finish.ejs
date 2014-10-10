@@ -4,6 +4,7 @@
         <link href="/css/experiment.css" type="text/css" rel="stylesheet">        
         <link href="/css/finish.css" type="text/css" rel="stylesheet">
         <title>You did it!</title>
+        <script src="scripts/error_check.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     </head>
     <body>
@@ -31,23 +32,26 @@
 
             <form id = "finish" action="/thank_you" method="post">
                 <input type="hidden" name="userId" value="<%= userId %>"/>
+
                 E-mail:<br>
-                <input type="text" name="mail"><br>
+                <div name = "mail", id = "mail", class = "error"></div>
+                <input type="text" name="mail" id = "email"><br>
                 Message: <br>
+                <div name = "message", id = "message", class = "error"></div>
                 <textarea name="message"></textarea>
 
                 <p>Would you like to see the results once the data has been analysed? Note that if you do, you will have to supply your e-mail address above.</p>
             
-                <input type="radio" name="wants_results" id="results_yes" value="yes">
+                <input type="radio" name="wants_results" id="results_yes" value="true">
                 <label for="results_yes">Yes, please.</label><br>
-                <input type="radio" name="wants_results" id="results_no" value="no">
+                <input type="radio" name="wants_results" id="results_no" value="false" checked>
                 <label for="results_no">No, thanks.</label><br>
 
                 <p>After I finish, I'd like to set up a web page for the project where the anonymized data and the source code for the experiments can be downloaded. As a part of the web page, I'd like to set up a short thank-you with a list of the people who participated. Would you like your summoner name published on this list?</p>
 
-                <input type="radio" name="thank_you" id="list_yes" value="yes">
+                <input type="radio" name="thank_you" id="list_yes" value="true">
                 <label for="list_yes">Yes, bring on the internet fame!</label><br>
-                <input type="radio" name="thank_you" id="list_no" value="no">
+                <input type="radio" name="thank_you" id="list_no" value="false" checked>
                 <label for="list_no">No, thanks, I prefer to remain incognito.</label><br>
 
                 <input type="submit" value="Send" class="button">
@@ -55,15 +59,39 @@
         </div>
     </body>
     <script>
+    function IsEmail(email) {
+        var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        return regex.test(email);
+    }
+    error_check();
     var userId = "<%= userId%>";
+
+
+
         $( "#finish" ).submit(function( event ) {
+            if ((regex.test($("#email").val()) === false) && ($("#email").val != "")) {
+                console.log("sup with that email");
+            }
+            $(".error").html("");
             event.preventDefault();
             $.ajax({
                 type: "POST",
                 url: "/finish-data",
-                data: $("#finish").serialize(), // serializes the form's elements.
-                success: function(data){
-                    window.location.href = 'thank_you';
+                data: $("#finish").serialize() // serializes the form's elements.
+                }).done(function() {
+                        window.location.href = "thank_you"; 
+                }).fail(function(jqXHR, textStatus, errorThrown){
+                    var data = jqXHR.responseJSON;   
+                    console.log(data);        
+                    if (data.error === "duplicate entry") {
+                        window.location.href = "/?error=duplicateid";
+                    }
+                    else {
+                        for (var i = 0; i < data.error.length; i++) {
+                            console.log(data.error[i]);
+                            console.log(data.error[i].path, "  ", data.error[i].message);
+                            $("[class='error'][name = " + data.error[i].path + "]").html("<p>"+data.error[i].message+"</p>");   
+                        }
                     }
                 });
             });

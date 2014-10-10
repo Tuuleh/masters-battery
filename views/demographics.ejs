@@ -5,8 +5,9 @@
             <title>Demographics survey</title>
             <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
             <script src="/scripts/jspsych.js"></script>
+            <script src="/scripts/error_check.js"></script>
             <script src="/scripts/plugins/clean_dropdown.js"></script>
-            <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js"></script>
+            <!--<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js"></script>-->
             <link href="/css/reset.css" type="text/css" rel="stylesheet">
             <link href="/css/experiment.css" type="text/css" rel="stylesheet">
             <link href="/css/demographics.css" type="text/css" rel="stylesheet">
@@ -137,45 +138,48 @@
                         </select>
                         <br>
                         <label for="gender" class="short gender">Gender:</label>
-                        <div id="gender">
-                            <input checked type="radio" name="gender" id="male" value="male">
-                            <label for="male">Male</label><br>
-                            <input type="radio" name="gender" id="female" value="female">
-                            <label for="female">Female</label><br>
-                        </div>
+                        <input checked type="radio" name="gender" id="male" value="male">
+                        <label for="male">Male</label>
+                        <input type="radio" name="gender" id="female" value="female">
+                        <label for="female">Female</label>
                     </div>
-                    
-                    <label for="summonername" class="short">Summoner name:</label>
-                    <input type="text" name="summoner_name" id="summonername"><br>
+                    <div name="summoner_name" class="error"></div>
+                    <div id="summoner_name">
+                        <label for="summonername" class="short">Summoner name:</label>
+                        <input type="text" name="summoner_name" id="summonername">
+                    </div>
 
-                    <label for="region" class="short" name="region">Game region:</label>
-                    <select class="main_menu" id="region" text="Region" name="region">
-                        <option value="na">North America (NA)</option>
-                        <option value="euw">EU West (EUW)</option>
-                        <option value="eune">EU Nordic &amp; East (EUNE)</option>
-                        <option value="br">Brazil (BR)</option>
-                        <option value="tr">Turkey (TR)</option>
-                        <option value="ru">Russia (RU)</option>
-                        <option value="lan">Latin America North (LAN)</option>
-                        <option value="las">Latin America South (LAS)</option>
-                        <option value="nz">Oceania (AUS &amp; NZ)</option>
-                    </select><br>
+                    <div>
+                        <label for="region" class="short" name="region">Game region:</label>
+                        <select class="main_menu" id="region" text="Region" name="region">
+                            <option value="na">North America (NA)</option>
+                            <option value="euw">EU West (EUW)</option>
+                            <option value="eune">EU Nordic &amp; East (EUNE)</option>
+                            <option value="br">Brazil (BR)</option>
+                            <option value="tr">Turkey (TR)</option>
+                            <option value="ru">Russia (RU)</option>
+                            <option value="lan">Latin America North (LAN)</option>
+                            <option value="las">Latin America South (LAS)</option>
+                            <option value="nz">Oceania (AUS &amp; NZ)</option>
+                        </select><br>
 
-                    <label for="position" class="short">Preferred position and role:</label>
-                    <select class="short main_menu" id="position" text="Preferred position" name="position">
-                        <option value="top" class="short">Top</option>
-                        <option value="bottom" class="short">Bottom</option>
-                        <option value="middle" class="short">Middle</option>
-                        <option value="jungler" class="short">Jungler</option>
-                    </select>
+                        <label for="position" class="short">Preferred position and role:</label>
+                        <select class="short main_menu" id="position" text="Preferred position" name="position">
+                            <option value="top" class="short">Top</option>
+                            <option value="bottom" class="short">Bottom</option>
+                            <option value="middle" class="short">Middle</option>
+                            <option value="jungler" class="short">Jungler</option>
+                        </select>
 
-                    <select class="short main_menu" id="role" text="Preferred role" name="role">
-                        <option value="carry" class="short">Carry</option>
-                        <option value="support" class="short">Support</option>
-                        <option value="bruiser" class="short">Bruiser</option>
-                        <option value="tank" class="short">Tank</option>
-                    </select><br>
+                        <select class="short main_menu" id="role" text="Preferred role" name="role">
+                            <option value="carry" class="short">Carry</option>
+                            <option value="support" class="short">Support</option>
+                            <option value="bruiser" class="short">Bruiser</option>
+                            <option value="tank" class="short">Tank</option>
+                        </select>
+                    </div>
 
+                    <div id="error_ranked_games" name = "error_ranked_games" class="error"></div>
                     <div id="teamselect" name="ranked_games">
                         <p>Which of the following game styles do you play? <strong>Select all that apply</strong>!</p>
                         <input type="checkbox" class ="ratings" name="plays_non_team" id="non_team" value="true">
@@ -185,8 +189,9 @@
                         <input type="checkbox" class="ratings" name="plays_5v5" id="5v5" value="true">
                         <label for="5v5" class="long">5v5 ranked</label><br>
                     </div>
-
-                    <div id="plays_non_team" class="appendable">
+                    
+                    <div name = "error_plays_non_team" class="error"></div>
+                    <div id="plays_non_team" class="appendable" name="plays_non_team">
                         <p>When playing non-team ranked games, do you solo- or duo queue?</p>
                         <input type="radio" name="non_team_queue" id="solo" value="solo">
                         <label for="solo" class="long">I only solo queue</label><br>
@@ -210,9 +215,10 @@
                             <option value="2" class="short">III</option>
                             <option value="3" class="short">II</option>
                             <option value="4" class="short">I</option>
-                        </select><br>
+                        </select>
                     </div>
 
+                    <div name = "error_plays_3v3" class="error"></div>
                     <div id="plays_3v3" class="appendable">
                         <p>3v3:</p>
                         <label for="3v3team" class="short">Team name:</label>
@@ -233,14 +239,14 @@
                             <option value="2" class="short">III</option>
                             <option value="3" class="short">II</option>
                             <option value="4" class="short">I</option>
-                        </select><br>
+                        </select>
                     </div>
-
+                    
+                    <div name = "error_plays_5v5" class="error"></div>
                     <div id="plays_5v5" class="appendable">
                         <p>5v5:</p>
                         <label for="5v5team" class="short">Team name:</label>
                         <input type="text" id="5v5team" name="team_5v5">
-                        <br>
                         <label for="5v5-mainmenu" class="short">Division and Tier</label> 
                         <select class="short main_menu" id="5v5-mainmenu" text="5v5Division and tier" name="division_5v5">
                             <option value="0" class="short">Bronze</option>
@@ -257,24 +263,18 @@
                             <option value="3" class="short">II</option>
                             <option value="4" class="short">I</option>
                         </select><br>   
-                    </div><br>
+                    </div>
+                    
 
                     <input type="submit" value="Submit" class="button">
 
                 </form>
-                <div id = "error_container">
-                    <div id = "summoner_name" class="error"></div>
-                    <div id = "error_ranked_games" class="error"></div>
-                    <div id = "error_plays_non_team" class="error"></div>
-                    <div id = "error_plays_3v3" class="error"></div>
-                    <div id = "error_plays_5v5" class="error"></div>
-                </div>
             </div>
         </body>
 
         <script>
+        error_check();
         var userId = "<%= userId%>";
-
             $('.main_menu').change(function(){
                 console.log($(this).val());
                 if ($(this).val() == 5) { //if challenger bracket is selected, hide submenu
@@ -309,48 +309,19 @@
                     type: "POST",
                     url: "/demographics-data",
                     data: $("#demographics").serialize(), // serializes the form's elements.
-                    success: function(data){
-                        //window.location.href = 'survey_with_intro?userId='+userId;
-                        console.log($("#demographics").serialize());
-                    }
+                    }).done(function() {
+                        window.location.href = 'survey_with_intro?userId='+userId; 
                     }).fail(function(jqXHR, textStatus, errorThrown){
-                        var data = jqXHR.responseJSON;
-                        console.log(data);
-                        console.log(textStatus);
-                        console.log(errorThrown);                        
-
+                        var data = jqXHR.responseJSON;           
                         if (data.error === "duplicate entry") {
                             window.location.href = "/?error=duplicateid";
                         }
                         else {
-                            console.log(data.error);
-                            for (error in data.error) {
-                                console.log(data.error[error].path, "  ", data.error[error].message);
-                                $("[class='error'][id='"+data.error[error].path+"']").append("<p>"+data.error[error].message+"</p>");   
+                            for (var i = 0; i < data.error.length; i++) {
+                                console.log(data.error[i]);
+                                console.log(data.error[i].path, "  ", data.error[i].message);
+                                $("[class='error'][name = " + data.error[i].path + "]").html("<p>"+data.error[i].message+"</p>");   
                             }
-                            
-                            // var validate_this = {
-                            //     debug: true,
-                            //     rules: {},
-                            //     messages: {}
-                            // }
-                            // $("#demographics").validate({
-                            //     debug: true
-                            //     rules: {
-                            //         name: "required",
-                            //         email: {
-                            //           required: true,
-                            //           email: true
-                            //         }
-                            //       },
-                            //       messages: {
-                            //         name: "Please specify your name",
-                            //         email: {
-                            //           required: "We need your email address to contact you",
-                            //           email: "Your email address must be in the format of name@domain.com"
-                            //         }
-                            //     }
-                            // });
                         }
                     });
                 }); 

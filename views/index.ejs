@@ -17,15 +17,37 @@
     </head>
     <body>
         <div class ='mask'>
-            <div id='jspsych_target'>
-                <div class ='mini'>
-                    Disclaimer: This project isn’t endorsed by Riot Games and doesn’t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.
-                </div> 
+            <div id="error_header">
+                <p class = "error" id = "duplicate_userId">
+                    You have been redirected to the front page because of a duplicate user ID. Agreeing to the informed consent will generate a new user ID for you, but you will have to begin over with the experiment.
+                </p>
+                <p class = "error" id = "no_userId">
+                    You have been redirected to the front page because you have no user ID. Agreeing to the informed consent will generate one for you so you can begin the experiment.
+                </p>
+            <div>
+            <div id='jspsych_target'></div>
+            <div class ='mini' style="padding-top: 30px; padding-bottom: 0; margin-bottom: 0">
+                    <p class = 'mini'>* Cake will be served in the end.</p>
+                    <p class = 'mini' style="color: #DB694D">** Disclaimer: This project isn’t endorsed by Riot Games and doesn’t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.</p>
             </div>
         </div>
     </body>
     <script type='text/javascript'>
+
+    $(".error").hide();
     var userId = "<%= userId%>";
+    console.log("userId: ", userId);
+
+    var error_check = location.search;
+    console.log("location.search: ", error_check);
+
+    if (error_check == "?error=duplicateid") {
+        $("#duplicate_userId").show();
+    }
+
+    if (error_check == "?error=nouserid") {
+        $("#no_userId").show();
+    }
 
         // the html function loads external html content into the page. 
         // the external content is a file called "external_page.html"

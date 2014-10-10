@@ -13,6 +13,7 @@
 
         <!-- jsPsych -->
         <script src="scripts/jspsych.js"></script>
+        <script src="scripts/error_check.js"></script>
         <script src="scripts/plugins/jspsych-survey-likert-with-instructions.js"></script>
         <script src="scripts/plugins/jspsych-text.js"></script>
         <!-- style 
@@ -22,17 +23,20 @@
     </head>
 
     <body>
-        <div id="jspsych_target"></div>
+        <div>
+            <div id="jspsych_target" class = "mask"></div>
+        </div>
     </body>
 
     <script type="text/javascript">
+        error_check();
 
         var userId = "<%= userId%>";
 
         var survey_intro = "<div id='instructions'><h1>Let's get started!</h1><p>You will now enter a section with a few short questionnaires. There are no right or wrong answers, so please give your immediate reaction."+
-        "<p>The first questionnaire is designed to assess your <strong>perception of your highest rated ranked team</strong>, and the second one will assess the <strong>task load</strong> you experience during gameplay.</p><p>If you do not play games in a ranked team, feel free to submit the team inventories with default values, but please still respond to the questions about task load! </p>" +
-        "<p>Some of the questions may seem repetitive, but please answer all of them! Your personal responses will be kept in strictest confidence.</p>"+
-        "<p class='anykey'>Press any key to continue!</p>"
+        "<p>The first questionnaire is designed to assess your <strong>perception of your highest rated ranked team</strong>, and the second one will assess the <strong>task load</strong> you experience during gameplay.</p><p><strong>If you do not play games in a ranked team</strong>, feel free to submit the team inventories with default values, but please still respond to the questions about task load! </p>" +
+        "<p>Some of the questions may seem repetitive, but please answer all of them! Your personal responses will be kept in strictest confidence.</p><br>"+
+        "<p class='anykey'>Press enter to continue!</p>"
 
         var instr1 = "The following statements are designed to assess your feelings about <strong>your personal involvement with your highest rated ranked team</strong>. "+
         "Please select your response on the slider to indicate your level of agreement with each of these statements.</p>"+
@@ -123,7 +127,8 @@
         var survey_intro_block = {
                 type: "text",
                 text: survey_intro,
-                timing_post_trial: 500
+                timing_post_trial: 500,
+                cont_key: [13]
             };
 
         var GEQ_block1 = {
@@ -149,7 +154,7 @@
             inventory: "TLX",
             instructions: TLX_instr,
             questions: [TLX_items],
-            labels: [TLX_labels], // need one scale for every question on a page
+            labels: [TLX_labels],
             intervals: [TLX_intervals]
         };
 
@@ -169,6 +174,11 @@
                     contentType: "application/json",
                 }).done(function() {
                     window.location.href = 'flanker?userId='+userId; 
+                }).fail(function(jqXHR, textStatus, errorThrown){
+                    var data = jqXHR.responseJSON;           
+                    if (data.error === "duplicate entry") {
+                        window.location.href = "/?error=duplicateid";
+                    }
                 });
             }
             
