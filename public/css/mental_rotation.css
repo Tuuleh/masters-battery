@@ -1,0 +1,24 @@
+#rotation_container {
+    text-align: center;
+}
+
+#stimulus_container {
+    text-align:center;
+}
+
+.jspsych-categorize-stimulus {
+    vertical-align: middle
+}
+
+body, html {
+    background: #60626a;
+    color: white;
+}
+
+.block {
+  text-align: center;
+}
+
+#stim_container {
+
+}
