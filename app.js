@@ -3,7 +3,7 @@ var Sequelize = require('sequelize');
 var uuid = require("node-uuid");
 var crypto = require('crypto');
 var DataTypes = require("sequelize");
-var validator = require('validator');
+var validator = require("validator");
 
 var app = express();
 //start defining routes via app.VERB()
@@ -57,7 +57,7 @@ var server = app.listen(3000, function(){
     console.log("Listening on port %d", server.address().port);
 });
 
-//importing finish model
+//importing models
 var Demographics = sequelize.import(__dirname + "/models/demographics");
 var Surveys = sequelize.import(__dirname + "/models/surveys");
 var Flanker = sequelize.import(__dirname + "/models/flanker");
@@ -84,10 +84,13 @@ app.post('/demographics-data', function (req, res) {
         user_id: req.body.userId,
         birth_year:req.body.birth_year,
         gender: req.body.gender,
+        level: req.body.level,
         summoner_name: req.body.summoner_name,
         region: req.body.region,
         position: req.body.position,
         role: req.body.role,
+        plays_ai: req.body.plays_ai,
+        plays_normal_pvp: req.body.plays_normal_pvp,
         plays_non_team: req.body.plays_non_team,
         plays_3v3: req.body.plays_3v3,
         plays_5v5: req.body.plays_5v5,
@@ -109,7 +112,20 @@ app.post('/demographics-data', function (req, res) {
             res.send('{"status":"ok"}');
         },function(err){
             console.log(err);
-            res.status(400).send('{"status":"error"}');
+
+            if (err.name === "SequelizeUniqueConstraintError") {
+                if (err.parent.errno == 1062) {
+                    res.status(400).send({"error":"duplicate entry"});
+                }
+            }
+            else if (err.name === "SequelizeValidationError") {
+                var error_array = [];
+                for (var error in err.errors) {
+                    error_array.push({"path" : err.errors[error].path, "message" : err.errors[error].message});
+                }
+                res.status(400).send({"error" : error_array});
+            }
+            res.status(400).send({"status" : "unknown error"});
         }); 
 });
 
@@ -138,6 +154,7 @@ app.post('/survey_with_intro-data', function (req, res) {
 
     for (var trial in req.body.data) {
         console.log("looping x " + trial);
+        //this breaks upon TLX
         if (req.body.data[trial].hasOwnProperty("inventory")) {
             console.log("has inventory!")
             for (item in req.body.data[trial]) {
@@ -171,11 +188,18 @@ app.post('/survey_with_intro-data', function (req, res) {
     Surveys
         .build(data_object)
         .save()
-        .then(function(current_survey){
+        .then(function(){
             res.send('{"status":"ok"}');
-        }).error(function(err){
-            res.status(400).send('{"status":"error"}');
-        });
+        },function(err){
+            console.log(err);
+
+            if (err.name === "SequelizeUniqueConstraintError") {
+                if (err.parent.errno == 1062) {
+                    res.status(400).send({"error":"duplicate entry"});
+                }
+            }
+            res.status(400).send({"status" : "unknown error"});
+        }); 
 });
 
 app.get('/flanker', function (req, res) {
@@ -210,11 +234,16 @@ app.post('/flanker-data', function (req, res) {
     Flanker
     .bulkCreate(data_object_array)
     .then(function(){
-        res.send('{"status":"ok"}');
+            res.send('{"status":"ok"}');
     },function(err){
         console.log(err);
-        res.status(400).send('{"status":"error"}');
-    });
+        if (err.name === "SequelizeUniqueConstraintError") {
+            if (err.parent.errno == 1062) {
+                res.status(400).send({"error":"duplicate entry"});
+            }
+        }
+        res.status(400).send({"status" : "unknown error"});
+    }); 
 });
 
 app.get('/mental_rotation', function (req, res) {
@@ -255,7 +284,13 @@ app.post('/mental_rotation-data', function (req, res) {
         res.send('{"status":"ok"}');
     },function(err){
         console.log(err);
-        res.status(400).send('{"status":"error"}');
+
+        if (err.name === "SequelizeUniqueConstraintError") {
+            if (err.parent.errno == 1062) {
+                res.status(400).send({"error":"duplicate entry"});
+            }
+        }
+        res.status(400).send({"status" : "unknown error"});
     }); 
 
 
@@ -293,7 +328,13 @@ app.post('/tol-data', function (req, res) {
         res.send('{"status":"ok"}');
     },function(err){
         console.log(err);
-        res.status(400).send('{"status":"error"}');
+
+        if (err.name === "SequelizeUniqueConstraintError") {
+            if (err.parent.errno == 1062) {
+                res.status(400).send({"error":"duplicate entry"});
+            }
+        }
+        res.status(400).send({"status" : "unknown error"});
     }); 
 
 });
@@ -328,7 +369,13 @@ app.post('/spatial_span-data', function (req, res) {
             res.send('{"status":"ok"}');
         },function(err){
             console.log(err);
-            res.status(400).send('{"status":"error"}');
+
+            if (err.name === "SequelizeUniqueConstraintError") {
+                if (err.parent.errno == 1062) {
+                    res.status(400).send({"error":"duplicate entry"});
+                }
+            }
+            res.status(400).send({"status" : "unknown error"});
         }); 
 });
 
@@ -353,7 +400,21 @@ app.post('/finish-data', function (req, res) {
             res.send('{"status":"ok"}');
         },function(err){
             console.log(err);
-            res.status(400).send('{"status":"error"}');
+
+            if (err.name === "SequelizeUniqueConstraintError") {
+                if (err.parent.errno == 1062) {
+                    res.status(400).send({"error":"duplicate entry"});
+                }
+            }
+            else if (err.name === "SequelizeValidationError") {
+                console.log("validation error");
+                var error_array = [];
+                for (var error in err.errors) {
+                    error_array.push({"path" : err.errors[error].path, "message" : err.errors[error].message});
+                }
+                res.status(400).send({"error" : error_array});
+            }
+            res.status(400).send({"status" : "unknown error"});
         }); 
     
 });
