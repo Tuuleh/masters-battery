@@ -1,6 +1,6 @@
 {
-  "name": "serve_experiment_pages",
-  "description": "express test to serve jspsych pages",
+  "name": "Tuuli's master's thesis",
+  "description": "Nodejs + Express application with a battery of team cohesion and task load inventories and cognitive tasks for League of Legends players",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -8,6 +8,14 @@
   },
   "dependencies": {
     "express": "4.9.4",
-    "ejs": "*"
+    "ejs": "1.0.0",
+    "body-parser": "1.8.3",
+    "express-myconnection" : "1.0.4",
+    "logger": "0.0.1",
+    "sequelize": "2.2.0-rc1",
+    "mysql": "2.5.1",
+    "node-uuid": "1.4.1",
+    "serve-static": "1.6.2",  
+    "validator": "3.19.1"
   }
 }

@@ -1,7 +1,6 @@
 var express = require("express");
 var Sequelize = require('sequelize');
 var uuid = require("node-uuid");
-var crypto = require('crypto');
 var DataTypes = require("sequelize");
 var validator = require("validator");
 
