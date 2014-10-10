@@ -1,5 +1,5 @@
 {
-  "name": "Tuuli's master's thesis",
+  "name": "thesis_1.0",
   "description": "Nodejs + Express application with a battery of team cohesion and task load inventories and cognitive tasks for League of Legends players",
   "version": "0.0.1",
   "private": true,
