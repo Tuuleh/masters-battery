@@ -6,12 +6,13 @@ html {
     background-attachment: fixed;
     background-position: left; 
 }
+
 body {
     background-color: transparent;
 }
 
 div {
-    margin-top: 100px;
+    padding-top: 12%;
 
 }
 

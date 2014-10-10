@@ -18,11 +18,22 @@ body {
     line-height: 120%;
 }
 
+
 p {
     margin-top:30px;
     margin-left: auto;
     margin-right: auto;
     width: 80%;
+}
+
+.error > p {
+    margin-top: 5px;
+}
+
+#error_container {
+    width:100%;
+    padding-bottom: 20px;
+    height: 20px;
 }
 
 .error {
