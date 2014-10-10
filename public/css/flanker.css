@@ -1,47 +1,20 @@
-div {
-	height: 800px;
-	width: 800px;
-	position: absolute;
-	top:0;
-	bottom: 0;
-	left:0;
-	right:0;
-	margin: auto;
+#flanker_container {
+    text-align: center;
+}
+
+#stimulus_container {
+    text-align:center;
 }
 
 .jspsych-categorize-stimulus {
 	vertical-align: middle
 }
 
-body {
-	height:100%;
-}
-
-html {
-	height:100%;
+body,html {
+    color:white;
+    background-color: #60626a;
 }
 
 .block {
   text-align: center;
 }
-
-
-/*
-HOW TO CENTER ELEMENTS IN UNKNOWN DIMENSIONS:
-The ghost, nudged to maintain perfect centering
-.block:before {
-  content: '';
-  display: inline-block;
-  height: 100%;
-  vertical-align: middle;
-  margin-right: -0.25em; Adjusts for spacing
-}
-
-The element to be centered, can
-   also be of any width and height
-.centered {
-  display: inline-block;
-  vertical-align: middle;
-  width: 300px;
-}
-*/

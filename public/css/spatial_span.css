@@ -1,5 +1,11 @@
-html {
-    background-color: #4EBABA;
+html, body {
+    background-color: #60626a;
+    color: #eeeeee;
+}
+
+p {
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 #grid {
@@ -17,14 +23,21 @@ html {
     float: right;
     margin-top: 3%;
     margin-right: 3%;
-    color: white;
+    color: #eeeeee;
+    padding-bottom: 2%;
 }
 
 
 .container {
-    width: 25%;
+    width: 23%;
     height: 100%;
     display: inline-block;
+    background-color: #80828c;
+    padding-bottom: 11%;
+}
+
+.last {
+    padding-right: 5%;
 }
 
 .element {
@@ -41,16 +54,17 @@ html {
 
 #feedback{
     font-size: 3em;
-    color: #FFE1BA;
+    color:  #DE626C;
+    margin-top: 14%;
 }
 
 
 .passive {
-    background-color: #ACEDED;
+    background-color: #a6aeb4;
     color: gray;
 }
 
 .active {
-    background-color: #FFAF8F;
+    background-color: #da515c;
     color: red;
 }

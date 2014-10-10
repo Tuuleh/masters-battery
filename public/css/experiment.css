@@ -1,3 +1,8 @@
+html, body {
+    height:100%;
+    margin, padding: 0;
+}
+
 body {
 	background: #fff; 
 	font-size: 18px; 
@@ -12,7 +17,7 @@ strong {
 
 h1 {
 	text-align:center;
-	font-size: 40px;
+	font-size: 2em;
 	font-weight: bold; 
 	margin: 30px;
 	line-height: 130%;
@@ -20,7 +25,7 @@ h1 {
 
 h2 {
 	text-align:center;
-	font-size: 32px;
+	font-size: 1.7em;
 	font-weight: bold;
 	margin: 20px;
 }
@@ -46,8 +51,12 @@ p {
 
 }
 
-.button:hover {
-  background: #ff3030;
+.pinkish {
+  color: #da515c
+}
+
+.button:hover, .button:focus {
+  background: #a3222c;
   text-decoration: none;
 }
 
@@ -68,15 +77,12 @@ p {
 	padding: 15px;
 }*/
 #jspsych_target {
-    margin: 50px auto 50px auto;
-    width: 800px;
-    font-size:18px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 900px;
     text-align: center;
 }
 
-#jspsych_target pre {
-	text-align: center;
-}
 
 #instructions {
 	width: 100%; 
@@ -92,17 +98,11 @@ p {
 }
 
 .correct {
-	color: #198D19;
-	text-align: center;
-	margin:20px;
-	padding: 15px;
+	color: #82BF40;
 }
 
 .false {
-	color: #CC0000;
-	text-align: center;
-	margin:20px;
-	padding: 15px;
+	color: #E75256;
 }
 
 .target {
@@ -114,12 +114,49 @@ p {
     top:0;
     left:0;
     right:0;
-    margin:0px;
     background:#7f7f7f;
     background:rgba(0,0,0,0.5);
     margin-left: auto;
     margin-right: auto;
     width: 75%;
     padding-top: 50px;
-    padding-bottom: 50px;
+    /*
+    padding-bottom: 50px;*/
+}
+
+.mini {
+    top-margin:5px;
+    font-size: 14px;
+}
+
+.error {
+    font-size: 1.5em;
+    text-align: center;
+    line-height: 120%;
+    color: red;
+}
+
+.parent {
+    height: 100%;
+    display: table;
+    /* optional, just for the demo */
+    margin-left: auto;
+    margin-right: auto;    
+}
+.child {
+    display: table-cell;
+    vertical-align: middle;
+    /* optional, just for the demo */
+    margin-left: auto;
+    margin-right: auto;    
+}
+.content {
+}
+
+.jspsych-categorize-stimulus {
+    vertical-align: middle
+}
+
+.jspsych-two-stim-stimulus {
+    vertical-align: middle
 }
