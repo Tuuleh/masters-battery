@@ -83,22 +83,24 @@
             " that will be presented to you. " +
             "</p><p>You will first go through three trial images, where you can try out the experiment, and then have another information screen when "+
             "the experiment is about to start.</p>" +
-            "</p><p class='anykey'>Press any key to start when you're ready!</p>";
+            "</p><p class='anykey'>Press enter to start when you're ready!</p>";
 
         var palmer_intermezzo = "<div id='instructions'><p class='centered'>You completed the training! The experiment will now follow.</p><p class='centered'>" +
             "<p>Please note that the trials will become more and more difficult and you are not expected to get all of the responses correctly." +
-            "</p><p class='anykey'>Press any key to start when you're ready!</p>";
+            "</p><p class='anykey'>Press enter to start when you're ready!</p>";
 
         var palmer_instruction_block = {
                 type: "text",
                 text: [palmer_instructions],
-                timing_post_trial: 2500
+                timing_post_trial: 2500,
+                cont_key: 13
             };
 
         var palmer_intermezzo = {
                 type: "text",
                 text: [palmer_intermezzo],
-                timing_post_trial: 2500
+                timing_post_trial: 2500,
+                cont_key: 13
         };
         
         //creating stim and test blocks for training

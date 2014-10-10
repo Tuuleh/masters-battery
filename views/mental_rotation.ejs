@@ -7,19 +7,25 @@
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <!-- Load the jspsych library and plugins -->
         <script src="scripts/jspsych.js"></script>
+        <script src="scripts/error_check.js"></script>
         <script src="scripts/plugins/jspsych-two-stim.js"></script>
         <script src="scripts/plugins/jspsych-xab.js"></script>
         <script src="scripts/plugins/jspsych-text.js"></script>
         <link href="css/reset.css" type="text/css" rel="stylesheet"></link>
         <link href="css/experiment.css" type="text/css" rel="stylesheet"></link>
+        <link href="css/mental_rotation.css" type="text/css" rel="stylesheet"></link>
         
     </head>
 
     <body>
-        <div id="jspsych_target"></div>
+        <div id="rotation_container" class = "parent mask">
+            <div id = "stimulus_container" class = "child ">
+                <div id="jspsych_target" class = "content"></div>
+            </div>
+        </div>
     </body>
     <script type="text/javascript">
-    
+    error_check();
     var userId = "<%= userId%>";
 
     var images = [
@@ -58,7 +64,7 @@
         {stimulus:"img/mental_rotation/RotacijaA/C-300.gif", data: {item: "C", type: "identical", correct_key: "81", rotation: "300"}},
         {stimulus:"img/mental_rotation/RotacijaA/C-300m.gif", data: {item: "C", type: "mirrored", correct_key: "80", rotation: "300"}},
         {stimulus:"img/mental_rotation/RotacijaA/C-60.gif", data: {item: "C", type: "identical", correct_key: "81", rotation: "60"}},
-        {stimulus:"img/mental_rotation/RotacijaA/C-60m.gif", data: {item: "C", type: "mirrored", correct_key: "80", rotation: "60"}},
+        {stimulus:"img/mental_rotation/RotacijaA/C-60m.gif", data: {item: "C", type: "mirrored", correct_key: "80", rotation: "60"}}/*,
         {stimulus:"img/mental_rotation/RotacijaA/D-0.gif", data: {item: "D", type: "identical", correct_key: "81", rotation: "0"}},
         {stimulus:"img/mental_rotation/RotacijaA/D-0m.gif", data: {item: "D", type: "mirrored", correct_key: "80", rotation: "0"}},
         {stimulus:"img/mental_rotation/RotacijaA/D-120.gif", data: {item: "D", type: "identical", correct_key: "81", rotation: "120"}},
@@ -70,7 +76,7 @@
         {stimulus:"img/mental_rotation/RotacijaA/D-300.gif", data: {item: "D", type: "identical", correct_key: "81", rotation: "300"}},
         {stimulus:"img/mental_rotation/RotacijaA/D-300m.gif", data: {item: "D", type: "mirrored", correct_key: "80", rotation: "300"}},
         {stimulus:"img/mental_rotation/RotacijaA/D-60.gif", data: {item: "D", type: "identical", correct_key: "81", rotation: "60"}},
-        {stimulus:"img/mental_rotation/RotacijaA/D-60m.gif", data: {item: "D", type: "mirrored", correct_key: "80", rotation: "60"}}
+        {stimulus:"img/mental_rotation/RotacijaA/D-60m.gif", data: {item: "D", type: "mirrored", correct_key: "80", rotation: "60"}}*/
         ];
 
         //creates a separate array for preloading the images -> the images array doesn't work because of object structure
@@ -83,7 +89,7 @@
             {stimulus:"img/mental_rotation/RotacijaA/A-0.gif", data: {item: "A", type: "target"}},
             {stimulus:"img/mental_rotation/RotacijaA/B-0.gif", data: {item: "B", type: "target"}},
             {stimulus:"img/mental_rotation/RotacijaA/C-0.gif", data: {item: "C", type: "target"}},
-            {stimulus:"img/mental_rotation/RotacijaA/D-0.gif", data: {item: "D", type: "target"}},
+            //{stimulus:"img/mental_rotation/RotacijaA/D-0.gif", data: {item: "D", type: "target"}},
         ];
 
         //by console.logging, pairs works fine now, but nothing gets displayed on the screen
@@ -138,22 +144,22 @@
         var training_image_div = "<div id = 'training_images' display='inline'> <img src='img/mental_rotation/RotacijaA/A-0.gif'>"+
         "<img src='img/mental_rotation/RotacijaA/A-60.gif'> </div>"
 
-        var mental_rotation_instructions = "<h1>Great job!</h1><p class='centered'>In the next task, you will see a " +
-            "series of pairs of images that look similar to these two:</p><p>" + training_image_div+
+        var mental_rotation_instructions = "<h1 class = 'pinkish'>Great job!</h1><p class='centered'>In the next task, you will see " +
+            " pairs of images like this:</p><p>" + training_image_div+
             "<p> Your task is to assess as quickly and accurately as you can,"+
-            " if the images are identical or mirrored versions of each other, and then press Q if the images "+
-            "are identical, and P if they are mirror images. For example, in this case you can see that " +
+            " if the images are identical or mirrored. Press Q if the images "+
+            "are identical, and P if they are mirrored. For example, in this case you can see that " +
             "the rotated item on the right is <strong>identical</strong> to the unrotated item on the left, and so you should press Q."+
-            "</p><p>You will first go through a short trial where you can try out the experiment, and then have another information screen when "+
-            "the experiment is about to start.</p>" +
-            "<p class='anykey'>Press any key to start when you're ready!</p>";
+            "</p><p class = 'centered'>You will first go through a short trial where you can try out the experiment.</p>" +
+            "<p class='anykey pinkish'>Press enter to start when you're ready!</p>";
 
-        var correct_feedback = "<p class='correct'>Correct!</p>";
-        var false_feedback = "<p class='false'>False!</p>";
+        var correct_feedback = "Correct!";
+        var false_feedback = "False!";
 
         var mental_rotation_intro = {
             type: 'text',
-            text: [mental_rotation_instructions]
+            text: [mental_rotation_instructions],
+            cont_key: [13]
         }
 
         var training_images = shuffled_images.slice(12, 19);
@@ -163,31 +169,33 @@
             type: 'two-stim',
             training: true,
             stimuli: training_images,
-            prompt: "<p class='centered'>Press Q if the images are identical, and P if mirrored.</p>",
+            prompt: "Press Q if the images are identical, and P if mirrored.",
             correct_feedback: correct_feedback,
             false_feedback: false_feedback,
             data: training_data,
-            feedback_duration: 800
+            feedback_duration: 800,
+            timing_post_trial: 200
         };
 
 
         var rotation_text = "<div id='instructions'><p class='centered'><strong>Great!</strong> You completed the training! The experiment will now follow.<br>" +
             "As always, try and respond as quickly and accurately as you can.</p>"+
-            "<p class='anykey'>Press any key to start when you're ready!</p>"
+            "<p class='anykey'>Press enter to start when you're ready!</p>"
 
         var rotation_intermezzo = {
             type: 'text',
             text: [rotation_text],
-            timing_post_trial: 1000
+            timing_post_trial: 1000,
+            cont_key: [13]
         };
 
         var rotation_block = {
             type: 'two-stim',
             training: false,
             stimuli: shuffled_images,
-            prompt: "<p class='centered'>Q - identical, P - mirrored.</p>",
+            prompt: "Q - identical, P - mirrored.",
             correct_feedback: correct_feedback,
-            time_post_trial: 500,
+            timing_post_trial: 200,
             false_feedback: false_feedback,
             data: training_data,
             feedback_duration: 500,
@@ -213,6 +221,11 @@
                         contentType: "application/json"
                     }).done(function() {
                         window.location.href = "spatial_span?userId="+userId; 
+                    }).fail(function(jqXHR, textStatus, errorThrown){
+                        var data = jqXHR.responseJSON;           
+                        if (data.error === "duplicate entry") {
+                            window.location.href = "/?error=duplicateid";
+                        }
                     });
                 }
             });
