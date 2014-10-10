@@ -1,3 +1,8 @@
+function isEmail(email) {
+        var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        return regex.test(email);
+    }
+
 module.exports = function(sequelize, DataTypes, validator) {
     return sequelize.define('finish', {
         user_id: {type: DataTypes.STRING(36), primaryKey: true}, 
@@ -5,9 +10,6 @@ module.exports = function(sequelize, DataTypes, validator) {
             type: DataTypes.STRING(100), 
             default: null, 
             allowNull: true, 
-            validate: {
-                isEmail: {msg: "Your e-mail address is invalid!"}
-            }
         },
         message: {
             type: DataTypes.TEXT, 
@@ -26,6 +28,14 @@ module.exports = function(sequelize, DataTypes, validator) {
     },
     {   
         validate: {
+            mail_error: function() {
+                if ((isEmail(this.mail) === false) && (this.mail != "")) {
+                    throw new Error("The e-mail address you entered is invalid.");
+                }
+                else if ((this.mail == "") && (this.wants_results == 'true')) {
+                    throw new Error("You will have to enter a valid e-mail address so I can send you the results.");
+                }
+            }
 
         },
         timestamps: true,

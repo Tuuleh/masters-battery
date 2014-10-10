@@ -7,8 +7,7 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING(1000), 
             allowNull: false,
             validate: {
-                notEmpty: {msg: "Please enter your summoner name."},
-                len: {args: [2,100], msg: "Name is of invalid length."}
+                len: {args: [2,100], msg: "Please enter a summoner name of valid length."}
              }
         },
         region: DataTypes.INTEGER(11),
