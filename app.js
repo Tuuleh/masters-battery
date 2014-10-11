@@ -152,10 +152,7 @@ app.post('/survey_with_intro-data', function (req, res) {
     var GEQ_counter = 1;
 
     for (var trial in req.body.data) {
-        console.log("looping x " + trial);
-        //this breaks upon TLX
         if (req.body.data[trial].hasOwnProperty("inventory")) {
-            console.log("has inventory!")
             for (item in req.body.data[trial]) {
                 //if key contains the value under key "inventory",
                 var regex = new RegExp(req.body.data[trial].inventory); //regex for comparing if item name contains inventory
@@ -167,11 +164,15 @@ app.post('/survey_with_intro-data', function (req, res) {
                     }
                     //item is from GEQ
                     else {
+                        var rt = 1;
                         if (item.match(/rt/) != null) { //item is for reaction time - there have to be two of these
-                            data_object[item + trial] = req.body.data[trial][item];
+                            data_object["GEQ_rt" + trial] = req.body.data[trial][item];
+                            console.log("reaction time item " + data_object[item+trial]);
+                            console.log("inventory is " + item);
                         }
                         else {
-                            data_object[req.body.data[trial].inventory+GEQ_counter] = req.body.data[trial][item];
+                            data_object["GEQ" + GEQ_counter] = req.body.data[trial][item];
+                            //console.log("reaction time item data_object[GEQ" + GEQ_counter+"]"+ data_object[item+trial]);
                             GEQ_counter++;
                         }                        
                     }
