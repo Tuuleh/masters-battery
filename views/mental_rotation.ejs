@@ -9,7 +9,6 @@
         <script src="scripts/jspsych.js"></script>
         <script src="scripts/error_check.js"></script>
         <script src="scripts/plugins/jspsych-two-stim.js"></script>
-        <script src="scripts/plugins/jspsych-xab.js"></script>
         <script src="scripts/plugins/jspsych-text.js"></script>
         <link href="css/reset.css" type="text/css" rel="stylesheet"></link>
         <link href="css/experiment.css" type="text/css" rel="stylesheet"></link>
@@ -92,7 +91,6 @@
             //{stimulus:"img/mental_rotation/RotacijaA/D-0.gif", data: {item: "D", type: "target"}},
         ];
 
-        //by console.logging, pairs works fine now, but nothing gets displayed on the screen
         var pairs = [];
 
         for (var i = 0; i < images.length; i++) {
@@ -213,7 +211,6 @@
                         userId: userId, 
                         data: data
                     };
-                    console.log(JSON.stringify(data_object));
                     $.ajax({
                         type: "POST",
                         url: "/mental_rotation-data",

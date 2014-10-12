@@ -84,14 +84,11 @@
                     window.location.href = "thank_you"; 
                 }).fail(function(jqXHR, textStatus, errorThrown){
                     var data = jqXHR.responseJSON;   
-                    console.log(data);        
                     if (data.error === "duplicate entry") {
                         window.location.href = "/?error=duplicateid";
                     }
                     else {
                         for (var i = 0; i < data.error.length; i++) {
-                            console.log(data.error[i]);
-                            console.log(data.error[i].path, "  ", data.error[i].message);
                             $("[class='error'][name = " + data.error[i].path + "]").html("<p>"+data.error[i].message+"</p>");   
                         }
                     }
