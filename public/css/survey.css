@@ -14,19 +14,6 @@ body {
 .mask {
     background:#7f7f7f;
     background:rgba(0,0,0,0.7);
-    height: inherit;
-}
-
-#jspsych_target {
-  padding-top: 50px;
-  padding-bottom: 120px;
-  padding-left: 50px;
-  padding-right: 50px;
-}
-
-#instructions {
-  padding-top: 60px;
-  padding-bottom: 60px;
 }
 
 .jspsych-survey-likert-question p { 
@@ -45,7 +32,6 @@ body {
     text-align: left;
 }
 
-
 .ui-slider-handle.ui-state-default{   
   -webkit-border-radius: 9;
   -moz-border-radius: 9;
@@ -55,6 +41,9 @@ body {
 }
 
 .ui-slider-handle:hover, .ui-slider-handle:focus {
-  background: #853730;
+  background: #a3222c;
 }
 
+.button {
+  margin-top: 90px;
+}
