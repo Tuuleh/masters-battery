@@ -28,7 +28,6 @@
     <script>
     error_check();
     var userId = "<%= userId%>";
-    console.log("client side: userId is "+ userId)
 
         var flanker_instructions = "<div id='instructions'><h1 class='pinkish'>Well done!</h1><p class=centered>... and welcome to the first cognitive task!"+
             " In the following section, you will see several images that look similar to this one:</p><p class='centered'>" +
@@ -119,7 +118,6 @@
                     userId: userId, 
                     data: data
                 };
-                console.log(JSON.stringify(data_object));
                 $.ajax({
                     type: "POST",
                     url: "/flanker-data",

@@ -2,8 +2,7 @@
  * jspsych-survey-likert
  * a jspsych plugin for measuring items on a likert scale
  *
- * Josh de Leeuw (March 2013)
- * Updated October 2013
+ * Updated June 2014
  * 
  * parameters:
  *      inventory: the name of the questionnaire,

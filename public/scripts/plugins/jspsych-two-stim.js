@@ -97,9 +97,6 @@
                 }
                 
                 var feedback_func = function(correct) {
-                    console.log('feedback_func');
-                    console.log(typeof(correct));
-
                     if (correct === true) {
                         //$(".prompt").replaceWith("<p class = 'centered correct'>" + trial.correct_feedback + "</p>");
                         $(".prompt").replaceWith(
