@@ -16,15 +16,18 @@
         <script src="scripts/error_check.js"></script>
         <script src="scripts/plugins/jspsych-survey-likert-with-instructions.js"></script>
         <script src="scripts/plugins/jspsych-text.js"></script>
-        <!-- style 
-        <link href="reset.css" type="text/css" rel="stylesheet"></link> -->
-        <link href="css/experiment.css" type="text/css" rel="stylesheet"></link> 
-        <link rel="stylesheet" type="text/css" href="css/survey.css"> 
+        <!-- style -->
+        <link rel="stylesheet" type="text/css" href="css/reset.css"/>
+        <link href="css/experiment.css" type="text/css" rel="stylesheet"/> 
+        <link rel="stylesheet" type="text/css" href="css/survey.css"/>
+
     </head>
 
     <body>
-        <div>
-            <div id="jspsych_target" class = "mask"></div>
+        <div id = "container" class = "parent mask">
+            <div id = "stimulus_container" class = "child">
+                <div id="jspsych_target" class = "content"></div>
+            </div>
         </div>
     </body>
 

@@ -36,10 +36,7 @@
 
     $(".error").hide();
     var userId = "<%= userId%>";
-    console.log("userId: ", userId);
-
     var error_check = location.search;
-    console.log("location.search: ", error_check);
 
     if (error_check == "?error=duplicateid") {
         $("#duplicate_userId").show();

@@ -167,12 +167,9 @@ app.post('/survey_with_intro-data', function (req, res) {
                         var rt = 1;
                         if (item.match(/rt/) != null) { //item is for reaction time - there have to be two of these
                             data_object["GEQ_rt" + trial] = req.body.data[trial][item];
-                            console.log("reaction time item " + data_object[item+trial]);
-                            console.log("inventory is " + item);
                         }
                         else {
                             data_object["GEQ" + GEQ_counter] = req.body.data[trial][item];
-                            //console.log("reaction time item data_object[GEQ" + GEQ_counter+"]"+ data_object[item+trial]);
                             GEQ_counter++;
                         }                        
                     }
@@ -229,8 +226,6 @@ app.post('/flanker-data', function (req, res) {
 
     }
 
-    console.log("storing data...");
-
     Flanker
     .bulkCreate(data_object_array)
     .then(function(){
@@ -260,7 +255,6 @@ app.post('/mental_rotation-data', function (req, res) {
         //trial is not a training trial and is of the right type
         if ((req.body.data[trial].training == false) && (req.body.data[trial].trial_type == "two-stim")) {
 
-            console.log("making a trial");
             var data_object = {};
 
             data_object.user_id = req.body.userId;
@@ -274,9 +268,6 @@ app.post('/mental_rotation-data', function (req, res) {
             data_object_array.push(data_object);
         }
     }
-
-    console.log("storing data...");
-    console.log(data_object_array);
 
     Mental_rotation
     .bulkCreate(data_object_array)
@@ -356,7 +347,6 @@ app.get('/spatial_span', function (req, res) {
 
 app.post('/spatial_span-data', function (req, res) {
 
-    console.log(req.body);
     Spatial_span
         .build({
             user_id: req.body.user_id,
@@ -400,14 +390,12 @@ app.post('/finish-data', function (req, res) {
             res.send('{"status":"ok"}');
         },function(err){
             console.log(err);
-
             if (err.name === "SequelizeUniqueConstraintError") {
                 if (err.parent.errno == 1062) {
                     res.status(400).send({"error":"duplicate entry"});
                 }
             }
             else if (err.name === "SequelizeValidationError") {
-                console.log("validation error");
                 var error_array = [];
                 for (var error in err.errors) {
                     error_array.push({"path" : err.errors[error].path, "message" : err.errors[error].message});

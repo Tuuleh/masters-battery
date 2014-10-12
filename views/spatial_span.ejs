@@ -79,7 +79,6 @@
         }
 
         $("#container_"+(trial_object.row_length-1)).addClass("last");
-        console.log("#container_"+(trial_object.row_length-1));
 
         function generate_stimulus(trial_object) {
             stimuli = []
@@ -94,7 +93,6 @@
                 }
             }
             trial_object.stimuli = stimuli;
-            console.log("stimuli: "+ trial_object.stimuli);
         }
 
         function move_to_next(current, trial_object) {
@@ -102,7 +100,6 @@
 
             if (current == trial_object.stimuli.length) {
                 $(".element").removeClass("active");
-                console.log("deactivated all elements");
                 user_input(trial_object);
                 return;
             }
@@ -112,7 +109,6 @@
 
             $current = $("[id = 'element_"+trial_object.stimuli[current]+"']");
             $current.addClass("active");
-            console.log("added class active to " + trial_object.stimuli[current]);
             setTimeout(function() {move_to_next(current+1, trial_object)}, 1000);
 
         }
@@ -120,7 +116,6 @@
         function user_input(trial_object) {
 
             trial_object.response_array = [];
-            console.log("object: "+JSON.stringify(trial_object));
 
             $("#feedback").html("Your turn!");
 
@@ -132,18 +127,12 @@
                 $b.removeClass("active");
             }
             $button = $(this);
-            console.log("click!");
             $button.addClass("active");
             setTimeout(function(){
                 remove_active($button);
             }, 200);
             //log element num into answer array
             trial_object.response_array.push(parseInt($button.attr('number'), 10));
-            //if last item on response array is the same as the corresponding item on the stimulus array...
-            console.log("pushed " + trial_object.response_array[trial_object.response_array.length-1] + " corresponding to " + trial_object.stimuli[trial_object.response_array.length-1]);
-            console.log("response_array:", trial_object.response_array);
-            console.log("stimuli", trial_object.stimuli);
-
             evaluate_trial(trial_object);
         }
 
@@ -199,7 +188,6 @@
                         $("#difficulty").html("<br>");
                         $("#lives").html("Press enter to continue!");
                         trial_object.user_id = userId;
-                        console.log(trial_object);
                         $(document).keypress(function(event){
                             var keycode = (event.keyCode ? event.keyCode : event.which);
                             if(keycode == '13'){

@@ -3,7 +3,7 @@ module.exports = function(sequelize, DataTypes) {
         user_id: {type: DataTypes.STRING(36), primaryKey: true}, //CHAR(36)
         birth_year: DataTypes.INTEGER(11),
         gender: DataTypes.STRING(10),
-        summoner_level: DataTypes.INTEGER(11),
+        level: DataTypes.INTEGER(11),
         summoner_name: {
             type: DataTypes.STRING(1000), 
             allowNull: false,

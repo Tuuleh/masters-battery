@@ -211,7 +211,7 @@
 
                     <div id="error_ranked_games" name = "error_ranked_games" class="error"></div>
                     <div id="teamselect" name="ranked_games">
-                        <p>Which of the following game styles do you play frequently? <strong>Select all that apply</strong>!</p>
+                        <p>Which of the following game styles do you play regularly? <strong>Select all that apply</strong>!</p>
                         <input type="checkbox" class ="ratings normal" name="plays_ai" id="normal_AI" value="true">
                         <label for="non_team" class="long">Normal against AI</label><br>
                         <input type="checkbox" class ="ratings normal" name="plays_normal_pvp" id="normal_pvp" value="true">
@@ -328,65 +328,61 @@
         error_check();
         var userId = "<%= userId%>";
 
-            $('.main_menu').change(function(){
-                console.log($(this).val());
-                if ($(this).val() == 5) { //if challenger bracket is selected, hide submenu
-                    $('[class="short submenu"][parent-item="'+$(this).attr("id")+'"]').hide();
-                }
-                else {
-                    $('[class="short submenu"][parent-item="'+$(this).attr("id")+'"]').show();
-                }            
-            });
+        $(".appendable").hide();
 
-            $(".appendable").hide();
+        $('.main_menu').change(function(){
+            if ($(this).val() == 5) { //if challenger bracket is selected, hide submenu
+                $('[class="short submenu"][parent-item="'+$(this).attr("id")+'"]').hide();
+            }
+            else {
+                $('[class="short submenu"][parent-item="'+$(this).attr("id")+'"]').show();
+            }            
+        });
 
-            $('.ratings, .ranked').change(function () {
-                console.log("there we go");
-                if ($(this).prop("checked")) {
-                    $('[class="appendable"][id = "'+$(this).attr("name")+'"]').show();
-                }
-                else {
-                    $('[class="appendable"][id = "'+$(this).attr("name")+'"]').hide();
-                }
-            });
+        $('.ratings, .ranked').change(function () {
+            if ($(this).prop("checked")) {
+                $('[class="appendable"][id = "'+$(this).attr("name")+'"]').show();
+            }
+            else {
+                $('[class="appendable"][id = "'+$(this).attr("name")+'"]').hide();
+            }
+        });
 
-            $("#level").change(function () {
-                if ($(this).val() < 30) {
-                    $(".ranked").hide();
-                    $(".ranked").prop("checked", false);
-                    clear_form_elements('appendable');
-                    $(".appendable").hide();
+        $("#level").change(function () {
+            if ($(this).val() < 30) {
+                $(".ranked").hide();
+                $(".ranked").prop("checked", false);
+                clear_form_elements('appendable');
+                $(".appendable").hide();
 
-                }
-                else {
-                    $(".ranked").show();
-                }
-            });
+            }
+            else {
+                $(".ranked").show();
+            }
+        });
 
 
-            $( "#demographics" ).submit(function( event ) {
-                $(".error").html("");
-                event.preventDefault();
-                $.ajax({
-                    type: "POST",
-                    url: "/demographics-data",
-                    data: $("#demographics").serialize(), // serializes the form's elements.
-                    }).done(function() {
-                        window.location.href = 'survey_with_intro?userId='+userId; 
-                    }).fail(function(jqXHR, textStatus, errorThrown){
-                        var data = jqXHR.responseJSON;           
-                        if (data.error === "duplicate entry") {
-                            window.location.href = "/?error=duplicateid";
+        $( "#demographics" ).submit(function( event ) {
+            $(".error").html("");
+            event.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "/demographics-data",
+                data: $("#demographics").serialize(), // serializes the form's elements.
+                }).done(function() {
+                    window.location.href = 'survey_with_intro?userId='+userId; 
+                }).fail(function(jqXHR, textStatus, errorThrown){
+                    var data = jqXHR.responseJSON;           
+                    if (data.error === "duplicate entry") {
+                        window.location.href = "/?error=duplicateid";
+                    }
+                    else {
+                        for (var i = 0; i < data.error.length; i++) {
+                            $("[class='error'][name = " + data.error[i].path + "]").html("<p>"+data.error[i].message+"</p>");   
                         }
-                        else {
-                            for (var i = 0; i < data.error.length; i++) {
-                                console.log(data.error[i]);
-                                console.log(data.error[i].path, "  ", data.error[i].message);
-                                $("[class='error'][name = " + data.error[i].path + "]").html("<p>"+data.error[i].message+"</p>");   
-                            }
-                        }
-                    });
-                }); 
+                    }
+                });
+            }); 
 
         </script>
     </html>

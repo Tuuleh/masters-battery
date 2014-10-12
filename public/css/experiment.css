@@ -48,6 +48,7 @@ p {
   border: solid #5f707a 2px;
   text-decoration: none;
   margin-top: 30px;
+  margin-bottom: 50px;
 
 }
 
@@ -139,6 +140,7 @@ p {
 .parent {
     height: 100%;
     display: table;
+
     /* optional, just for the demo */
     margin-left: auto;
     margin-right: auto;    
@@ -146,6 +148,7 @@ p {
 .child {
     display: table-cell;
     vertical-align: middle;
+
     /* optional, just for the demo */
     margin-left: auto;
     margin-right: auto;    

@@ -18,9 +18,9 @@
     </head>
 
     <body>
-        <div class = "parent">
+        <div id = "tol_container" class = "parent mask">
             <div id="stimulus_container" class = "child">
-                <div id="jspsych_target" class = "content mask"></div>
+                <div id="jspsych_target" class = "content"></div>
             </div>
         </div>
     </body>
@@ -128,10 +128,9 @@
             key_answer: tol_training_answers,
             text_answer: tol_training_text_answers,
             choices: [48, 49, 50, 51, 52, 53, 54, 55, 56, 57],
-            correct_text: "<p class='centered correct'>Correct!</p>",
-            incorrect_text: "<p class='centered false'>False!</p>",
-            prompt: "How many times would you need to move a ball to get from image A to image B?" +
-            "<br span class='centered'>To respond, press the corresponding key on your keyboard.</span>",
+            correct_text: "<p class='centered correct'><br>Correct!</p>",
+            incorrect_text: "<p class='centered false'><br>False!</p>",
+            prompt: "How many moves would you need to get from image A to image B? To respond, press the corresponding key on your keyboard.", 
             timing_feedback_duration: 1000,
             timing_post_trial: 800
         };
