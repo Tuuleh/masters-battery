@@ -9,16 +9,20 @@
         <script src="/scripts/error_check.js"></script>
     </head>
     <body>
-        <div id="grid" class="grid-pad">
-            <!--Things get appended here with jQuery magic-->
-        </div>
-        <div id ="instructions" class = "mask">
-            <h1 class = 'pinkish'>Welcome to the spatial span test!</h1>
-            <p>During this task, the blocks in the grid on the left will change color one by one. Your task is to observe the sequence and once it stops, to reproduce it by clicking the blocks with your mouse.
-            </p>
-            <p>If you get all the blocks correctly, the next sequence will be longer, and if you make a mistake, it will be shorter. You have three lives to try and complete as long a sequence as possible!
-            </p>
-            <p class="anykey pinkish">Press enter when you're ready to begin!</p>
+        <div class = "parent mask">
+            <div class = "child">
+                <div id="grid" class="grid-pad">
+                    <!--Things get appended here with jQuery magic-->
+                </div>
+                <div id ="instructions">
+                    <h1 class = 'pinkish'>Welcome to the spatial span test!</h1>
+                    <p>During this task, the blocks in the grid on the left will change color one by one. Your task is to observe the sequence and once it stops, to reproduce it by clicking the blocks with your mouse.
+                    </p>
+                    <p>If you get all the blocks correctly, the next sequence will be longer, and if you make a mistake, it will be shorter. You have three lives to try and complete as long a sequence as possible!
+                    </p>
+                    <p class="anykey pinkish">Press enter when you're ready to begin!</p>
+                </div>
+            </div>
         </div>
     </body>
     <script>

@@ -27,6 +27,12 @@ p {
     padding-bottom: 2%;
 }
 
+.mask {
+    height: 100%;
+    padding: 0;
+    width: 1300px;
+    background-color: transparent;
+}
 
 .container {
     width: 23%;
