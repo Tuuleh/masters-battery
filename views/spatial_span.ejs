@@ -81,8 +81,21 @@
                     item++;
                 }     
         }
+        var first_elements = [];
+        var last_elements = [];
 
-        $("#container_"+(trial_object.row_length-1)).addClass("last");
+        for (var i = 0; i < Math.pow(trial_object.row_length, 2); i++) {
+            if (i % trial_object.row_length === 0) {
+                $("#element_"+i).addClass("first");
+                console.log("add class first")
+            }
+            else if (i % trial_object.row_length === 3) {
+                $("#element_"+i).addClass("last");
+                console.log("add class last")
+            }
+        }
+        $("#container_"+(trial_object.row_length-1)).children().addClass("right");
+        $("#container_0").children().addClass("left");
 
         function generate_stimulus(trial_object) {
             stimuli = []

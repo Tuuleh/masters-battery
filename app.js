@@ -34,6 +34,7 @@ var sequelize = new Sequelize(
         logging: console.log
     }
 );
+
 //creates Object.keys function for older browsers
 if (typeof Object.keys !== "function") {
     (function() {
@@ -64,6 +65,28 @@ var Mental_rotation = sequelize.import(__dirname + "/models/mental_rotation");
 var London_tower = sequelize.import(__dirname + "/models/london_tower");
 var Spatial_span = sequelize.import(__dirname + "/models/spatial_span");
 var Finish = sequelize.import(__dirname + "/models/finish");
+var Participants = sequelize.import(__dirname + "/models/participants");
+
+//setting constraints for user_id as foreign key
+
+Participants.hasOne(Demographics, {foreignKey: 'user_id'})
+Participants.hasOne(Surveys, {foreignKey: 'user_id'})
+Participants.hasMany(Flanker, {foreignKey: 'user_id'})
+Participants.hasMany(Mental_rotation, {foreignKey: 'user_id'})
+Participants.hasMany(London_tower, {foreignKey: 'user_id'})
+Participants.hasOne(Spatial_span, {foreignKey: 'user_id'})
+Participants.hasOne(Finish, {foreignKey: 'user_id'})
+
+/*
+Demographics.belongsTo(Participants);
+Surveys.belongsTo(Participants);
+Flanker.belongsTo(Participants);
+Mental_rotation.belongsTo(Participants);
+London_tower.belongsTo(Participants);
+Spatial_span.belongsTo(Participants);
+Finish.belongsTo(Participants);
+*/
+sequelize.sync();
 
 //controllers/routers
 app.get('/', function (req, res) {
@@ -71,8 +94,38 @@ app.get('/', function (req, res) {
     res.render('index', {userId: userId});
 });
 
+app.post('/-data', function (req, res) {
+
+    var participant_object = {
+        user_id: req.body.userId,
+        user_agent: req.headers['user-agent']
+    }
+
+    Participants
+        .build(participant_object)
+        .save()
+        .then(function(){
+            res.send('{"status":"ok"}');
+        },function(err){
+            console.log("PARTICIPANTS BUILD ERROR", err);
+            if (err.name === "SequelizeUniqueConstraintError") {
+                if (err.parent.errno == 1062) {
+                    res.status(400).send({"error":"duplicate entry"});
+                }
+            }
+            else if (err.name === "SequelizeValidationError") {
+                var error_array = [];
+                for (var error in err.errors) {
+                    error_array.push({"path" : err.errors[error].path, "message" : err.errors[error].message});
+                }
+                res.status(400).send({"error" : error_array});
+            }
+            res.status(400).send({"status" : "unknown error"})
+        });
+
+})
+
 app.get('/demographics', function (req, res) {
-    
     var userId = req.query.userId;
     res.render('demographics', {userId: userId});
 });
@@ -82,7 +135,6 @@ app.post('/demographics-data', function (req, res) {
     var data_object = {
         user_id: req.body.userId,
         birth_year:req.body.birth_year,
-        gender: req.body.gender,
         level: req.body.level,
         summoner_name: req.body.summoner_name,
         region: req.body.region,
@@ -126,6 +178,8 @@ app.post('/demographics-data', function (req, res) {
             }
             res.status(400).send({"status" : "unknown error"});
         }); 
+    
+
 });
 
 app.get('/survey_with_intro', function (req, res) {
@@ -237,6 +291,7 @@ app.post('/flanker-data', function (req, res) {
                 res.status(400).send({"error":"duplicate entry"});
             }
         }
+        console.log(err);
         res.status(400).send({"status" : "unknown error"});
     }); 
 });
@@ -314,19 +369,19 @@ app.post('/tol-data', function (req, res) {
     }
 
     London_tower
-    .bulkCreate(data_object_array)
-    .then(function(){
-        res.send('{"status":"ok"}');
-    },function(err){
-        console.log(err);
+        .bulkCreate(data_object_array)
+        .then(function(){
+            res.send('{"status":"ok"}');
+        },function(err){
+            console.log(err);
 
-        if (err.name === "SequelizeUniqueConstraintError") {
-            if (err.parent.errno == 1062) {
-                res.status(400).send({"error":"duplicate entry"});
+            if (err.name === "SequelizeUniqueConstraintError") {
+                if (err.parent.errno == 1062) {
+                    res.status(400).send({"error":"duplicate entry"});
+                }
             }
-        }
-        res.status(400).send({"status" : "unknown error"});
-    }); 
+            res.status(400).send({"status" : "unknown error"});
+        }); 
 
 });
 
