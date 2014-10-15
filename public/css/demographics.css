@@ -14,13 +14,6 @@ div {
 	display: block;
 }
 
-#container {
-	background: transparent;
-	padding: 30px;
-	height: 100%;
-	width:100%;
-
-}
 
 .error {
 	padding-top:10px;
@@ -35,10 +28,12 @@ p {
 }
 
 form {
+	background: transparent;
+	padding: 30px;
 	padding: 10px; 
 	opacity: 0%;
 	background-color: transparent;
-	width: 100%;
+	width: 1400px;
 	float:left;
 }
 
@@ -60,7 +55,7 @@ span {
 
 label.short {
 	display: inline-block;
-	width: 340px
+	width: 400px
 }
 
 #gender {

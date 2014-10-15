@@ -60,13 +60,12 @@ form {
     margin-left: auto;
     margin-right: auto;
     width: 80%;
-    font-size: 14px; 
-    font-family:  'Arial','Helvetica', sans-serif; 
+    font-size: 0.8em;
 }
 
 form p {
     width: 100%;
-    font-size: 16px;
+    font-size: 1.2em;
 }
 
 input {

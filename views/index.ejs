@@ -24,7 +24,7 @@
                 <p class = "error" id = "no_userId">
                     You have been redirected to the front page because you have no user ID. Agreeing to the informed consent will generate one for you so you can begin the experiment.
                 </p>
-            <div>
+            </div>
             <div id='jspsych_target'></div>
             <div class ='mini' style="padding-top: 30px; padding-bottom: 0; margin-bottom: 0">
                     <p class = 'mini'>* Cake will be served in the end.</p>
@@ -70,13 +70,23 @@
         jsPsych.init({
             display_element: $('#jspsych_target'),
             experiment_structure: [html_block],
-            /*on_finish:function(data){
-                $('#jspsych_target').append($("<pre>",{
-                    html: JSON.stringify(data,undefined,2)
-                }));
-            }*/
             on_finish:function(){
-                window.location.href = 'demographics?userId='+userId; 
+                var data_object = {
+                    userId: userId, 
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "/-data",
+                    data: JSON.stringify(data_object),
+                    contentType: "application/json"
+                }).done(function() {
+                    window.location.href = "demographics?userId="+userId; 
+                }).fail(function(jqXHR, textStatus, errorThrown){
+                    var data = jqXHR.responseJSON;           
+                    if (data.error === "duplicate entry") {
+                        window.location.href = "/?error=duplicateid";
+                    }
+                });
             }
         });
     </script>

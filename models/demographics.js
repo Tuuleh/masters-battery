@@ -8,7 +8,7 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING(1000), 
             allowNull: false,
             validate: {
-                len: {args: [2,100], msg: "Please enter a summoner name of valid length."}
+                len: {args: [2,100], msg: "Enter a summoner name of valid length."}
              }
         },
         region: DataTypes.STRING(11),
@@ -48,12 +48,12 @@ module.exports = function(sequelize, DataTypes) {
                     }
                 },
                 error_plays_3v3: function() {
-                    if (this.plays_3v3 && (((!this.team_3v3 || (this.team_3v3.length < 2 || this.team_3v3.length > 200)) || !this.division_3v3 || !this.tier_3v3))) {
+                    if (this.plays_3v3 && (((!this.team_3v3 || (this.team_3v3.length < 2 || this.team_3v3.length > 200)) || !this.division_3v3 || (!this.tier_3v3 && this.division_3v3 != 5)))) {
                         throw new Error("Enter a valid 3v3 team name, division and tier!");
                     }
                 },
                 error_plays_5v5: function() {
-                    if (this.plays_5v5 && (((!this.team_5v5 || (this.team_5v5.length < 2 || this.team_5v5.length > 200)) || !this.division_5v5  || !this.tier_5v5))) {
+                    if (this.plays_5v5 && (((!this.team_5v5 || (this.team_5v5.length < 2 || this.team_5v5.length > 200)) || !this.division_5v5  || (!this.tier_5v5 && this.division_5v5 != 5)))) {
                         throw new Error("Enter a valid 5v5 team name, division and tier!");
                     }
                 }
