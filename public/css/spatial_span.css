@@ -4,13 +4,14 @@ html, body {
 }
 
 p {
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    bottom-padding: 20px;
 }
 
 #grid {
-    width: 50%;
-    height: 400px;
+    width: 54%;
+    height: 600px;
     float:left;
     margin-top: 3%;
     margin-left: 3%;
@@ -18,48 +19,65 @@ p {
 }
 
 #instructions {
-    width: 40%;
-    height: 400px;
+    width: 38%;
+    height: 600px;
     float: right;
     margin-top: 3%;
     margin-right: 3%;
     color: #eeeeee;
-    padding-bottom: 2%;
+    background:#7f7f7f;
+    background:rgba(0,0,0,0.5);
 }
+
 
 .mask {
     height: 100%;
     padding: 0;
-    width: 1300px;
+    width: 1400px;
     background-color: transparent;
 }
 
 .container {
     width: 23%;
-    height: 100%;
+    height: 600px;
     display: inline-block;
     background-color: #80828c;
-    padding-bottom: 11%;
-}
-
-.last {
-    padding-right: 5%;
 }
 
 .element {
+    display: block;
     font-family: Arial;
     color: #ffffff;
     font-size: 18px;
     background: #1d1e1f;
     text-decoration: none;
-    width: 80%;
-    height: 20%;
-    margin: 20%;
-    padding: 0;
+    width: 78%;
+    height: 17.5%;
+    margin-bottom: 30px;
+}
+
+.last {
+    margin-bottom: 41px;
+}
+
+.first {
+    margin-top: 41px; 
+}
+
+.left {
+    margin-left: 41px;
+}
+
+#container_0 {
+    padding-right: 41px;
+}
+
+.right {
+    margin-right: 30px;
 }
 
 #feedback{
-    font-size: 3em;
+    font-size: 2.7em;
     color:  #DE626C;
     margin-top: 14%;
 }

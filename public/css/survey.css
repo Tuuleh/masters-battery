@@ -16,16 +16,24 @@ body {
     background:rgba(0,0,0,0.7);
 }
 
+li {
+  line-height: 110%;
+}
+
 .jspsych-survey-likert-question p { 
-    font-size: 17px;
+    font-size: 0.8em;
     padding-top: 30px;
     padding-bottom: 5px
 }
 
 .jspsych-survey-likert-sliderlabels{
-    font-size: 17px;
+    font-size: 0.75em;
     width: 100%;
     height: 30px;
+}
+
+.jspsych-survey-likert-question > p {
+  top-padding: 10px;
 }
 
 .jspsych-survey-likert-text {
