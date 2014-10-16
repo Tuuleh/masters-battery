@@ -135,7 +135,7 @@
             timing_post_trial: 800
         };
 
-
+    function start () {
         jsPsych.init({
             display_element: $('#jspsych_target'),
             experiment_structure: [tol_instruction_block, tol_training_block, tol_intermezzo_block, tol_test_block],
@@ -159,5 +159,11 @@
                 });
             }
         });
+    }
+
+    // preload images
+    // call start() when loading is complete
+    jsPsych.preloadImages(tol_stimuli, start);
+        
     </script>
 </html>
