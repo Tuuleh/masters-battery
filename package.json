@@ -12,7 +12,7 @@
     "body-parser": "1.8.3",
     "express-myconnection" : "1.0.4",
     "logger": "0.0.1",
-    "sequelize": "2.2.0-rc1",
+    "sequelize": "2.0.0-rc1",
     "mysql": "2.5.1",
     "node-uuid": "1.4.1",
     "serve-static": "1.6.2",  
