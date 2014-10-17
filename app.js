@@ -91,16 +91,27 @@ sequelize.sync();
 
 //controllers/routers
 app.get('/', function (req, res) {
-    var userId = uuid.v4();
     md = new MobileDetect(req.headers['user-agent']);
     if (md.mobile() != null) {
-        res.render('mobile', {userId: userId});
+        res.redirect('mobile');
     }
 
     else {
+        var userId = uuid.v4();
         res.render('index', {userId: userId});
     }
 });
+
+app.get('/mobile', function (req,res) {
+    md = new MobileDetect(req.headers['user-agent']);
+    if (md.mobile() != null) {
+        res.render('mobile');
+    }
+
+    else {
+        res.redirect('/');
+    }
+})
 
 app.post('/-data', function (req, res) {
 
@@ -135,6 +146,10 @@ app.post('/-data', function (req, res) {
 })
 
 app.get('/demographics', function (req, res) {
+    md = new MobileDetect(req.headers['user-agent']);
+    if (md.mobile() != null) {
+        res.redirect('mobile');
+    }
     var userId = req.query.userId;
     res.render('demographics', {userId: userId});
 });
@@ -192,6 +207,10 @@ app.post('/demographics-data', function (req, res) {
 });
 
 app.get('/survey_with_intro', function (req, res) {
+    md = new MobileDetect(req.headers['user-agent']);
+    if (md.mobile() != null) {
+        res.redirect('mobile');
+    }
     var userId = req.query.userId;
     res.render('survey_with_intro', {userId:userId});
 });
@@ -263,6 +282,10 @@ app.post('/survey_with_intro-data', function (req, res) {
 });
 
 app.get('/flanker', function (req, res) {
+    md = new MobileDetect(req.headers['user-agent']);
+    if (md.mobile() != null) {
+        res.redirect('mobile');
+    }
     var userId = req.query.userId;
     res.render('flanker', {userId:userId});
 });
@@ -306,6 +329,10 @@ app.post('/flanker-data', function (req, res) {
 });
 
 app.get('/mental_rotation', function (req, res) {
+    md = new MobileDetect(req.headers['user-agent']);
+    if (md.mobile() != null) {
+        res.redirect('mobile');
+    }
     var userId = req.query.userId;
     res.render('mental_rotation', {userId:userId});
 });
@@ -352,6 +379,10 @@ app.post('/mental_rotation-data', function (req, res) {
 });
 
 app.get('/tol', function (req, res) {
+    md = new MobileDetect(req.headers['user-agent']);
+    if (md.mobile() != null) {
+        res.redirect('mobile');
+    }
     var userId = req.query.userId;
     res.render('tol', {userId:userId});
 });
@@ -396,6 +427,10 @@ app.post('/tol-data', function (req, res) {
 
 
 app.get('/palmer-experiments', function (req, res) {
+    md = new MobileDetect(req.headers['user-agent']);
+    if (md.mobile() != null) {
+        res.redirect('mobile');
+    }
     var userId = req.query.userId;
     res.render('palmer-experiments', {userId:userId});
 });
@@ -405,6 +440,10 @@ app.post('/palmer-experiments-data', function (req, res) {
 });
 
 app.get('/spatial_span', function (req, res) {
+    md = new MobileDetect(req.headers['user-agent']);
+    if (md.mobile() != null) {
+        res.redirect('mobile');
+    }
     var userId = req.query.userId;
     res.render('spatial_span', {userId:userId});
 });
@@ -434,6 +473,10 @@ app.post('/spatial_span-data', function (req, res) {
 });
 
 app.get('/finish', function (req, res) {
+    md = new MobileDetect(req.headers['user-agent']);
+    if (md.mobile() != null) {
+        res.redirect('mobile');
+    }
     var userId = req.query.userId;
     res.render('finish', {userId:userId});
 });
