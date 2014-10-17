@@ -26,8 +26,8 @@
     </body>
 
     <script>
-    error_check();
-    var userId = "<%= userId%>";
+        error_check();
+        var userId = "<%= userId%>";
 
         var flanker_instructions = "<div id='instructions'><h1 class='pinkish'>Well done!</h1><p class=centered>... and welcome to the first cognitive task!"+
             " In the following section, you will see several images that look similar to this one:</p><p class='centered'>" +
@@ -50,6 +50,14 @@
             {stimulus:"img/white_incongruent_left.png", data: {type: "incongruent", direction: "left", correct_key: "37"}}, 
             {stimulus:"img/white_incongruent_right.png", data: {type: "incongruent", direction: "right", correct_key: "39"}}
         ];
+
+        preload = [];
+
+        for (var i=0; i < test_images.length-1; i++) {
+            preload.push(test_images[i].stimulus);
+        }
+
+        console.log(preload);
 
         var flanker_training_answers = [];
         var flanker_training_text_answers = [];
@@ -79,14 +87,14 @@
             text: [flanker_instructions],
             timing_post_trial: 1000,
             cont_key: [13]
-            };
+        };
 
         var flanker_intermezzo_block = {
             type: "text",
             text: [flanker_intermezzo],
             timing_post_trial: 1000,
             cont_key: [13]
-        }
+        };
 
         var flanker_test_block = {
             type: "single-stim",
@@ -94,7 +102,7 @@
             choices: [37, 39],
             data: trial_images.data, 
             timing_post_trial: 400
-            };
+        };
 
          var flanker_training_block = {
             type: "categorize",
@@ -109,8 +117,8 @@
             prompt: "Press the arrow key corresponding to the direction of the middle arrow."
         };
 
-
-        jsPsych.init({
+        function start() {
+            jsPsych.init({
             display_element: $('#jspsych_target'),
             experiment_structure: [flanker_instruction_block, flanker_training_block, flanker_intermezzo_block, flanker_test_block],
             on_finish:function(data){
@@ -129,9 +137,13 @@
                     var data = jqXHR.responseJSON;           
                     if (data.error === "duplicate entry") {
                         window.location.href = "/?error=duplicateid";
-                    }
-                });
-            }
-        });
+                        }
+                    });
+                }
+            });
+        }        
+
+        jsPsych.preloadImages(preload, start);
+
     </script>
 </html>

@@ -135,35 +135,35 @@
             timing_post_trial: 800
         };
 
-    function start () {
-        jsPsych.init({
-            display_element: $('#jspsych_target'),
-            experiment_structure: [tol_instruction_block, tol_training_block, tol_intermezzo_block, tol_test_block],
-            on_finish:function(data){
-                var data_object = {
-                    userId: userId, 
-                    data: data
-                };
-                $.ajax({
-                    type: "POST",
-                    url: "/tol-data",
-                    data: JSON.stringify(data_object),
-                    contentType: "application/json"
-                }).done(function() {
-                    window.location.href = 'finish?userId='+userId; 
-                }).fail(function(jqXHR, textStatus, errorThrown){
-                    var data = jqXHR.responseJSON;           
-                    if (data.error === "duplicate entry") {
-                        window.location.href = "/?error=duplicateid";
-                    }
-                });
-            }
-        });
-    }
+        function start () {
+            jsPsych.init({
+                display_element: $('#jspsych_target'),
+                experiment_structure: [tol_instruction_block, tol_training_block, tol_intermezzo_block, tol_test_block],
+                on_finish:function(data){
+                    var data_object = {
+                        userId: userId, 
+                        data: data
+                    };
+                    $.ajax({
+                        type: "POST",
+                        url: "/tol-data",
+                        data: JSON.stringify(data_object),
+                        contentType: "application/json"
+                    }).done(function() {
+                        window.location.href = 'finish?userId='+userId; 
+                    }).fail(function(jqXHR, textStatus, errorThrown){
+                        var data = jqXHR.responseJSON;           
+                        if (data.error === "duplicate entry") {
+                            window.location.href = "/?error=duplicateid";
+                        }
+                    });
+                }
+            });
+        }
 
-    // preload images
-    // call start() when loading is complete
-    jsPsych.preloadImages(tol_stimuli, start);
+        // preload images
+        // call start() when loading is complete
+        jsPsych.preloadImages(tol_stimuli, start);
         
     </script>
 </html>
