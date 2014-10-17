@@ -3,6 +3,7 @@ var Sequelize = require('sequelize');
 var uuid = require("node-uuid");
 var DataTypes = require("sequelize");
 var validator = require("validator");
+var MobileDetect = require('mobile-detect');
 
 var app = express();
 //start defining routes via app.VERB()
@@ -91,7 +92,14 @@ sequelize.sync();
 //controllers/routers
 app.get('/', function (req, res) {
     var userId = uuid.v4();
-    res.render('index', {userId: userId});
+    md = new MobileDetect(req.headers['user-agent']);
+    if (md.mobile() != null) {
+        res.render('mobile', {userId: userId});
+    }
+
+    else {
+        res.render('index', {userId: userId});
+    }
 });
 
 app.post('/-data', function (req, res) {
@@ -99,6 +107,7 @@ app.post('/-data', function (req, res) {
     var participant_object = {
         user_id: req.body.userId,
         user_agent: req.headers['user-agent']
+        //add resolution here
     }
 
     Participants

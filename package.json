@@ -16,6 +16,7 @@
     "mysql": "2.5.1",
     "node-uuid": "1.4.1",
     "serve-static": "1.6.2",  
-    "validator": "3.19.1"
+    "validator": "3.19.1",
+    "mobile-detect": "0.4.1"
   }
 }
