@@ -72,6 +72,9 @@
             lives: 3
         };
 
+        //counter for calculating how many times the participant has failed on the same stimulus
+        var failures = 0;
+
 
         var item = 0;
         for (var i = 0; i < trial_object.row_length; i++) {
@@ -179,6 +182,7 @@
 
                 if (JSON.stringify(trial_object.response_array) == JSON.stringify(trial_object.stimuli)) {
                     trial_object.item_difficulty++;
+                    failures = 0;
                     if (trial_object.stimuli.length > trial_object.max_length) {
                         trial_object.max_length = trial_object.stimuli.length;
                     }
@@ -194,7 +198,11 @@
                         max_correct = correct;
                     } 
                     if (trial_object.lives != 0) {
-                        trial_object.item_difficulty--;
+                        failures ++;
+                        if (failures === 2) {
+                            trial_object.item_difficulty--;
+                            failures = 0;
+                        }
                         trial_object.lives--;
                         construct_feedback(false,trial_object);
                     }
