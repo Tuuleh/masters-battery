@@ -1,10 +1,8 @@
-masters-battery
-===============
+<h1>masters-battery</h1>
 
-By: Tuuli Pöllänen<br>
+By: Tuuli Pöllänen
 
-
-<p>This is a repository for a web application containing a psychological experiment I conducted for my master's thesis, to explore cognitive skills and team cohesion in League of Legends players. The experiment consists of an informed consent, a survey for demographic information, two questionnaires, four cognitive tasks, and a finish-page for comments and feedback. If you want to see the experiment 'in action', you can visit leagueoflegends.web-psychometrics.com. </p>
+<p>This is a repository for a web application containing a psychological experiment I conducted for my master's thesis, to explore cognitive skills and team cohesion in League of Legends players. The experiment consists of an informed consent, a survey for demographic information, two questionnaires, four cognitive tasks, and a finish-page for comments and feedback. If you want to see the experiment 'in action', you can visit <a href="http://leagueoflegends.web-psychometrics.com">leagueoflegends.web-psychometrics.com</a>.</p>
 
 <p>The complete structure of the experiment is as follows:</p>
 
@@ -33,7 +31,7 @@ By: Tuuli Pöllänen<br>
 <p>The experiment consists of two questionnaires and four cognitive tasks. Additionally, there is an informed consent, explaining the purpose and the structure of the study with general instructions, followed up by a survey of demographic items, such as player name, region, level, rankings, team name etc. After the cognitive tasks, there is a finishing page inquiring whether the participants would like to be contacted with the results of the study.</p>
 
 <h4>The questionnaires</h4>
-<p>The questionnaires were constructed using a modified Likert-plugin for JsPsych, in /public/scripts/plugins/jspsych-survey-likert-with-instructions.js
+<p>The questionnaires were constructed using a modified Likert-plugin for JsPsych - a JavaScript library for creating web-experiments. All of the jsPsych plugins used for the test battery can be found in public/scripts/plugins. <p>
 
 <h5>The Group Environment Questionnaire</h5>
 
@@ -90,46 +88,50 @@ JsPsych - a JavaScript library for writing experiments for behavioral sciences -
 <h1>Reuse</h1>
 
 <p>
-You are free to use individual parts of the experiment for your own purpose, with the following citation:
-
+You are free to use individual parts of the experiment for your own purpose, with the following citation:</p>
+<p>
 Pöllänen, T. (2014). Test battery of JavaScript-based cognitive tasks. Github repository. Retrieved from https://github.com/tuuleh/masters-battery.
-
-Note that you can change the style in the experiment by just altering the CSS (unless you really enjoy the League of Legends game art).
+</p>
+<p>Note that you can change the style in the experiment by just altering the CSS (unless you really enjoy the League of Legends game art).
 </p>
 
 <h2>How to set up the experiment</h2>
-I'll only cover how to run the experiment locally! You will have to consider your options if you wish to set it up on your own server and domain (there might be a tutorial for this on my blog at www.web-psychometrics.com, if there are enough requests).
+I'll only cover how to run the experiment locally! You will have to consider your options if you wish to set it up on your own server and domain (if there are enough requests, there will be a tutorial on how to deploy jsPsych experiments as node.js apps on my blog at www.web-psychometrics.com) .
 
-<p>To run the experiment locally, set up a MySQL database from thesis_database.sql. 
-Then, write a file called database.json to your root folder (where your app.js is located), with the following structure:
+<p>To run the experiment locally, fork the repository and set up a local MySQL database from thesis_database.sql. 
+Then, write a file called database.json to your root folder (where your app.js is located), with the following structure:</p>
+<pre>
 <code>
 {
-  "driver": "mysql",
-  "user": "[your username]",
-  "database": "[database name]",
-  "password": "[password]"
+    "driver": "mysql",
+    "user": "[your username]",
+    "database": "[database name]",
+    "password": "[password]"
 }
 </code>
-</p>
+</pre>
+
 <p>This is a node.js application, so you will need to set up node.js and its package manager on your computer. Once you have those set up, you install the depencies by going to the root directory and typing npm install. The package manager will automatically install the dependencies described in the package.json:</p>
+<pre>
 <code>
-  "dependencies": {
+...
+"dependencies": {
     "express": "4.9.4",
     "ejs": "1.0.0",
     "body-parser": "1.8.3",
-    "express-myconnection" : "1.0.4",
+    "express-myconnection": "1.0.4",
     "logger": "0.0.1",
     "sequelize": "2.0.0-rc1",
     "mysql": "2.5.1",
     "node-uuid": "1.4.1",
-    "serve-static": "1.6.2",  
+    "serve-static": "1.6.2",
     "validator": "3.19.1",
     "mobile-detect": "0.4.1"
-  }
 }
 </code>
+</pre>
 
-<p>You can start the application locally by typing node app.js. This will start the application on port 3000, so you can access the page through localhost:3000.</p>
+<p>You can start the application locally by typing <code>node app.js</code> in the root folder. This will start the application on port 3000, so you can access the page through localhost:3000.</p>
 
 <h1>References</h1>
 
