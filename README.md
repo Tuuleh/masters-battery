@@ -111,7 +111,7 @@ Then, write a file called database.json to your root folder (where your app.js i
 </code>
 </pre>
 
-<p>This is a node.js application, so you will need to set up node.js and its package manager on your computer. Once you have those set up, you install the depencies by going to the root directory and typing npm install. The package manager will automatically install the dependencies described in the package.json:</p>
+<p>This is a node.js application, so you will need to set up node.js and its package manager on your computer. Once you have those set up, you install the depencies by going to the root directory and typing <code>npm install</code> into your terminal. The package manager will automatically install the dependencies described in the package.json:</p>
 <pre>
 <code>
 ...
@@ -135,9 +135,7 @@ Then, write a file called database.json to your root folder (where your app.js i
 
 <h1>References</h1>
 
-Carron, A. V., Widmeyer, W. N., & Brawley, L. R. (1985). The development of an instrument to assess cohesion in sport teams: The Group Environment Questionnaire. Journal of Sport Psychology, 7, 244-266.Carron, A. V., Widmeyer, W. N., & Brawley, L. R. (1985). 
-
-The development of an instrument to assess cohesion in sport teams: The Group Environment Questionnaire. Journal of Sport Psychology, 7, 244-266.
+Carron, A. V., Widmeyer, W. N., & Brawley, L. R. (1985). The development of an instrument to assess cohesion in sport teams: The Group Environment Questionnaire. Journal of Sport Psychology, 7, 244-266.
 
 Fletcher, R. B. & Whitton, S. M. (2014). The Group Environment Questionnaire: A Multilevel Confirmatory Factor Analysis.
 Small Group Research, 45(1), 68-88. doi: 10.1177/1046496413511121
