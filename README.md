@@ -6,7 +6,7 @@ By: Tuuli Pöllänen<br>
 
 <p>This is a repository for a web application containing a psychological experiment I conducted for my master's thesis. The experiment consists of an informed consent, a survey for demographic information, two questionnaires, four cognitive tasks, and a finish-page for comments and feedback. If you want to see the experiment 'in action', you can visit leagueoflegends.web-psychometrics.com. </p>
 
-<p>For a quick overview, the structure of the experiment is as follows:</p>
+<p>The complete structure of the experiment is as follows:</p>
 
 <ol>
     <li>Landing page - informed consent</li>
@@ -20,9 +20,13 @@ By: Tuuli Pöllänen<br>
     <li>Finish page </li>
 </ol>
 
+<p>
+    All of the individual parts of the experiments have their own views, under the views folder, with .ejs extensions (I used the EJS template engine since it works well with raw html).
+</p>
+
 <h2>The experiment and its purpose</h2>
 
-<p>The purpose of the experiment was to explore the role of cognitive skills in predicting players' performance in different play styles in League of Legends - an online multiplayer battle arena game. Additionally, I was interested in players' perceptions of their task load during game, and how team cohesion relates to performance in teams. </p>
+<p>The purpose of the experiment was to explore the role of cognitive skills in predicting players' performance in different play styles in League of Legends - a multiplayer online battle arena game. Additionally, I was interested in players' perceptions of their task load during game, and how team cohesion relates to performance in teams. </p>
 
 <h3>Instruments and their implementation</h3>
 
@@ -61,13 +65,29 @@ By: Tuuli Pöllänen<br>
 <p>The items are rated on a 100-points range with 5-points increments. In the original version, the second part of the inventory creates individual weighing by importance for each of the six subscales by prompting the subjects to compare the categories pairwise based on their perceived importance for the task load. The estimated task loads are then weighed according to their importance. The version used for this study, however, consists of only the first part of the original test, without the pairwise comparisons. This modification was done to simplify the study design, with evidence indicating that this procedure (referred to as the Raw TLX) is as sensitive as the original instrument (Hart, 2006).</p>
 
 <h4>The cognitive tasks</h4>
+JsPsych - a JavaScript library for writing experiments for behavioral sciences - was used in many of the experiments, with some modifications (e.g. how the data objects were constructed and with appending feedback messages after successful or unsuccessful trials). 
 
 <h5>Eriksen flanker task</h5>
+<p>The Eriksen flanker task was composed utilizing the jsPsych-categorize plugin for the training trials, and the jsPsych-single-stim plugin for the trials themselves.</p>
+
+<p>The Flanker task used for this experiment was programmed roughly in a similar manner to the Flanker task in the PEBL library (Mueller & Piper, 2014), which was based on Stins, Polderman, Boomsma and deGeus (2007). During the task, the participant is presented with images of five arrows in a row. Their task is to press the arrow key corresponding to the direction of the middle arrow, which points either to the same direction as the arrows flanking it (a congruent trial) or to the opposite direction (incongruent trial). </p>
+
+<p>The measures gained on the Flanker task are the speed and accuracy in responding to congruent vs. incongruent trials. Difference between the response time in correct congruent and incongruent trials is a rough measure of executive function, as it indicates the strength of the interference effect.</p>
+
+
 <h5>Two-dimensional mental rotation task</h5>
+<p>The mental rotation task was composed using a new plugin I wrote for jsPsych that allows forced choice comparison of two stimuli (jspsych-two-stim). The task contained three types of two-dimensional stimuli. Stimulus A consisted of one long line, perpendicularly intersected by two short ones. Stimulus B and C were similar to the stimulus A, except that they had one and two diagonal lines added to them, respectively. During the task, the participants were presented with an unrotated version of the target stimulus, and a version of the stimulus that was either an identical or mirrored version of the target, and rotated 0, 60, 120, 180, 240 or 300 degrees. The two images were displayed side-by-side, and the target stimulus was randomly displayed on either left or right side. The participant was instructed to assess as quickly and accurately as possible, whether the rotated image was identical or a mirror image of the target, and to press Q if they were identical and P if mirrored.</p>
+<p>Several cognitive measures can be extracted from the results in the mental rotation task, comparing accuracy and response times at different stimulus complexity in mirrored vs. identical conditions at different degrees of rotation.</p>
+
 <h5>The Spatial Span task</h5>
+<p>The spatial span is a cognitive test for assessing a person's visuospatial working memory, as the maximum digit span of spatial elements recalled in a two-dimensional sequence. The version here was written as a stand-alone experiment without jsPsych, and it was programmed similar to that of Owen and Hampshire (n.d.) as a variation of the Corsi block tapping task (Corsi, 1972). The stimuli were displayed as flashing rectangles in a four-times-four matrix of rectangular elements. After the stimulus was generated, the participant had to click on the boxes in the same order in which they flashed. The first stimulus had a length of four blocks, trial difficulty was lowered after two failures on the same stimulus length and increased after successful completion. The task was concluded after four failures.</p>
+
+
 <h5>The Tower of London</h5>
+<p>The Tower of London (a task that assesses skills in planning and problem solving) also utilizes the jsPsych-categorize plugin. It consists of twenty-two pairs of images. The first image, image A, displays a starting point with three pegs of different lengths and of three balls of different colors, and image B displays an ending point with a final layout. The participant was asked to assess the smallest amount of moves they could use to get from the layout in image A to the layout in image B, and to respond by pressing the corresponding key on the keyboard. The moves required for the trials varied between one and six.</p>
 
 <h1>References</h1>
+
 Carron, A. V., Widmeyer, W. N., & Brawley, L. R. (1985). The development of an instrument to assess cohesion in sport teams: The Group Environment Questionnaire. Journal of Sport Psychology, 7, 244-266.Carron, A. V., Widmeyer, W. N., & Brawley, L. R. (1985). The development of an instrument to assess cohesion in sport teams: The Group Environment Questionnaire. Journal of Sport Psychology, 7, 244-266.
 
 Fletcher, R. B. & Whitton, S. M. (2014). The Group Environment Questionnaire: A Multilevel Confirmatory Factor Analysis.
@@ -76,3 +96,11 @@ Small Group Research, 45(1), 68-88. doi: 10.1177/1046496413511121
 Hart, S. G. & Staveland, L. E. (1988). Development of NASA-TLX (Task Load Index): Results of empirical and theoretical research. In: Human Mental Workload (P. A. Hancock and N. Meshkati (Eds.)), 139-183. North-Holland: Elsevier Science. 
 
 Hart, S. (2006). Nasa-Task Load Index (Nasa-TLX); 20 Years Later. Human Factors and Ergonomics Society Annual Meeting Proceedings, 50, 904-908.
+
+Mueller, S. T., & Piper, B. J. (2014). The Psychology Experiment Building Language (PEBL) and PEBL Test Battery. Journal of neuroscience methods (222), 250–259.
+
+Stins, J. F., Polderman, T. J. C., Boomsma, D. I., & de Geus, E. J. C. (2007). Conditional accuracy in response interference tasks: Evidence from the Eriksen flanker task and the spatial conflict task. Advances in Cognitive Psychology 3 (3), 389–396.
+
+Corsi, P.M.(1972), Human memory and the medial temporal region of the brain, Unpublished doctoral dissertation. McGill University.
+
+Owen, A. M. & Hampshire, A. (n.d.). Spatial span ladder [software for online web-based testing]. Cambridge Brain Sciences Inc, University of Western Ontario, Canada. Retrieved from http://www.cambridgebrainsciences.com/browse/memory/test/spatial-span-ladder. 
