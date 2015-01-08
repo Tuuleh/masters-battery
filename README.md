@@ -2,7 +2,7 @@
 
 By: Tuuli Pöllänen
 
-<p>This is a repository for a web application containing a psychological experiment I conducted for my master's thesis, to explore cognitive skills and team cohesion in League of Legends players. The experiment consists of an informed consent, a survey for demographic information, two questionnaires, four cognitive tasks, and a finish-page for comments and feedback. If you want to see the experiment 'in action', you can visit <a href="http://leagueoflegends.web-psychometrics.com">leagueoflegends.web-psychometrics.com</a>.</p>
+<p>This is a repository for a web application containing a psychological experiment I conducted for my master's thesis, to explore cognitive skills and team cohesion in League of Legends players. The experiment consists of an informed consent, a survey for demographic information, two questionnaires, four cognitive tasks, and a finish-page for comments and feedback. If you want to see the experiment 'in action', you can visit <a href="http://leagueoflegends.web-psychometrics.com">leagueoflegends.web-psychometrics.com</a>, and if you'd like to shuffle through the paper I wrote, you can do so <a href="http://web-psychometrics.com/images/LoL.pdf">here</a>.</p>
 
 <p>The complete structure of the experiment is as follows:</p>
 
